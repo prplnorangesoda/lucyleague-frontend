@@ -20,18 +20,22 @@ import { useSearchParams } from 'next/navigation'
 
 function Profile() {
     const [UserInfo, setUserInfo] = useState(null)
-    const searchParams = useSearchParams()
+    const params = useSearchParams()
 
     useEffect( () => {
+      const s64 = params.get('id') 
       const url = process.env.NEXT_PUBLIC_HOST + '/api/user/steamid/'
-      const s64 = searchParams.get('id') 
+      const query = url + s64
 
-      fetch( url + s64 )
+      fetch( query )
         .then((res) => res.json())
         .then((data) => {
           setUserInfo(data)
         })
-    }, [])    
+        .catch((err) => {
+          console.log(err.message)
+        })
+    }, [params])    
 
     return <ThemeProvider theme={theme} style={{height: '100vh'}}>
       <CssBaseline />
