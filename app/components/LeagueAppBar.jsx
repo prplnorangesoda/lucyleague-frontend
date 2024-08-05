@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 
@@ -22,25 +23,38 @@ function LeagueAppBar(){
 
     const [cookies] = useCookies(['auth-token']);
     const authToken = cookies['auth-token'];
+    const [AuthInfo, setAuthInfo] = useState(null)
 
+    useEffect( () => {
+      const url = process.env.NEXT_PUBLIC_HOST + '/api/user/authtoken/'
+
+      fetch( url + authToken )
+        .then((res) => res.json())
+        .then((data) => {
+          setAuthInfo(data)
+        })
+    }, [])    
+
+    if (!AuthInfo) {
+      const AuthInfo = undefined
+    }
+    
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
             <a href="/"> <img src="https://gamebanana.com/sprays/embeddables/78973?variant=sd_image" style={header_logo} /> </a>
-
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
-            
-            {authToken ? (
-                        <AppBarUser />
-                    ) : (
-            <Button startIcon={<LoginIcon />}variant="blank" color="inherit" href='/login'>
-              <Typography component={'span'} > 
-                <Box sx={{ fontWeight: 'bold'}}>
-                  LOGIN 
-                </Box>
-              </Typography>
-            </Button>
+            {AuthInfo ? (
+              <AppBarUser username={AuthInfo.username} pfpurl={AuthInfo.avatarurl} />
+            ) : (
+              <Button startIcon={<LoginIcon />}variant="blank" color="inherit" href='/login'>
+                <Typography component={'span'} > 
+                  <Box sx={{ fontWeight: 'bold'}}>
+                    LOGIN 
+                  </Box>
+                </Typography>
+              </Button>
             )}
           </Toolbar>
         </AppBar>

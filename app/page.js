@@ -9,35 +9,34 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+
+const hero = {
+  'height': '50%',
+  'maxWidth': '100%',
+  'padding': '0',
+
+  'backgroundImage': 'url(assets/hero/ufo.png)',
+
+  'background-attachment': 'fixed',
+  'background-position': 'center',
+  'background-repeat': 'no-repeat',
+  'background-size': 'cover',
+}
+
+const blur = {
+  'background-color': 'rgba(0, 0, 0, 0.2)',
+  'backdrop-filter': 'blur(6px)',
+
+  'margin': '0',
+  'height': '100%',
+  'width': 'inherit',
+  'display': "flex",
+  'flexDirection': "column",
+  'justifyContent': "center"
+}
 
 export default function Home() {
-
-  const hero = {
-    'height': '50%',
-    'maxWidth': '100%',
-    'padding': '0',
-
-    'backgroundImage': 'url(/hero/ufo.png)',
-
-    'background-attachment': 'fixed',
-    'background-position': 'center',
-    'background-repeat': 'no-repeat',
-    'background-size': 'cover',
-  }
-
-  const blur = {
-    'background-color': 'rgba(30, 30, 30, 0.1)',
-    '-webkit-backdrop-filter': 'blur(5px)',
-    'backdrop-filter': 'blur(5px)',
-
-    'margin': '0',
-    'height': '100%',
-    'width': 'inherit',
-    'display': "flex",
-    'flexDirection': "column",
-    'justifyContent': "center"
-  }
 
   return <ThemeProvider theme={theme}> 
     <CssBaseline />
@@ -57,26 +56,16 @@ export default function Home() {
             </Box>
           </Typography>
 
-          <Box align="center" sx={{ mt: 2}}>
-            <Button startIcon={<LoginIcon />}variant="contained" href='/'>
+          <Box align="center" sx={{ mt: 4}}>
+            <Button startIcon={<AppRegistrationIcon />}variant="contained" href='/login' size="large">
                 <Typography component={'span'} > 
                   <Box sx={{ fontWeight: 'bold'}}>
-                    Learn More 
-                  </Box>
-                </Typography>
-            </Button>
-            
-            <Button startIcon={<LoginIcon />}variant="contained" href='/' >
-                <Typography component={'span'} > 
-                  <Box sx={{ fontWeight: 'bold'}}>
-                    Register 
+                    Register Now
                   </Box>
                 </Typography>
             </Button>
           </Box>
          
-
-
       </div>
     </Container>
 
