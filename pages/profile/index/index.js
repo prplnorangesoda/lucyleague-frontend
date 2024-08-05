@@ -50,7 +50,7 @@ function Profile() {
                 { UserInfo ? ( 
                   <Avatar sx={{ width: 150, height: 150 }} variant="rounded" src={UserInfo.avatarurl} />
                 ) : (
-                  <Avatar sx={{ width: 150, height: 150 }} variant="rounded" src='https://steamuserimages-a.akamaihd.net/ugc/2030590818189269938/DC624D8CD92280EDEA0A383BD5A63CBF2755C19C/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true' />
+                  <Avatar sx={{ width: 150, height: 150 }} variant="rounded" src='/assets/jotchua.png' />
                 )}
               </Box>
 

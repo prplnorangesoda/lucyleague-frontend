@@ -35,15 +35,11 @@ function LeagueAppBar(){
         })
     }, [])    
 
-    if (!AuthInfo) {
-      const AuthInfo = undefined
-    }
-    
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-            <a href="/"> <img src="https://gamebanana.com/sprays/embeddables/78973?variant=sd_image" style={header_logo} /> </a>
+            <a href="/"> <img src="/assets/header.png" style={header_logo} /> </a>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
             {AuthInfo ? (
               <AppBarUser username={AuthInfo.username} pfpurl={AuthInfo.avatarurl} />
