@@ -26,7 +26,8 @@ function LeagueAppBar(){
     const [AuthInfo, setAuthInfo] = useState(null)
 
     useEffect( () => {
-      const url = process.env.NEXT_PUBLIC_HOST + '/api/user/authtoken/'
+      // we are running on the client side - hostname unnecessary
+      const url = '/api/v1/user/authtoken/'
 
       fetch( url + authToken )
         .then((res) => res.json())
