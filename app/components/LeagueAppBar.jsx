@@ -28,13 +28,15 @@ function LeagueAppBar(){
     useEffect( () => {
       // we are running on the client side - hostname unnecessary
       const url = '/api/v1/user/authtoken/'
-
-      fetch( url + authToken )
+      if(authToken)
+      {
+        fetch( url + authToken )
         .then((res) => res.json())
         .then((data) => {
           setAuthInfo(data)
         })
-    }, [])    
+      }
+    }, [])
 
     return (
         <Box sx={{ flexGrow: 1 }}>

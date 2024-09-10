@@ -24,7 +24,8 @@ function Profile() {
 
     useEffect( () => {
       const s64 = params.get('id') 
-      const url = process.env.NEXT_PUBLIC_HOST + '/api/v1/user/steamid/'
+      // we are running on client, url does not need host
+      const url = 'api/v1/user/steamid/'
       const query = url + s64
 
       fetch( query )
