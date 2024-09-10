@@ -3,6 +3,7 @@
 // kinda ass but w/e
 import theme from "../../../app/theme";
 import LeagueAppBar from '../../../app/components/LeagueAppBar'
+import UserTeamHistory from '../../../app/components/UserTeamHistory'
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -82,9 +83,10 @@ function Profile() {
               <Typography sx={{fontWeight: 'regular'}} variant="h5">
                 Roster History
               </Typography>
-            </Box>
-  
 
+            </Box>
+            <UserTeamHistory></UserTeamHistory>
+  
         </Paper>   
 
         <Paper elevation={2} sx={{p: '20px', mt: '30px'}}>

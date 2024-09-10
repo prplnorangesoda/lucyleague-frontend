@@ -46,7 +46,7 @@ export default function Home() {
       <div style={blur}>
           <Typography align="center" component={'span'} variant="h2"> 
             <Box sx={{ fontWeight: 'bold', fontFamily: 'Monospace', wordBreak: "break-word"}}>
-              Passtime.tf??? 
+              Passtime League
             </Box>
           </Typography>
 
