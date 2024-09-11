@@ -1,5 +1,5 @@
-import theme from "./theme";
-import LeagueAppBar from './components/LeagueAppBar'
+import theme from './theme';
+import LeagueAppBar from './components/LeagueAppBar';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,67 +12,77 @@ import Button from '@mui/material/Button';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 const hero = {
-  'height': '50%',
-  'maxWidth': '100%',
-  'padding': '0',
+	height: '50%',
+	maxWidth: '100%',
+	padding: '0',
 
-  'backgroundImage': 'url(assets/hero/ufo.png)',
+	backgroundImage: 'url(assets/hero/ufo.png)',
 
-  'background-attachment': 'fixed',
-  'background-position': 'center',
-  'background-repeat': 'no-repeat',
-  'background-size': 'cover',
-}
+	'background-attachment': 'fixed',
+	'background-position': 'center',
+	'background-repeat': 'no-repeat',
+	'background-size': 'cover',
+};
 
 const blur = {
-  'background-color': 'rgba(0, 0, 0, 0.2)',
-  'backdrop-filter': 'blur(6px)',
+	'background-color': 'rgba(0, 0, 0, 0.2)',
+	'backdrop-filter': 'blur(6px)',
 
-  'margin': '0',
-  'height': '100%',
-  'width': 'inherit',
-  'display': "flex",
-  'flexDirection': "column",
-  'justifyContent': "center"
-}
+	margin: '0',
+	height: '100%',
+	width: 'inherit',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+};
 
 export default function Home() {
+	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<LeagueAppBar />
 
-  return <ThemeProvider theme={theme}> 
-    <CssBaseline />
-    <LeagueAppBar /> 
+			<Container style={hero}>
+				<div style={blur}>
+					<Typography align="center" component={'span'} variant="h2">
+						<Box
+							sx={{
+								fontWeight: 'bold',
+								fontFamily: 'Monospace',
+								wordBreak: 'break-word',
+							}}
+						>
+							Passtime League
+						</Box>
+					</Typography>
 
-    <Container style={hero}>  
-      <div style={blur}>
-          <Typography align="center" component={'span'} variant="h2"> 
-            <Box sx={{ fontWeight: 'bold', fontFamily: 'Monospace', wordBreak: "break-word"}}>
-              Passtime League
-            </Box>
-          </Typography>
+					<Typography
+						align="center"
+						component={'span'}
+						variant="subtitle1"
+						gutterBottom
+					>
+						<Box sx={{ fontWeight: 'light', fontFamily: 'Monospace' }}>
+							the best flipping league ever doooood...
+						</Box>
+					</Typography>
 
-          <Typography align="center" component={'span'} variant="subtitle1" gutterBottom> 
-            <Box sx={{ fontWeight: 'light', fontFamily: 'Monospace'}}>
-              the best flipping league ever doooood... 
-            </Box>
-          </Typography>
+					<Box align="center" sx={{ mt: 4 }}>
+						<Button
+							startIcon={<AppRegistrationIcon />}
+							variant="contained"
+							href="/login"
+							size="large"
+						>
+							<Typography component={'span'}>
+								<Box sx={{ fontWeight: 'bold' }}>Register Now</Box>
+							</Typography>
+						</Button>
+					</Box>
+				</div>
+			</Container>
 
-          <Box align="center" sx={{ mt: 4}}>
-            <Button startIcon={<AppRegistrationIcon />}variant="contained" href='/login' size="large">
-                <Typography component={'span'} > 
-                  <Box sx={{ fontWeight: 'bold'}}>
-                    Register Now
-                  </Box>
-                </Typography>
-            </Button>
-          </Box>
-         
-      </div>
-    </Container>
-
-    <Paper style={{height: '50%'}} elevation={3}>
-
-    </Paper>
-
-  
-  </ThemeProvider>
+			<Paper style={{ height: '50%' }} elevation={3}></Paper>
+		</ThemeProvider>
+	);
 }

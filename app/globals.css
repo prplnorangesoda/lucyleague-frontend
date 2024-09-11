@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 }
 
-gradient { 
-  background-color: red
+gradient {
+	background-color: red;
 }
