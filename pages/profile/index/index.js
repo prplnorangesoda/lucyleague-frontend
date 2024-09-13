@@ -3,7 +3,7 @@
 // kinda ass but w/e
 import globals from '@/app/globals';
 import theme from '@/app/theme';
-import LeagueAppBar from '.@/app/components/LeagueAppBar';
+import LeagueAppBar from '@/app/components/LeagueAppBar';
 import UserTeamHistory from '@/app/components/UserTeamHistory';
 
 import { ThemeProvider } from '@mui/material/styles';
