@@ -1,9 +1,10 @@
 'use client';
 
 // kinda ass but w/e
-import theme from '../../../app/theme';
-import LeagueAppBar from '../../../app/components/LeagueAppBar';
-import UserTeamHistory from '../../../app/components/UserTeamHistory';
+import globals from '@/app/globals';
+import theme from '@/app/theme';
+import LeagueAppBar from '.@/app/components/LeagueAppBar';
+import UserTeamHistory from '@/app/components/UserTeamHistory';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,7 +32,10 @@ function Profile() {
 			return;
 		}
 		// we are running on client, url does not need host
-		const url = 'api/v1/user/steamid/';
+		const url =
+			globals.trim_port(window.location.origin) +
+			globals.API_MIDDLE +
+			'user/steamid/';
 		const query = url + s64;
 
 		fetch(query)

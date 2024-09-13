@@ -12,6 +12,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppBarUser from './AppBarUser';
 
 import { useCookies } from 'react-cookie';
+import globals from '../globals';
 
 function LeagueAppBar() {
 	const header_logo = {
@@ -27,7 +28,7 @@ function LeagueAppBar() {
 
 	useEffect(() => {
 		// we are running on the client side - hostname unnecessary
-		const url = '/api/v1/user/authtoken/';
+		const url = globals.trim_port(window.location.origin) + globals.API_MIDDLE + 'user/authtoken/';
 		if (authToken) {
 			fetch(url + authToken)
 				.then((res) => res.json())
@@ -36,6 +37,14 @@ function LeagueAppBar() {
 				});
 		}
 	}, []);
+	
+	// this is so lame. only useEffect can access the window object,
+	// so to preload the login url, we have to use useffect
+	const [href, setHref] = useState("");
+
+	useEffect(() => {
+		setHref(`${globals.trim_port(window.location.origin)}${globals.API_MIDDLE}login`)
+	}, [])
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -56,7 +65,7 @@ function LeagueAppBar() {
 							startIcon={<LoginIcon />}
 							variant="blank"
 							color="inherit"
-							href="/login"
+							href={href}
 						>
 							<Typography component={'span'}>
 								<Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
