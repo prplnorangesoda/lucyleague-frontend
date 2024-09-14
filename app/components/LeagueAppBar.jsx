@@ -14,6 +14,8 @@ import AppBarUser from './AppBarUser';
 import { useCookies } from 'react-cookie';
 import globals from '../globals';
 
+import { FetchInfoFromAuth } from '../utils/fetchInfo';
+
 function LeagueAppBar() {
 	const header_logo = {
 		width: 'auto',
@@ -22,21 +24,9 @@ function LeagueAppBar() {
 		'max-height': '54px',
 	};
 
-	const [cookies] = useCookies(['auth-token']);
-	const authToken = cookies['auth-token'];
-	const [AuthInfo, setAuthInfo] = useState(null);
+	const AuthInfo = FetchInfoFromAuth()
 
-	useEffect(() => {
-		// we are running on the client side - hostname unnecessary
-		const url = globals.trim_port(window.location.origin) + globals.API_MIDDLE + 'user/authtoken/';
-		if (authToken) {
-			fetch(url + authToken)
-				.then((res) => res.json())
-				.then((data) => {
-					setAuthInfo(data);
-				});
-		}
-	}, []);
+	console.log(AuthInfo)
 	
 	// this is so lame. only useEffect can access the window object,
 	// so to preload the login url, we have to use useffect
