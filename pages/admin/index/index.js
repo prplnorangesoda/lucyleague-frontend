@@ -1,8 +1,8 @@
 'use client';
 
-import theme from '../../../app/theme';
-import LeagueAppBar from '../../../app/components/LeagueAppBar';
-import UserTeamHistory from '../../../app/components/UserTeamHistory';
+import theme from '@/app/theme';
+import LeagueAppBar from '@/app//components/LeagueAppBar';
+import UserTeamHistory from '@/app//components/UserTeamHistory';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -26,7 +26,24 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
+import { FetchInfoFromAuth } from '@/app/utils/fetchInfo';
+import { ParseUserForPerms } from '@/app/utils/parseperms';
+
+
 function Admin() {
+    
+    const userPerms = FetchInfoFromAuth()
+
+    useEffect(() => {
+
+        if (userPerms) {
+            console.info(userPerms)
+        }
+    
+
+    })
+
+
 	return (
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
 			<CssBaseline />
