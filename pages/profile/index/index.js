@@ -17,36 +17,26 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
+import { FetchUserInfoFromS64, FetchInfoFromAuth } from '@/app/utils/fetchInfo';
+
+import { Suspense } from 'react'
 
 function Profile() {
 	const [UserInfo, setUserInfo] = useState(null);
 	const params = useSearchParams();
+	const s64 = params.get('id');
 
 	useEffect(() => {
-		const s64 = params.get('id');
-		if (s64 === null) {
-			// todo!
-			console.warn('steamid is null');
-			return;
-		}
-		// we are running on client, url does not need host
-		const url =
-			globals.trim_port(window.location.origin) +
-			globals.API_MIDDLE +
-			'user/steamid/';
-		const query = url + s64;
-
-		fetch(query)
-			.then((res) => res.json())
-			.then((data) => {
-				setUserInfo(data);
+		if ( (s64) || (s64 !== null) ) {	
+			FetchUserInfoFromS64(s64, (data) => { // success callback
+				setUserInfo(data)
 			})
-			.catch((err) => {
-				console.log(err.message);
-			});
-	}, [params]);
+		}
+	}, [s64])
+	
 
 	return (
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
