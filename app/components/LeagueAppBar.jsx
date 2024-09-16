@@ -16,18 +16,26 @@ import globals from '../globals';
 
 import { FetchInfoFromAuth } from '../utils/fetchInfo';
 
+import AppBarleagueButton from './AppBarLeagueButton'
+
 function LeagueAppBar() {
 	const header_logo = {
 		width: 'auto',
 		height: 'auto',
 		'max-width': '200px',
-		'max-height': '54px',
+		'max-height': '42px',
 	};
 
-	const AuthInfo = FetchInfoFromAuth()
+	const [AuthInfo, setAuthInfo] = useState(null);
 
-	console.log(AuthInfo)
-	
+	const [cookies] = useCookies(['auth-token']);
+	const authToken = cookies['auth-token'];
+
+	useEffect(() => {
+		FetchInfoFromAuth( authToken, (data) => {
+			setAuthInfo(data)
+		})
+	}, [authToken])
 	// this is so lame. only useEffect can access the window object,
 	// so to preload the login url, we have to use useffect
 	const [href, setHref] = useState("");
@@ -40,15 +48,17 @@ function LeagueAppBar() {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
 				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-					<a href="/">
+					<a href="/" style={{ maxHeight: '42px'}}>
 						{' '}
 						<img src="/assets/header.png" style={header_logo} />{' '}
 					</a>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
+					<AppBarleagueButton/>
 					{AuthInfo ? (
 						<AppBarUser
 							username={AuthInfo.username}
 							pfpurl={AuthInfo.avatarurl}
+							s64={AuthInfo.steamid}
 						/>
 					) : (
 						<Button
@@ -65,7 +75,7 @@ function LeagueAppBar() {
 				</Toolbar>
 			</AppBar>
 		</Box>
-	);
+	);	
 }
 
 export default LeagueAppBar;

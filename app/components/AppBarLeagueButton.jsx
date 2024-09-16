@@ -8,34 +8,27 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react';
+
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function AppBarUser(props) {
 	const router = useRouter()
 
-	const PushToProfile = () => {
-		router.push("/profile?id=" + props.s64)
+	const PushTo = (url) => {
+		router.push(url)
 	}
 
-
 	return (
-		<PopupState variant="popover" popupId="AppBarUserMenu">
+		<PopupState variant="popover" popupId="AppBarLeagueButton">
 			{(popupState) => (
 				<div>
-					<Button variant="blank" {...bindTrigger(popupState)}>
+					<Button variant="blank" {...bindTrigger(popupState)} endIcon={ <KeyboardArrowDownIcon/> }>
 						<Typography align="right">
-							{' '}
-							{props.username ? props.username : 'username'}{' '}
+                            League
 						</Typography>
-						<Avatar
-							sx={{ ml: 2, height: 40, width: 40 }}
-							variant="rounded"
-							src={props.pfpurl}
-						/>
 					</Button>
 					<Menu {...bindMenu(popupState)}>
-						<MenuItem onClick={PushToProfile}>Profile</MenuItem>
-						<MenuItem onClick={popupState.close}>Logout</MenuItem>
+						<MenuItem onClick={popupState.close}>Season</MenuItem>
 					</Menu>
 				</div>
 			)}
