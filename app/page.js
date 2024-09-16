@@ -25,8 +25,8 @@ const hero = {
 };
 
 const blur = {
-	'background-color': 'rgba(0, 0, 0, 0.2)',
-	'backdrop-filter': 'blur(6px)',
+	'backgroundColor': 'rgba(0, 0, 0, 0.2)',
+	'backdropFilter': 'blur(6px)',
 
 	margin: '0',
 	height: '100%',
