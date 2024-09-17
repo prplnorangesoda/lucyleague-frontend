@@ -32,10 +32,7 @@ function Profile() {
 			return;
 		}
 		// we are running on client, url does not need host
-		const url =
-			globals.trim_port(window.location.origin) +
-			globals.API_MIDDLE +
-			'user/steamid/';
+		const url = globals.API_BASE + 'user/steamid/';
 		const query = url + s64;
 
 		fetch(query)

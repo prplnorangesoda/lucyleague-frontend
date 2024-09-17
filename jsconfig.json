@@ -1,7 +1,11 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
+	"compilerOptions": {
+		"target": "ES2015",
+		"moduleResolution": "NodeNext",
+		"checkJs": true,
+		"jsx": "react",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	}
 }
