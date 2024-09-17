@@ -1,7 +1,7 @@
 'use client';
 
 export default {
-	API_MIDDLE: `:8080/api/v1/`,
+	API_BASE: process.env.NEXT_PUBLIC_API_BASE,
 	/**
 	 * Should not be used if there is no port.
 	 *
