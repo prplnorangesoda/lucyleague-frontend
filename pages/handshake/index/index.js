@@ -20,7 +20,7 @@ const OPENID_NECESSARY_PARAMETERS = [
 ];
 
 export default function HandshakePage() {
-	let [responseStatus, setResp] = useState({});
+	let [responseStatus, setResp] = useState('');
 	let [errorStatus, setErr] = useState('');
 	let searchParams = useSearchParams();
 
@@ -29,23 +29,23 @@ export default function HandshakePage() {
 		 * @type { {[key: string]: string}}
 		 */
 		let reqBody = {};
-		searchParams.get('h');
 		for (let [param, value] of searchParams.entries()) {
+			for (let item of OPENID_NECESSARY_PARAMETERS) {
+				if (searchParams.get(item) === null) {
+					setErr('Missing request parameter: ' + item);
+					return;
+				}
+			}
 			console.log(param);
 			if (reqBody[param]) return;
-			reqBody[param] = value;
+			// rust doesn't play nice with dots, we use underscores
+			reqBody[param.replace(/\./g, '__')] = value;
 		}
 		if (Object.keys(reqBody).length === 0) {
-			setErr('No request parameters.');
 			return;
 		}
 		// fetch
-		for (let item of OPENID_NECESSARY_PARAMETERS) {
-			if (reqBody[item] === undefined) {
-				setErr('Missing request parameter: ' + item);
-				return;
-			}
-		}
+
 		fetch(globals.API_BASE + 'verifylogin', {
 			method: 'POST',
 			headers: {
@@ -55,11 +55,18 @@ export default function HandshakePage() {
 			body: JSON.stringify(reqBody),
 		}).then(async (_resp) => {
 			try {
-				if (_resp.status === 404) {
-					throw 'API not found';
+				if (_resp.status != 200) {
+					throw (
+						'There was an internal error. Response text: ' +
+						(await _resp.text())
+					);
 				}
+				/**
+				 * @type {{valid: boolean, token: string}}
+				 */
 				let resp = await _resp.json();
-				setResp(resp);
+				console.log(resp);
+				setResp(`valid: ${resp.valid}, token: ${resp.token}`);
 			} catch (err) {
 				console.log(_resp);
 				setErr(err);
@@ -83,7 +90,7 @@ export default function HandshakePage() {
 					}}
 				>
 					{responseStatus ? (
-						<Container maxWidth="sm">{responseStatus.toString()}</Container>
+						<Container maxWidth="sm">{responseStatus}</Container>
 					) : (
 						<>
 							<Typography fontWeight="bold" margin="auto">
