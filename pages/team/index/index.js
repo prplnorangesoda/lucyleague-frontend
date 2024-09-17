@@ -18,6 +18,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
 
+import TeamRoster from '@/app/components/TeamRoster';
+
 import { useSearchParams } from 'next/navigation';
 
 
@@ -61,19 +63,19 @@ function Profile() {
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 					<Box>
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Matches
+							Roster
 						</Typography>
 					</Box>
-					<UserTeamHistory></UserTeamHistory>
+
+					<TeamRoster></TeamRoster>
+
 				</Paper>
 
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 					<Box>
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Punishment History
+							Matches
 						</Typography>
-
-						<Box sx={{ mt: '10px' }}>nothing yet...</Box>
 					</Box>
 				</Paper>
 			</Container>

@@ -82,7 +82,7 @@ export default function Home() {
 				</div>
 			</Container>
 
-			<Paper style={{ height: '50%' }} elevation={3}></Paper>
+			<Paper style={{ height: '45%' }} elevation={1}></Paper>
 		</ThemeProvider>
 	);
 }
