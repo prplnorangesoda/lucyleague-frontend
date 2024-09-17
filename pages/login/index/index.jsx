@@ -51,6 +51,7 @@ export default function LoginPage(props) {
 					alignItems="center"
 					flexDirection="column"
 					minHeight="100%"
+					pt="50px"
 				>
 					<Typography
 						component="h1"
@@ -60,7 +61,7 @@ export default function LoginPage(props) {
 					>
 						Login
 					</Typography>
-					<Typography gutterBottom>
+					<Typography gutterBottom mb="10px">
 						Our login and signup system are provided by Steam.
 					</Typography>
 					<Button

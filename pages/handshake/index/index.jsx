@@ -94,10 +94,11 @@ export default function HandshakePage() {
 					) : (
 						<>
 							<Typography fontWeight="bold" margin="auto">
-								Just wait a second! We're verifying your login with Steam...
+								Just wait a second! We&apos;re verifying your login with
+								Steam...
 							</Typography>
-							<Typography fontWeight="light" fontStyle="italic" pb="10px">
-								(If this is taking a while, let lucy know... she did this)
+							<Typography fontWeight="light" fontStyle="italic" pb="100px">
+								(If this is taking a while, let lucy know... she did this part)
 							</Typography>
 						</>
 					)}

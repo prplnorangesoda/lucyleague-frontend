@@ -6,17 +6,17 @@ import Box from '@mui/material/Box';
 
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 
-import LoginIcon from '@mui/icons-material/Login';
-import AppBarUser from './AppBarUser';
+import AppBarUser from './appbar/AppBarUser';
+import AppBarLogin from './appbar/AppBarLogin';
 
 import { useCookies } from 'react-cookie';
 import globals from '../globals';
 
-import { FetchInfoFromAuth } from '../utils/fetchInfo';
+import fetch_module from '../utils/fetch_module';
 
-import AppBarleagueButton from './AppBarLeagueButton'
+import AppBarleagueButton from './AppBarLeagueButton';
+import Image from 'next/image';
 
 function LeagueAppBar() {
 	const header_logo = {
@@ -32,9 +32,10 @@ function LeagueAppBar() {
 	const authToken = cookies['auth-token'];
 
 	useEffect(() => {
-		FetchInfoFromAuth( authToken, (data) => {
-			setAuthInfo(data)
-		})
+		if(authToken) {
+			fetch_module.fetch_info_from_auth(authToken).then(setAuthInfo).catch(
+			console.error)
+		}
 	}, [authToken])
 	// this is so lame. only useEffect can access the window object,
 	// so to preload the login url, we have to use useffect
@@ -49,10 +50,11 @@ function LeagueAppBar() {
 			<AppBar position="static">
 				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
 					<a href="/" style={{ maxHeight: '42px'}}>
-						{' '}
-						<img src="/assets/header.png" style={header_logo} />{' '}
+						<img src="/assets/header.png" style={header_logo} alt="League logo" />
 					</a>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
+					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+						Heyyyyyyyyyyyyy
+					</Typography>
 					<AppBarleagueButton/>
 					{AuthInfo ? (
 						<AppBarUser
@@ -60,18 +62,7 @@ function LeagueAppBar() {
 							pfpurl={AuthInfo.avatarurl}
 							s64={AuthInfo.steamid}
 						/>
-					) : (
-						<Button
-							startIcon={<LoginIcon />}
-							variant="blank"
-							color="inherit"
-							href={href}
-						>
-							<Typography component={'span'}>
-								<Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
-							</Typography>
-						</Button>
-					)}
+					) : <AppBarLogin />}
 				</Toolbar>
 			</AppBar>
 		</Box>
@@ -79,3 +70,5 @@ function LeagueAppBar() {
 }
 
 export default LeagueAppBar;
+
+
