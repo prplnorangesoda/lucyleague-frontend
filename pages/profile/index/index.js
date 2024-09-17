@@ -22,7 +22,7 @@ import { useCookies } from 'react-cookie';
 import { useSearchParams } from 'next/navigation';
 import { FetchUserInfoFromS64, FetchInfoFromAuth } from '@/app/utils/fetchInfo';
 
-import { Suspense } from 'react'
+import { Suspense } from 'react';
 
 function Profile() {
 	const [UserInfo, setUserInfo] = useState(null);
@@ -30,30 +30,13 @@ function Profile() {
 	const s64 = params.get('id');
 
 	useEffect(() => {
-<<<<<<< HEAD
-		if ( (s64) || (s64 !== null) ) {	
-			FetchUserInfoFromS64(s64, (data) => { // success callback
-				setUserInfo(data)
-=======
-		const s64 = params.get('id');
-		if (s64 === null) {
-			// todo!
-			console.warn('steamid is null');
-			return;
-		}
-		// we are running on client, url does not need host
-		const url = globals.API_BASE + 'user/steamid/';
-		const query = url + s64;
-
-		fetch(query)
-			.then((res) => res.json())
-			.then((data) => {
+		if (s64 || s64 !== null) {
+			FetchUserInfoFromS64(s64, (data) => {
+				// success callback
 				setUserInfo(data);
->>>>>>> openid-frontend
-			})
+			});
 		}
-	}, [s64])
-	
+	}, [s64]);
 
 	return (
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
