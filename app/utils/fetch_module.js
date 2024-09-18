@@ -36,7 +36,12 @@ module.fetch_info_from_s64 = async function (s64) {
 	let userInfo;
 
 	if (typeof s64 !== 'string') {
-		throw new Error('Specified s64 was ');
+		try {
+			//@ts-ignore
+			s64 = s64.toString();
+		} catch (err) {
+			throw new Error('Specified s64 was invalid');
+		}
 	}
 
 	const url = globals.API_BASE + 'user/steamid/';

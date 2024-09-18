@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import theme from '@/app/theme';
 import globals from '@/app/globals';
+import { useCookies } from 'react-cookie';
 
 const OPENID_NECESSARY_PARAMETERS = [
 	'openid.ns',
@@ -23,13 +24,18 @@ export default function HandshakePage() {
 	let [responseStatus, setResp] = useState('');
 	let [errorStatus, setErr] = useState('');
 	let searchParams = useSearchParams();
+	let [cookies, setCookie, removeCookie] = useCookies();
 
 	useEffect(() => {
 		/**
 		 * @type { {[key: string]: string}}
 		 */
 		let reqBody = {};
-		for (let [param, value] of searchParams.entries()) {
+		if (searchParams.size == 0) {
+			window.location.pathname = '/home'
+		}
+		let entries = searchParams.entries();
+		for (let [param, value] of entries) {
 			for (let item of OPENID_NECESSARY_PARAMETERS) {
 				if (searchParams.get(item) === null) {
 					setErr('Missing request parameter: ' + item);
@@ -55,18 +61,27 @@ export default function HandshakePage() {
 			body: JSON.stringify(reqBody),
 		}).then(async (_resp) => {
 			try {
-				if (_resp.status != 200) {
+				if (_resp.status != 200 && _resp.status != 400) {
 					throw (
 						'There was an internal error. Response text: ' +
 						(await _resp.text())
 					);
 				}
 				/**
-				 * @type {{valid: boolean, token: string}}
+				 * @typedef {{token: string, expires: string}} Token
+				 */
+				/**
+				 * @type {{valid: boolean, token_info: Token?}}
 				 */
 				let resp = await _resp.json();
 				console.log(resp);
-				setResp(`valid: ${resp.valid}, token: ${resp.token}`);
+				if (!resp.token_info) {throw new Error('Login was not valid')};
+				setResp(`valid: ${resp.valid}, token_info: {token: ${resp.token_info.token}, expires: ${resp.token_info.expires}}`);
+
+				setCookie("auth-token", resp.token_info.token, {expires: new Date(resp.token_info.expires), sameSite: "lax"})
+				
+				window.location.search = '';
+				
 			} catch (err) {
 				console.log(_resp);
 				setErr(err);

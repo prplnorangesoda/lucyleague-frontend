@@ -28,13 +28,14 @@ function LeagueAppBar() {
 
 	const [AuthInfo, setAuthInfo] = useState(null);
 
-	const [cookies] = useCookies(['auth-token']);
+	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
 
 	useEffect(() => {
 		if(authToken) {
-			fetch_module.fetch_info_from_auth(authToken).then(setAuthInfo).catch(
-			console.error)
+			fetch_module.fetch_info_from_auth(authToken)
+			.then(setAuthInfo)
+			.catch(console.error)
 		}
 	}, [authToken])
 	// this is so lame. only useEffect can access the window object,
@@ -50,7 +51,7 @@ function LeagueAppBar() {
 			<AppBar position="static">
 				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
 					<a href="/" style={{ maxHeight: '42px'}}>
-						<img src="/assets/header.png" style={header_logo} alt="League logo" />
+						<Image src="/assets/header.png" height="54" width="200" style={header_logo} alt="League logo" />
 					</a>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Heyyyyyyyyyyyyy
