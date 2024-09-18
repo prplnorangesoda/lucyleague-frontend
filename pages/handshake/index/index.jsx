@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import theme from '@/app/theme';
 import globals from '@/app/globals';
-import { useCookies } from 'react-cookie';
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 const OPENID_NECESSARY_PARAMETERS = [
 	'openid.ns',
@@ -88,7 +88,8 @@ export default function HandshakePage() {
 			}
 		});
 	}, [searchParams]);
-	return (
+	return (<>
+		<CookiesProvider />
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			{errorStatus ? (
@@ -120,5 +121,5 @@ export default function HandshakePage() {
 				</Container>
 			)}
 		</ThemeProvider>
-	);
+	</>);
 }

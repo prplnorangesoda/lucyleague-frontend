@@ -30,7 +30,8 @@ import fetch_module from '@/app/utils/fetch_module';
 import { ParseUserForPerms } from '@/app/utils/parseperms';
 
 function Admin() {
-	return (
+	return <>
+		<CookiesProvider />
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
 			<CssBaseline />
 			<LeagueAppBar />
@@ -83,7 +84,7 @@ function Admin() {
 				</Paper>
 			</Container>
 		</ThemeProvider>
-	);
+	</>;
 }
 
 export default Admin;

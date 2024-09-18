@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import AppBarUser from './appbar/AppBarUser';
 import AppBarLogin from './appbar/AppBarLogin';
 
-import { useCookies } from 'react-cookie';
+import { useCookies, CookiesProvider } from 'react-cookie';
 import globals from '../globals';
 
 import fetch_module from '../utils/fetch_module';
@@ -48,6 +48,7 @@ function LeagueAppBar() {
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
+			<CookiesProvider />
 			<AppBar position="static">
 				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
 					<a href="/" style={{ maxHeight: '42px'}}>
