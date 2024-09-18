@@ -38,7 +38,7 @@ function Profile() {
 		}
 	}, [s64]);
 
-	return (
+	return (<>
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
 			<CssBaseline />
 			<LeagueAppBar />
@@ -105,7 +105,7 @@ function Profile() {
 				</Paper>
 			</Container>
 		</ThemeProvider>
-	);
+	</>);
 }
 
 export default Profile;
