@@ -17,6 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
+import TeamMatchesTable from '@/app/components/TeamMatchesTable';
 
 import TeamRoster from '@/app/components/TeamRoster';
 
@@ -76,6 +77,8 @@ function Profile() {
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
 							Matches
 						</Typography>
+
+						<TeamMatchesTable></TeamMatchesTable>
 					</Box>
 				</Paper>
 			</Container>

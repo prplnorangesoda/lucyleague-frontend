@@ -5,10 +5,10 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 
-function TeamRosterUser() {
+function TeamRosterUser(props) {
 
     return (
-        <Button size="large" variant="blank" sx={{pl:1, mr: 1}}>
+        <Button href={'/profile?id=' + props.id} size="large" variant="blank" sx={{pl:1, mr: 1}}>
             
             <Avatar
                 sx={{ mr: 2, height: 45, width: 45 }}
