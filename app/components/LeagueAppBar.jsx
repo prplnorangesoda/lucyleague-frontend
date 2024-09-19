@@ -17,6 +17,8 @@ import fetch_module from '../utils/fetch_module';
 
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
+import { Button } from '@mui/material';
+import { ArrowOutward } from '@mui/icons-material';
 
 function LeagueAppBar() {
 	const header_logo = {
@@ -34,7 +36,7 @@ function LeagueAppBar() {
 	useEffect(() => {
 		if (authToken) {
 			fetch_module
-				.fetch_info_from_auth(authToken)
+				.fetch_user_from_auth(authToken)
 				.then(setAuthInfo)
 				.catch(console.error);
 		}
@@ -57,6 +59,15 @@ function LeagueAppBar() {
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Heyyyyyyyyyyyyy
 					</Typography>
+					<Button
+						href="/admin"
+						variant="text"
+						endIcon={<ArrowOutward></ArrowOutward>}
+					>
+						<Typography textAlign="center" pt="5px">
+							ADMIN
+						</Typography>
+					</Button>
 					<AppBarleagueButton />
 					{AuthInfo ? (
 						<AppBarUser

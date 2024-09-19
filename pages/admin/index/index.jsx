@@ -16,6 +16,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
 
+import { CookiesProvider, useCookies } from 'react-cookie';
+
 import Button from '@mui/material/Button';
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -27,64 +29,137 @@ import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import fetch_module from '@/app/utils/fetch_module';
-import { ParseUserForPerms } from '@/app/utils/parseperms';
+import perms_module from '@/app/utils/parseperms';
+import { Card, Stack } from '@mui/material';
+import GenericCard from '@/app/components/GenericCard';
+import { useRouter } from 'next/navigation';
+
+/**
+ * @typedef {Object} PermActProps
+ * @prop {import('@/app/utils/parseperms').Permissions} perms
+ */
+/**
+ *
+ * @param {PermActProps} props
+ * @returns
+ */
+function PermissionsActions({ perms }) {
+	let ret = [];
+
+	if (perms.CREATEGAME || perms.ADMIN) {
+		ret.push(<ManageGame></ManageGame>);
+	}
+	if (perms.CREATELEAGUE || perms.ADMIN) {
+		ret.push(<ManageLeague></ManageLeague>);
+	}
+	if (perms.SETPERMISSIONS || perms.ADMIN) {
+		ret.push(<ManageUsers></ManageUsers>);
+	}
+
+	return <Container maxWidth="xl">{ret}</Container>;
+}
 
 function Admin() {
-	return <>
-		<CookiesProvider />
-		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
-			<CssBaseline />
-			<LeagueAppBar />
+	let [perms, setPerms] = useState(null);
+	let [error, setErr] = useState(null);
+	let router = useRouter();
 
-			<Container maxWidth="xl">
-				<Paper elevation={2} style={{ padding: '15px', marginTop: '30px' }}>
-					<Typography sx={{ fontWeight: 'regular' }} variant="h6">
-						Staff Dashboard
-						<IconButton>
-							<Badge badgeContent={1} color="primary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
-					</Typography>
-				</Paper>
+	let [cookies] = useCookies(['auth-token']);
 
-				<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
-					<Typography sx={{ fontWeight: 'regular', mb: 1 }} variant="h6">
-						Actions
-					</Typography>
+	useEffect(() => {
+		if (cookies['auth-token']) {
+			fetch_module
+				.fetch_user_from_auth(cookies['auth-token'])
+				.then((user) => {
+					setPerms(perms_module.from_bitfield(user.permissions));
+				})
+				.catch((reason) => {
+					setErr('API error: ' + reason);
+				});
+			// setTimeout(
+			// 	() =>
+			// 		setPerms({
+			// 			ADMIN: true,
+			// 			SETPERMISSIONS: false,
+			// 			CREATELEAGUE: false,
+			// 			CREATEGAME: false,
+			// 		}),
+			// 	500
+			// );
+		} else {
+			setErr('No auth-token cookie');
+			router.push('/login');
+		}
+	}, []);
+	return (
+		<>
+			<ThemeProvider theme={theme}>
+				<CookiesProvider />
 
-					<span>
-						<Button
-							variant="contained"
-							size="large"
-							sx={{ mr: 1 }}
-							startIcon={<ManageAccountsIcon />}
+				<CssBaseline />
+				<Box
+					sx={{
+						width: '100dvw',
+						height: '100dvh',
+						display: 'flex',
+						flexDirection: 'column',
+					}}
+				>
+					<LeagueAppBar />
+
+					{error ? (
+						<Stack maxWidth="sm" alignSelf="center">
+							<GenericCard>
+								There was an error:
+								<br />
+								{error}
+							</GenericCard>
+						</Stack>
+					) : (
+						<></>
+					)}
+					{perms ? (
+						<PermissionsActions perms={perms} />
+					) : (
+						<Stack
+							height="100%"
+							maxWidth="sm"
+							alignSelf="center"
+							direction="column"
 						>
-							Manage Users
-						</Button>
-
-						<Button
-							variant="contained"
-							size="large"
-							sx={{ mr: 1 }}
-							startIcon={<ManageHistoryIcon />}
-						>
-							Matches
-						</Button>
-
-						<Button
-							variant="contained"
-							size="large"
-							sx={{ mr: 1 }}
-							startIcon={<RoomPreferencesIcon />}
-						>
-							Manage Leagues
-						</Button>
-					</span>
-				</Paper>
-			</Container>
-		</ThemeProvider>
-	</>;
+							<GenericCard variant="outlined">
+								<Typography variant="h5">
+									We&apos;re verifying your permissions, hold on a sec...
+								</Typography>
+							</GenericCard>
+						</Stack>
+					)}
+				</Box>
+			</ThemeProvider>
+		</>
+	);
 }
 
 export default Admin;
+
+function ManageGame(props) {
+	return (
+		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+			<Typography variant="h3">Manage Games</Typography>
+		</Paper>
+	);
+}
+function ManageLeague(props) {
+	return (
+		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+			<Typography variant="h3">Manage Leagues</Typography>
+		</Paper>
+	);
+}
+function ManageUsers(props) {
+	return (
+		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+			<Typography variant="h3">Manage Users</Typography>
+		</Paper>
+	);
+}

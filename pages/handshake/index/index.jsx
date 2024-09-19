@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useEffect, useState } from 'react';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
 	Container,
 	CssBaseline,
@@ -21,6 +21,7 @@ const OPENID_NECESSARY_PARAMETERS = [
 ];
 
 export default function HandshakePage() {
+	let router = useRouter();
 	let [responseStatus, setResp] = useState('');
 	let [errorStatus, setErr] = useState('');
 	let searchParams = useSearchParams();
@@ -31,9 +32,6 @@ export default function HandshakePage() {
 		 * @type { {[key: string]: string}}
 		 */
 		let reqBody = {};
-		if (searchParams.size == 0) {
-			window.location.pathname = '/home'
-		}
 		let entries = searchParams.entries();
 		for (let [param, value] of entries) {
 			for (let item of OPENID_NECESSARY_PARAMETERS) {
@@ -75,51 +73,63 @@ export default function HandshakePage() {
 				 */
 				let resp = await _resp.json();
 				console.log(resp);
-				if (!resp.token_info) {throw new Error('Login was not valid')};
-				setResp(`valid: ${resp.valid}, token_info: {token: ${resp.token_info.token}, expires: ${resp.token_info.expires}}`);
+				if (!resp.token_info) {
+					throw new Error('Login was not valid');
+				}
+				setResp(
+					`valid: ${resp.valid}, token_info: {token: ${resp.token_info.token}, expires: ${resp.token_info.expires}}`
+				);
 
-				setCookie("auth-token", resp.token_info.token, {expires: new Date(resp.token_info.expires), sameSite: "lax"})
-				
-				window.location.search = '';
-				
+				setCookie('auth-token', resp.token_info.token, {
+					expires: new Date(resp.token_info.expires),
+					sameSite: 'lax',
+					path: '/',
+				});
+
+				console.log('Setting cookies');
+				console.log(cookies);
+				// router.push('/home');
 			} catch (err) {
 				console.log(_resp);
 				setErr(err);
 			}
 		});
 	}, [searchParams]);
-	return (<>
-		<CookiesProvider />
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			{errorStatus ? (
-				'An error occurred, report this! : ' + errorStatus
-			) : (
-				<Container
-					maxWidth="md"
-					sx={{
-						height: '100vh',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					{responseStatus ? (
-						<Container maxWidth="sm">{responseStatus}</Container>
-					) : (
-						<>
-							<Typography fontWeight="bold" margin="auto">
-								Just wait a second! We&apos;re verifying your login with
-								Steam...
-							</Typography>
-							<Typography fontWeight="light" fontStyle="italic" pb="100px">
-								(If this is taking a while, let lucy know... she did this part)
-							</Typography>
-						</>
-					)}
-				</Container>
-			)}
-		</ThemeProvider>
-	</>);
+	return (
+		<>
+			<CookiesProvider />
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				{errorStatus ? (
+					'An error occurred, report this! : ' + errorStatus
+				) : (
+					<Container
+						maxWidth="md"
+						sx={{
+							height: '100vh',
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						{responseStatus ? (
+							<Container maxWidth="sm">{responseStatus}</Container>
+						) : (
+							<>
+								<Typography fontWeight="bold" margin="auto">
+									Just wait a second! We&apos;re verifying your login with
+									Steam...
+								</Typography>
+								<Typography fontWeight="light" fontStyle="italic" pb="100px">
+									(If this is taking a while, let lucy know... she did this
+									part)
+								</Typography>
+							</>
+						)}
+					</Container>
+				)}
+			</ThemeProvider>
+		</>
+	);
 }

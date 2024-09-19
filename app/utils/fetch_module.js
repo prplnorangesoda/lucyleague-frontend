@@ -2,14 +2,25 @@
 
 import globals from '../globals';
 
-let module = {};
+let this_module = {};
 
+/**
+ * @typedef {Object} User
+ * @property {number} id
+ * @property {number} permissions
+ * @property {string} avatarurl
+ * @property {string} steamid
+ * @property {string} username
+ * @property {string} created_at - RAW date return!
+ */
+let cached_state;
 /**
  * Call the API for user info from an auth token.
  * @param {string} token the user's auth token
- * @returns {Promise<any>} API response
+ * @returns {Promise<User>} API response
  */
-module.fetch_info_from_auth = async function (token) {
+this_module.fetch_user_from_auth = async function (token) {
+	if (cached_state) return cached_state;
 	let authInfo;
 
 	// we are running on the client side - hostname unnecessary
@@ -24,6 +35,7 @@ module.fetch_info_from_auth = async function (token) {
 	} catch (err) {
 		throw new Error('API response malformed: ' + err);
 	}
+	cached_state = authInfo;
 	return authInfo;
 };
 
@@ -32,7 +44,7 @@ module.fetch_info_from_auth = async function (token) {
  * @param {string} s64 the steamid
  * @returns {Promise<any|null>} API response user info. `null` if not found.
  */
-module.fetch_info_from_s64 = async function (s64) {
+this_module.fetch_info_from_s64 = async function (s64) {
 	let userInfo;
 
 	if (typeof s64 !== 'string') {
@@ -61,6 +73,6 @@ module.fetch_info_from_s64 = async function (s64) {
 	return userInfo;
 };
 
-module.hot = 'hi';
+this_module.hot = 'hi';
 
-export default module;
+export default this_module;
