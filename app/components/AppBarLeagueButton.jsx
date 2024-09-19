@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,7 +24,7 @@ function AppBarUser(props) {
 		<PopupState variant="popover" popupId="AppBarLeagueButton">
 			{(popupState) => (
 				<div>
-					<Button variant="blank" {...bindTrigger(popupState)} endIcon={ <KeyboardArrowDownIcon/> }>
+					<Button variant="text" {...bindTrigger(popupState)} endIcon={ <KeyboardArrowDownIcon/> }>
 						<Typography align="right">
                             League
 						</Typography>

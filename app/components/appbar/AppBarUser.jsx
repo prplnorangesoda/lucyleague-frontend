@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 function AppBarUser(props) {
 	const router = useRouter()

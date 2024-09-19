@@ -5,8 +5,11 @@ import { ArrowOutward, CenterFocusStrong } from '@mui/icons-material';
 import {
 	Box,
 	Button,
+	Card,
 	Container,
 	CssBaseline,
+	Stack,
+	styled,
 	ThemeProvider,
 	Typography,
 } from '@mui/material';
@@ -18,6 +21,16 @@ import React, { useState, useEffect } from 'react';
 &openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
 &openid.return_to=https%3A%2F%2Frgl.gg%2FLogin%2FDefault.aspx%3Fpush%3D1%26r%3D24%26dnoa.userSuppliedIdentifier%3Dhttps%253A%252F%252Fsteamcommunity.com%252Fopenid%252F&openid.realm=https%3A%2F%2Frgl.gg%2F&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0
 */
+
+const LoginCard = styled(Card)(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'column',
+	alignSelf: 'center',
+	width: '100%',
+	padding: theme.spacing(4),
+	gap: theme.spacing(2),
+	margin: 'auto',
+}));
 export default function LoginPage(props) {
 	let [steamurl, setSteamurl] = useState('');
 
@@ -42,37 +55,45 @@ export default function LoginPage(props) {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<LeagueAppBar />
+			<Box
+				sx={{
+					height: '100dvh',
+					width: '100dvw',
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+			>
+				<LeagueAppBar />
 
-			<Container maxWidth="sm">
-				<Box
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					flexDirection="column"
-					minHeight="100%"
-					pt="50px"
+				<Stack
+					maxWidth="sm"
+					direction="column"
+					justifyContent="space-between"
+					alignSelf="center"
+					flex="1 1"
 				>
-					<Typography
-						component="h1"
-						variant="h4"
-						fontWeight="bold"
-						gutterBottom
-					>
-						Login
-					</Typography>
-					<Typography gutterBottom mb="10px">
-						Our login and signup system are provided by Steam.
-					</Typography>
-					<Button
-						startIcon={<ArrowOutward />}
-						href={steamurl}
-						variant="contained"
-					>
-						<Typography fontWeight="bold">GO TO STEAM</Typography>
-					</Button>
-				</Box>
-			</Container>
+					<LoginCard variant="outlined">
+						<Typography
+							component="h1"
+							variant="h4"
+							fontWeight="bold"
+							gutterBottom
+						>
+							Login
+						</Typography>
+						<Typography gutterBottom mb="10px">
+							Our login and signup system are provided by Steam.
+						</Typography>
+						<Button
+							startIcon={<ArrowOutward />}
+							href={steamurl}
+							variant="contained"
+						>
+							<Typography fontWeight="bold">GO TO STEAM</Typography>
+						</Button>
+					</LoginCard>
+				</Stack>
+			</Box>
 		</ThemeProvider>
 	);
 }

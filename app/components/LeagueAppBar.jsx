@@ -32,45 +32,45 @@ function LeagueAppBar() {
 	const authToken = cookies['auth-token'];
 
 	useEffect(() => {
-		if(authToken) {
-			fetch_module.fetch_info_from_auth(authToken)
-			.then(setAuthInfo)
-			.catch(console.error)
+		if (authToken) {
+			fetch_module
+				.fetch_info_from_auth(authToken)
+				.then(setAuthInfo)
+				.catch(console.error);
 		}
-	}, [authToken])
-	// this is so lame. only useEffect can access the window object,
-	// so to preload the login url, we have to use useffect
-	const [href, setHref] = useState("");
-
-	useEffect(() => {
-		setHref(`${globals.trim_port(window.location.origin)}${globals.API_MIDDLE}login`)
-	}, [])
+	}, [authToken]);
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ height: 'auto' }}>
 			<CookiesProvider />
 			<AppBar position="static">
 				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-					<a href="/" style={{ maxHeight: '42px'}}>
-						<Image src="/assets/header.png" height="54" width="200" style={header_logo} alt="League logo" />
+					<a href="/" style={{ maxHeight: '42px' }}>
+						<Image
+							src="/assets/header.png"
+							height="3000"
+							width="1170"
+							style={header_logo}
+							alt="League logo"
+						/>
 					</a>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Heyyyyyyyyyyyyy
 					</Typography>
-					<AppBarleagueButton/>
+					<AppBarleagueButton />
 					{AuthInfo ? (
 						<AppBarUser
 							username={AuthInfo.username}
 							pfpurl={AuthInfo.avatarurl}
 							s64={AuthInfo.steamid}
 						/>
-					) : <AppBarLogin />}
+					) : (
+						<AppBarLogin />
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>
-	);	
+	);
 }
 
 export default LeagueAppBar;
-
-
