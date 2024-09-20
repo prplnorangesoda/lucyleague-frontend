@@ -40,6 +40,7 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
+	TablePagination,
 	TableRow,
 } from '@mui/material';
 import GenericCard from '@/app/components/GenericCard';
@@ -85,6 +86,9 @@ function Admin() {
 			fetch_module
 				.fetch_user_from_auth(cookies['auth-token'])
 				.then((user) => {
+					if (user.permissions === 0) {
+						router.push('/');
+					}
 					setPerms(perms_module.from_bitfield(user.permissions));
 				})
 				.catch((reason) => {
@@ -165,14 +169,14 @@ const GridItem = styled(Paper)(({ theme }) => ({
 function ManageGame(props) {
 	return (
 		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
-			<Typography variant="h3">Manage Games</Typography>
+			<Typography variant="h4">Manage Games</Typography>
 		</Paper>
 	);
 }
 function ManageLeague(props) {
 	return (
 		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
-			<Typography variant="h3">Manage Leagues</Typography>
+			<Typography variant="h4">Manage Leagues</Typography>
 		</Paper>
 	);
 }
@@ -183,7 +187,7 @@ function ManageUsers(props) {
 			style={{ padding: 15, marginTop: 20 }}
 			sx={{ flexGrow: 1 }}
 		>
-			<Typography variant="h3">Manage Users</Typography>
+			<Typography variant="h4">Manage Users</Typography>
 			<Grid2 container spacing={2}>
 				<Grid2 size={6}>
 					<GridItem>
@@ -220,13 +224,15 @@ function UsersList() {
 		]);
 	}, []);
 
-	const handleChange = (event, page: number) => {};
+	const handleChange = (event, page: number) => {
+		console.log(event, page);
+	};
 	return (
 		<>
 			<TableContainer>
 				<Table>
-					<TableHead>
-						<TableRow>
+					<TableHead style={{ color: 'gray' }}>
+						<TableRow sx={{ color: 'gray' }}>
 							<TableCell>Name</TableCell>
 							<TableCell align="right">Example</TableCell>
 							<TableCell align="right">Example</TableCell>
@@ -252,12 +258,13 @@ function UsersList() {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<Pagination
-				count={10}
-				variant="outlined"
+			<TablePagination
+				count={20}
+				page={0}
+				rowsPerPage={10}
 				showFirstButton
 				showLastButton
-				onChange={handleChange}
+				onPageChange={handleChange}
 			/>
 		</>
 	);

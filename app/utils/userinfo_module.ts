@@ -10,11 +10,13 @@ export function get_user_info(): Promise<StoredUser> {
 	) => {
 		if (depth >= 5) {
 			reject('Depth limit exceeded');
+			return;
 		}
 		let user_cache = window.localStorage.getItem('user-cache');
 		if (!user_cache || user_cache === 'null') {
+			console.log('No cache found, delaying by 2000ms', depth++);
 			// check again in a second
-			setTimeout(recursive_function, 1000, resolve, reject, depth++);
+			setTimeout(recursive_function, 2000, resolve, reject, depth++);
 		} else resolve(JSON.parse(user_cache));
 	};
 
