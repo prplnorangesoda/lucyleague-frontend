@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
 
@@ -29,11 +30,22 @@ import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import * as fetch_module from '@/app/utils/fetch_module';
-import perms_module from '@/app/utils/parseperms';
-import { Card, Stack } from '@mui/material';
+import * as perms_module from '@/app/utils/parseperms';
+import {
+	Card,
+	Stack,
+	styled,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+} from '@mui/material';
 import GenericCard from '@/app/components/GenericCard';
 import { useRouter } from 'next/navigation';
 import AppWrapper from '@/app/components/AppWrapper';
+import Grid2 from '@mui/material/Grid2';
 
 // to all my haters
 /**
@@ -46,7 +58,7 @@ import AppWrapper from '@/app/components/AppWrapper';
  * @returns
  */
 function PermissionsActions({ perms }) {
-	let ret = [];
+	let ret: [React.ReactNode] = [<></>];
 
 	if (perms.CREATEGAME || perms.ADMIN) {
 		ret.push(<ManageGame></ManageGame>);
@@ -62,8 +74,8 @@ function PermissionsActions({ perms }) {
 }
 
 function Admin() {
-	let [perms, setPerms] = useState(null);
-	let [error, setErr] = useState(null);
+	let [perms, setPerms] = useState<perms_module.Permissions | null>(null);
+	let [error, setErr] = useState<string | null>(null);
 	let router = useRouter();
 
 	let [cookies] = useCookies(['auth-token']);
@@ -139,24 +151,114 @@ function Admin() {
 
 export default Admin;
 
+const GridItem = styled(Paper)(({ theme }) => ({
+	backgroundColor: '#fff',
+	...theme.typography.body2,
+	padding: theme.spacing(1),
+	textAlign: 'center',
+	color: theme.palette.text.secondary,
+	...theme.applyStyles('dark', {
+		backgroundColor: '#1A2027',
+	}),
+}));
+
 function ManageGame(props) {
 	return (
-		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h3">Manage Games</Typography>
 		</Paper>
 	);
 }
 function ManageLeague(props) {
 	return (
-		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h3">Manage Leagues</Typography>
 		</Paper>
 	);
 }
 function ManageUsers(props) {
 	return (
-		<Paper elevation={2} style={{ padding: '15px', marginTop: '20px' }}>
+		<Paper
+			elevation={2}
+			style={{ padding: 15, marginTop: 20 }}
+			sx={{ flexGrow: 1 }}
+		>
 			<Typography variant="h3">Manage Users</Typography>
+			<Grid2 container spacing={2}>
+				<Grid2 size={6}>
+					<GridItem>
+						<Typography>User list</Typography>
+						<Stack>
+							<UsersList />
+						</Stack>
+					</GridItem>
+				</Grid2>
+				<Grid2 size={6}>
+					<GridItem>
+						<Typography>Manage user</Typography>
+					</GridItem>
+				</Grid2>
+			</Grid2>
 		</Paper>
+	);
+}
+
+function UsersList() {
+	let [users, setUsers] = useState([{ name: 'example' }]);
+
+	useEffect(() => {
+		setUsers([
+			...users,
+			{ name: 'example2' },
+			{ name: 'example3' },
+			{ name: 'example4' },
+			{ name: 'example5' },
+			{ name: 'example6' },
+			{ name: 'example7' },
+			{ name: 'example8' },
+			{ name: 'example9' },
+		]);
+	}, []);
+
+	const handleChange = (event, page: number) => {};
+	return (
+		<>
+			<TableContainer>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Name</TableCell>
+							<TableCell align="right">Example</TableCell>
+							<TableCell align="right">Example</TableCell>
+							<TableCell align="right">Example</TableCell>
+							<TableCell align="right">Example</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{users.map((user) => (
+							<TableRow
+								key={user.name}
+								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+							>
+								<TableCell component="th" scope="row">
+									{user.name}
+								</TableCell>
+								<TableCell align="right">Example Info</TableCell>
+								<TableCell align="right">Example Info</TableCell>
+								<TableCell align="right">Example Info</TableCell>
+								<TableCell align="right">Example Info</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+			<Pagination
+				count={10}
+				variant="outlined"
+				showFirstButton
+				showLastButton
+				onChange={handleChange}
+			/>
+		</>
 	);
 }

@@ -1,4 +1,4 @@
-const Permissions = Object.freeze({
+export const PERMISSIONS = Object.freeze({
 	/// Must check for none using ==.
 	NONE: 0,
 	/// All permissions.
@@ -11,9 +11,6 @@ const Permissions = Object.freeze({
 	CREATEGAME: 8,
 });
 
-let this_module = {};
-this_module.hot = 'hi';
-
 /**
  * A set of permissions a user can have.
  * @typedef {Object} Permissions
@@ -23,13 +20,14 @@ this_module.hot = 'hi';
  * @property {boolean} CREATEGAME - Create new games and edit existing.
  *
  */
-/**
- * Takes in a permission bitfield and returns all permissions.
- *
- * @param {number} bin The integer bitfield of user permissions.
- * @returns {Permissions} All applicable permissions for this user.
- */
-this_module.from_bitfield = function (bin) {
+
+export interface Permissions {
+	ADMIN: boolean;
+	SETPERMISSIONS: boolean;
+	CREATELEAGUE: boolean;
+	CREATEGAME: boolean;
+}
+export let from_bitfield = function (bin: number): Permissions {
 	let user_permissions = {
 		ADMIN: false,
 		SETPERMISSIONS: false,
@@ -37,23 +35,21 @@ this_module.from_bitfield = function (bin) {
 		CREATEGAME: false,
 	};
 
-	if (bin & Permissions.ADMIN) {
+	if (bin & PERMISSIONS.ADMIN) {
 		user_permissions.ADMIN = true;
 	}
 
-	if (bin & Permissions.SETPERMISSIONS) {
+	if (bin & PERMISSIONS.SETPERMISSIONS) {
 		user_permissions.SETPERMISSIONS = true;
 	}
 
-	if (bin & Permissions.CREATELEAGUE) {
+	if (bin & PERMISSIONS.CREATELEAGUE) {
 		user_permissions.CREATELEAGUE = true;
 	}
 
-	if (bin & Permissions.CREATEGAME) {
+	if (bin & PERMISSIONS.CREATEGAME) {
 		user_permissions.CREATEGAME = true;
 	}
 
 	return user_permissions;
 };
-
-export default this_module;
