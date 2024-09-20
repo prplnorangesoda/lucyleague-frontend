@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 
-export default function LoginButton(props) {
+export default function LoginButton() {
 	return <Button
 		startIcon={<LoginIcon />}
 		variant="text"

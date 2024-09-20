@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 function TeamRosterUser() {
 
     return (
-        <Button size="large" variant="blank" sx={{pl:1, mr: 1}}>
+        <Button size="large" variant="text" sx={{pl:1, mr: 1}}>
             
             <Avatar
                 sx={{ mr: 2, height: 45, width: 45 }}

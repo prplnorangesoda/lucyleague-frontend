@@ -14,7 +14,7 @@ export default function AuthProvider(props) {
 				.then(setUserInfo)
 				.catch(console.error);
 		} else {
-			window.localStorage.setItem('user-cache', '');
+			window.localStorage.setItem('user-cache', 'null');
 		}
 	}, [authToken]);
 

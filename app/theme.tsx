@@ -1,9 +1,10 @@
 'use client';
+import { PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
 const themeOptions = {
 	palette: {
-		mode: 'dark',
+		mode: 'dark' as PaletteMode,
 		primary: {
 			main: '#ff7043',
 			contrastText: 'rgba(255,255,255,0.87)',
