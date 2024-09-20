@@ -12,6 +12,8 @@ import theme from '@/app/theme';
 import globals from '@/app/globals';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
+import AppWrapper from '@/app/components/AppWrapper';
+
 const OPENID_NECESSARY_PARAMETERS = [
 	'openid.ns',
 	'openid.claimed_id',
@@ -32,6 +34,7 @@ export default function HandshakePage() {
 		 * @type { {[key: string]: string}}
 		 */
 		let reqBody = {};
+		if (searchParams === null) return;
 		let entries = searchParams.entries();
 		for (let [param, value] of entries) {
 			for (let item of OPENID_NECESSARY_PARAMETERS) {
@@ -96,40 +99,36 @@ export default function HandshakePage() {
 		});
 	}, [searchParams]);
 	return (
-		<>
-			<CookiesProvider />
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				{errorStatus ? (
-					'An error occurred, report this! : ' + errorStatus
-				) : (
-					<Container
-						maxWidth="md"
-						sx={{
-							height: '100vh',
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						{responseStatus ? (
-							<Container maxWidth="sm">{responseStatus}</Container>
-						) : (
-							<>
-								<Typography fontWeight="bold" margin="auto">
-									Just wait a second! We&apos;re verifying your login with
-									Steam...
-								</Typography>
-								<Typography fontWeight="light" fontStyle="italic" pb="100px">
-									(If this is taking a while, let lucy know... she did this
-									part)
-								</Typography>
-							</>
-						)}
-					</Container>
-				)}
-			</ThemeProvider>
-		</>
+		<AppWrapper>
+			<CssBaseline />
+			{errorStatus ? (
+				'An error occurred, report this! : ' + errorStatus
+			) : (
+				<Container
+					maxWidth="md"
+					sx={{
+						height: '100vh',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					{responseStatus ? (
+						<Container maxWidth="sm">{responseStatus}</Container>
+					) : (
+						<>
+							<Typography fontWeight="bold" margin="auto">
+								Just wait a second! We&apos;re verifying your login with
+								Steam...
+							</Typography>
+							<Typography fontWeight="light" fontStyle="italic" pb="100px">
+								(If this is taking a while, let lucy know... she did this part)
+							</Typography>
+						</>
+					)}
+				</Container>
+			)}
+		</AppWrapper>
 	);
 }

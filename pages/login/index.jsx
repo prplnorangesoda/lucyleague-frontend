@@ -16,6 +16,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
+import AppWrapper from '@/app/components/AppWrapper';
 /* https://steamcommunity.com/openid/login
 ?openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
 &openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
@@ -53,47 +54,35 @@ export default function LoginPage(props) {
 		setSteamurl(get_auth_url());
 	}, [get_auth_url]);
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Box
-				sx={{
-					height: '100dvh',
-					width: '100dvw',
-					display: 'flex',
-					flexDirection: 'column',
-				}}
+		<AppWrapper>
+			<Stack
+				maxWidth="sm"
+				direction="column"
+				justifyContent="space-between"
+				alignSelf="center"
+				flex="1 1"
 			>
-				<LeagueAppBar />
-
-				<Stack
-					maxWidth="sm"
-					direction="column"
-					justifyContent="space-between"
-					alignSelf="center"
-					flex="1 1"
-				>
-					<LoginCard variant="outlined">
-						<Typography
-							component="h1"
-							variant="h4"
-							fontWeight="bold"
-							gutterBottom
-						>
-							Login
-						</Typography>
-						<Typography gutterBottom mb="10px">
-							Our login and signup system are provided by Steam.
-						</Typography>
-						<Button
-							startIcon={<ArrowOutward />}
-							href={steamurl}
-							variant="contained"
-						>
-							<Typography fontWeight="bold">GO TO STEAM</Typography>
-						</Button>
-					</LoginCard>
-				</Stack>
-			</Box>
-		</ThemeProvider>
+				<LoginCard variant="outlined">
+					<Typography
+						component="h1"
+						variant="h4"
+						fontWeight="bold"
+						gutterBottom
+					>
+						Login
+					</Typography>
+					<Typography gutterBottom mb="10px">
+						Our login and signup system are provided by Steam.
+					</Typography>
+					<Button
+						startIcon={<ArrowOutward />}
+						href={steamurl}
+						variant="contained"
+					>
+						<Typography fontWeight="bold">GO TO STEAM</Typography>
+					</Button>
+				</LoginCard>
+			</Stack>
+		</AppWrapper>
 	);
 }

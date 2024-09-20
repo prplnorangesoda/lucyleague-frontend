@@ -28,7 +28,7 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import fetch_module from '@/app/utils/fetch_module';
+import * as fetch_module from '@/app/utils/fetch_module';
 import perms_module from '@/app/utils/parseperms';
 import { Card, Stack } from '@mui/material';
 import GenericCard from '@/app/components/GenericCard';

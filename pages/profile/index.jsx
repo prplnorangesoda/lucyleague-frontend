@@ -1,13 +1,13 @@
 'use client';
 
 // kinda ass but w/e
-import globals from '@/app/globals';
 import theme from '@/app/theme';
 import LeagueAppBar from '@/app/components/LeagueAppBar';
 import UserTeamHistory from '@/app/components/UserTeamHistory';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import AppWrapper from '@/app/components/AppWrapper';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -20,7 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
-import fetchModule from '@/app/utils/fetch_module';
+import * as fetchModule from '@/app/utils/fetch_module';
 
 import { Suspense } from 'react';
 
@@ -37,10 +37,7 @@ function Profile() {
 
 	return (
 		<>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<LeagueAppBar />
-
+			<AppWrapper theme={theme}>
 				<Container maxWidth="xl">
 					<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
 						<Box
@@ -102,7 +99,7 @@ function Profile() {
 						</Box>
 					</Paper>
 				</Container>
-			</ThemeProvider>
+			</AppWrapper>
 		</>
 	);
 }

@@ -13,7 +13,8 @@ import AppBarLogin from './appbar/AppBarLogin';
 import { useCookies, CookiesProvider } from 'react-cookie';
 import globals from '../globals';
 
-import fetch_module, { User } from '../utils/fetch_module';
+import * as fetch_module from '../utils/fetch_module';
+import * as userinfo_module from '../utils/userinfo_module';
 
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
@@ -28,18 +29,17 @@ function LeagueAppBar() {
 		'max-height': '42px',
 	};
 
-	const [AuthInfo, setAuthInfo]: [User | null, any] = useState(null);
+	const [AuthInfo, setAuthInfo] = useState<fetch_module.User | null>(null);
 
 	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
 
 	useEffect(() => {
-		if (authToken) {
-			fetch_module
-				.fetch_user_from_auth(authToken)
-				.then(setAuthInfo)
-				.catch(console.error);
-		}
+		console.log('LeagueAppBar: getting user info');
+		userinfo_module.get_user_info().then((result) => {
+			console.log('userinfo_module succeeded:', result.userInfo);
+			setAuthInfo(result.userInfo);
+		});
 	}, [authToken]);
 
 	return (

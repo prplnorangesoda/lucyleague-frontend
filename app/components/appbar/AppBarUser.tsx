@@ -18,6 +18,12 @@ function AppBarUser(props: { user: User }) {
 		router.push('/profile?id=' + props.user.steamid);
 	};
 
+	const purgeUserCache = () => {
+		if (!confirm('This will log you out for a second. Continue?')) return;
+		window.localStorage.setItem('user-cache', 'null');
+		window.location.reload();
+	};
+
 	return (
 		<PopupState variant="popover" popupId="AppBarUserMenu">
 			{(popupState) => (
@@ -35,6 +41,14 @@ function AppBarUser(props: { user: User }) {
 					</Button>
 					<Menu {...bindMenu(popupState)}>
 						<MenuItem onClick={PushToProfile}>Profile</MenuItem>
+						<MenuItem
+							onClick={() => {
+								purgeUserCache();
+								popupState.close();
+							}}
+						>
+							Purge local user cache
+						</MenuItem>
 						<MenuItem onClick={popupState.close}>Logout</MenuItem>
 					</Menu>
 				</div>

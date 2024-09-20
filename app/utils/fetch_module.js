@@ -2,8 +2,6 @@
 
 import globals from '../globals';
 
-let this_module = {};
-
 /**
  * @typedef {Object} User
  * @property {number} id
@@ -19,7 +17,7 @@ let cached_state;
  * @param {string} token the user's auth token
  * @returns {Promise<User>} API response
  */
-this_module.fetch_user_from_auth = async function (token) {
+export let fetch_user_from_auth = async function (token) {
 	if (cached_state) return cached_state;
 	let authInfo;
 
@@ -44,7 +42,7 @@ this_module.fetch_user_from_auth = async function (token) {
  * @param {string} s64 the steamid
  * @returns {Promise<any|null>} API response user info. `null` if not found.
  */
-this_module.fetch_info_from_s64 = async function (s64) {
+export let fetch_info_from_s64 = async function (s64) {
 	let userInfo;
 
 	if (typeof s64 !== 'string') {
@@ -72,7 +70,3 @@ this_module.fetch_info_from_s64 = async function (s64) {
 
 	return userInfo;
 };
-
-this_module.hot = 'hi';
-
-export default this_module;

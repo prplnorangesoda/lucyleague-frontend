@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import React from 'react';
 
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import AppWrapper from './components/AppWrapper';
 
 const hero = {
 	height: '50%',
@@ -26,8 +27,8 @@ const hero = {
 };
 
 const blur = {
-	'backgroundColor': 'rgba(0, 0, 0, 0.2)',
-	'backdropFilter': 'blur(6px)',
+	backgroundColor: 'rgba(0, 0, 0, 0.2)',
+	backdropFilter: 'blur(6px)',
 
 	margin: '0',
 	height: '100%',
@@ -39,12 +40,9 @@ const blur = {
 
 export default function Home() {
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<LeagueAppBar />
-
+		<AppWrapper>
 			<Container style={hero}>
-				<div style={blur}>
+				<Box sx={blur}>
 					<Typography align="center" component={'span'} variant="h2">
 						<Box
 							sx={{
@@ -68,7 +66,7 @@ export default function Home() {
 						</Box>
 					</Typography>
 
-					<Box align="center" sx={{ mt: 4 }}>
+					<Box alignSelf="center" sx={{ mt: 4 }}>
 						<Button
 							startIcon={<AppRegistrationIcon />}
 							variant="contained"
@@ -80,10 +78,10 @@ export default function Home() {
 							</Typography>
 						</Button>
 					</Box>
-				</div>
+				</Box>
 			</Container>
 
 			<Paper style={{ height: '45%' }} elevation={1}></Paper>
-		</ThemeProvider>
+		</AppWrapper>
 	);
 }
