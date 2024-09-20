@@ -1,8 +1,8 @@
 'use client';
 
 import theme from '@/app/theme';
-import LeagueAppBar from '@/app//components/LeagueAppBar';
-import UserTeamHistory from '@/app//components/UserTeamHistory';
+import LeagueAppBar from '@/app/components/LeagueAppBar';
+import UserTeamHistory from '@/app/components/UserTeamHistory';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -33,10 +33,12 @@ import perms_module from '@/app/utils/parseperms';
 import { Card, Stack } from '@mui/material';
 import GenericCard from '@/app/components/GenericCard';
 import { useRouter } from 'next/navigation';
+import AppWrapper from '@/app/components/AppWrapper';
 
+// to all my haters
 /**
  * @typedef {Object} PermActProps
- * @prop {import('@/app/utils/parseperms').Permissions} perms
+ * @property {import('@/app/utils/parseperms').Permissions} perms
  */
 /**
  *
@@ -92,51 +94,46 @@ function Admin() {
 		}
 	}, []);
 	return (
-		<>
-			<ThemeProvider theme={theme}>
-				<CookiesProvider />
+		<AppWrapper>
+			<CookiesProvider />
 
-				<CssBaseline />
-				<Box
-					sx={{
-						width: '100dvw',
-						height: '100dvh',
-						display: 'flex',
-						flexDirection: 'column',
-					}}
-				>
-					<LeagueAppBar />
-
-					{error ? (
-						<Stack maxWidth="sm" alignSelf="center">
-							<GenericCard>
-								There was an error:
-								<br />
-								{error}
-							</GenericCard>
-						</Stack>
-					) : (
-						<></>
-					)}
-					{perms ? (
-						<PermissionsActions perms={perms} />
-					) : (
-						<Stack
-							height="100%"
-							maxWidth="sm"
-							alignSelf="center"
-							direction="column"
-						>
-							<GenericCard variant="outlined">
-								<Typography variant="h5">
-									We&apos;re verifying your permissions, hold on a sec...
-								</Typography>
-							</GenericCard>
-						</Stack>
-					)}
-				</Box>
-			</ThemeProvider>
-		</>
+			<Box
+				sx={{
+					width: '100dvw',
+					height: '100dvh',
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+			>
+				{error ? (
+					<Stack maxWidth="sm" alignSelf="center">
+						<GenericCard>
+							There was an error:
+							<br />
+							{error}
+						</GenericCard>
+					</Stack>
+				) : (
+					<></>
+				)}
+				{perms ? (
+					<PermissionsActions perms={perms} />
+				) : (
+					<Stack
+						height="100%"
+						maxWidth="sm"
+						alignSelf="center"
+						direction="column"
+					>
+						<GenericCard variant="outlined">
+							<Typography variant="h5">
+								We&apos;re verifying your permissions, hold on a sec...
+							</Typography>
+						</GenericCard>
+					</Stack>
+				)}
+			</Box>
+		</AppWrapper>
 	);
 }
 

@@ -7,30 +7,30 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import { User } from '@/app/utils/fetch_module';
 
-function AppBarUser(props) {
-	const router = useRouter()
+function AppBarUser(props: { user: User }) {
+	const router = useRouter();
 
 	const PushToProfile = () => {
-		router.push("/profile?id=" + props.s64)
-	}
-
+		router.push('/profile?id=' + props.user.steamid);
+	};
 
 	return (
 		<PopupState variant="popover" popupId="AppBarUserMenu">
 			{(popupState) => (
 				<div>
-					<Button variant="blank" {...bindTrigger(popupState)}>
+					<Button variant="text" {...bindTrigger(popupState)}>
 						<Typography align="right">
 							{' '}
-							{props.username ? props.username : 'username'}{' '}
+							{props.user.username ? props.user.username : 'username'}{' '}
 						</Typography>
 						<Avatar
 							sx={{ ml: 2, height: 40, width: 40 }}
 							variant="rounded"
-							src={props.pfpurl}
+							src={props.user.avatarurl}
 						/>
 					</Button>
 					<Menu {...bindMenu(popupState)}>

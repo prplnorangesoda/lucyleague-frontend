@@ -13,7 +13,7 @@ import AppBarLogin from './appbar/AppBarLogin';
 import { useCookies, CookiesProvider } from 'react-cookie';
 import globals from '../globals';
 
-import fetch_module from '../utils/fetch_module';
+import fetch_module, { User } from '../utils/fetch_module';
 
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
@@ -28,7 +28,7 @@ function LeagueAppBar() {
 		'max-height': '42px',
 	};
 
-	const [AuthInfo, setAuthInfo] = useState(null);
+	const [AuthInfo, setAuthInfo]: [User | null, any] = useState(null);
 
 	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
@@ -69,15 +69,7 @@ function LeagueAppBar() {
 						</Typography>
 					</Button>
 					<AppBarleagueButton />
-					{AuthInfo ? (
-						<AppBarUser
-							username={AuthInfo.username}
-							pfpurl={AuthInfo.avatarurl}
-							s64={AuthInfo.steamid}
-						/>
-					) : (
-						<AppBarLogin />
-					)}
+					{AuthInfo ? <AppBarUser user={AuthInfo} /> : <AppBarLogin />}
 				</Toolbar>
 			</AppBar>
 		</Box>
