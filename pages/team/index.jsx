@@ -17,34 +17,38 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+import TeamMatchesTable from '@/app/components/TeamMatchesTable';
+
+import TeamRoster from '@/app/components/TeamRoster';
 
 import { useSearchParams } from 'next/navigation';
-import { FetchUserInfoFromS64, FetchInfoFromAuth } from '@/app/utils/fetchInfo';
 
-import { Suspense } from 'react';
 
 function Profile() {
-	const [UserInfo, setUserInfo] = useState(null);
+	const [TeamID, seTeamID] = useState(null);
 	const params = useSearchParams();
-	const s64 = params.get('id');
+	const teamid = params.get('id');
 
-	useEffect(() => {
-		if (s64 || s64 !== null) {
-			FetchUserInfoFromS64(s64, (data) => {
-				// success callback
-				setUserInfo(data);
-			});
-		}
-	}, [s64]);
 
-	return (
+	return (<>
 		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
 			<CssBaseline />
 			<LeagueAppBar />
 
 			<Container maxWidth="xl">
-				<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
+				<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
+
+                <Typography sx={{ fontWeight: 'regular' }} variant="h4">
+                                [TAG]
+                                Team #1
+                            </Typography>
+
+							<Typography sx={{ fontWeight: 'light' }} variant="h6">
+								<Link href="#" underline="none">
+									division
+								</Link>
+							</Typography>
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -53,34 +57,6 @@ function Profile() {
 							justifyContent: 'center',
 						}}
 					>
-						<Box sx={{ pr: '20px' }}>
-							{UserInfo ? (
-								<Avatar
-									sx={{ width: 150, height: 150 }}
-									variant="rounded"
-									src={UserInfo.avatarurl}
-								/>
-							) : (
-								<Avatar
-									sx={{ width: 150, height: 150 }}
-									variant="rounded"
-									src="/assets/jotchua.png"
-								/>
-							)}
-						</Box>
-
-						<Box sx={{ mt: '8px' }}>
-							<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-								{UserInfo ? UserInfo.username : 'No user found'}
-							</Typography>
-
-							<Typography sx={{ fontWeight: 'light' }} variant="h5">
-								<Link href="#" underline="none">
-									no current team
-								</Link>
-							</Typography>
-						</Box>
-
 						<Box sx={{ flexGrow: 1 }}></Box>
 					</Box>
 				</Paper>
@@ -88,24 +64,26 @@ function Profile() {
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 					<Box>
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Roster History
+							Roster
 						</Typography>
 					</Box>
-					<UserTeamHistory></UserTeamHistory>
+
+					<TeamRoster></TeamRoster>
+
 				</Paper>
 
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 					<Box>
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Punishment History
+							Matches
 						</Typography>
 
-						<Box sx={{ mt: '10px' }}>nothing yet...</Box>
+						<TeamMatchesTable></TeamMatchesTable>
 					</Box>
 				</Paper>
 			</Container>
 		</ThemeProvider>
-	);
+	</>);
 }
 
 export default Profile;

@@ -5,19 +5,33 @@ import { ArrowOutward, CenterFocusStrong } from '@mui/icons-material';
 import {
 	Box,
 	Button,
+	Card,
 	Container,
 	CssBaseline,
+	Stack,
+	styled,
 	ThemeProvider,
 	Typography,
 } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
+import AppWrapper from '@/app/components/AppWrapper';
 /* https://steamcommunity.com/openid/login
 ?openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
 &openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
 &openid.return_to=https%3A%2F%2Frgl.gg%2FLogin%2FDefault.aspx%3Fpush%3D1%26r%3D24%26dnoa.userSuppliedIdentifier%3Dhttps%253A%252F%252Fsteamcommunity.com%252Fopenid%252F&openid.realm=https%3A%2F%2Frgl.gg%2F&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0
 */
+
+const LoginCard = styled(Card)(({ theme }) => ({
+	display: 'flex',
+	flexDirection: 'column',
+	alignSelf: 'center',
+	width: '100%',
+	padding: theme.spacing(4),
+	gap: theme.spacing(2),
+	margin: 'auto',
+}));
 export default function LoginPage(props) {
 	let [steamurl, setSteamurl] = useState('');
 
@@ -40,18 +54,15 @@ export default function LoginPage(props) {
 		setSteamurl(get_auth_url());
 	}, [get_auth_url]);
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<LeagueAppBar />
-
-			<Container maxWidth="sm">
-				<Box
-					display="flex"
-					justifyContent="center"
-					alignItems="center"
-					flexDirection="column"
-					minHeight="100%"
-				>
+		<AppWrapper>
+			<Stack
+				maxWidth="sm"
+				direction="column"
+				justifyContent="space-between"
+				alignSelf="center"
+				flex="1 1"
+			>
+				<LoginCard variant="outlined">
 					<Typography
 						component="h1"
 						variant="h4"
@@ -60,7 +71,7 @@ export default function LoginPage(props) {
 					>
 						Login
 					</Typography>
-					<Typography gutterBottom>
+					<Typography gutterBottom mb="10px">
 						Our login and signup system are provided by Steam.
 					</Typography>
 					<Button
@@ -70,8 +81,8 @@ export default function LoginPage(props) {
 					>
 						<Typography fontWeight="bold">GO TO STEAM</Typography>
 					</Button>
-				</Box>
-			</Container>
-		</ThemeProvider>
+				</LoginCard>
+			</Stack>
+		</AppWrapper>
 	);
 }
