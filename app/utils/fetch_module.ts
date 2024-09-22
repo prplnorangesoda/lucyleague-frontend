@@ -2,22 +2,19 @@
 
 import globals from '../globals';
 
-/**
- * @typedef {Object} User
- * @property {number} id
- * @property {number} permissions
- * @property {string} avatarurl
- * @property {string} steamid
- * @property {string} username
- * @property {string} created_at - RAW date return!
- */
+export interface User {
+	id: number;
+	permissions: number;
+	avatarurl: string;
+	steamid: string;
+	username: string;
+	created_at: string;
+}
 let cached_state;
-/**
- * Call the API for user info from an auth token.
- * @param {string} token the user's auth token
- * @returns {Promise<User>} API response
- */
-export let fetch_user_from_auth = async function (token) {
+
+export let fetch_user_from_auth = async function (
+	token: string
+): Promise<User> {
 	if (cached_state) return cached_state;
 	let authInfo;
 
@@ -70,3 +67,35 @@ export let fetch_info_from_s64 = async function (s64) {
 
 	return userInfo;
 };
+
+interface PagedUserResponse {
+	total_count: number;
+	page: number;
+	amount_per_page: number;
+	users: User[];
+}
+
+export async function fetch_users_paged(
+	page?: number,
+	amount_per_page?: number
+): Promise<PagedUserResponse | null> {
+	let real_page = page || 0;
+	let real_amount = amount_per_page || 10;
+
+	const url = globals.API_BASE + 'users';
+	const query = url + `?page=${real_page}&amount_per_page=${real_amount}`;
+
+	let resp = await fetch(query);
+
+	let details: PagedUserResponse;
+	if (resp.status != 200) {
+		return null;
+	}
+	try {
+		details = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+
+	return details;
+}

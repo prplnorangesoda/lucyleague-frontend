@@ -18,7 +18,7 @@ import * as userinfo_module from '../utils/userinfo_module';
 
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import { ArrowOutward } from '@mui/icons-material';
 
 function LeagueAppBar() {
@@ -46,8 +46,17 @@ function LeagueAppBar() {
 		<Box sx={{ height: 'auto' }}>
 			<CookiesProvider />
 			<AppBar position="static">
-				<Toolbar style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-					<a href="/" style={{ maxHeight: '42px' }}>
+				<Toolbar
+					style={{
+						paddingRight: '10px',
+						paddingLeft: '10px',
+						alignItems: 'center',
+						alignContent: 'space-evenly',
+						justifyContent: 'space-between',
+						gap: 'auto',
+					}}
+				>
+					<a href="/" style={{ maxHeight: '42px', float: 'left' }}>
 						<Image
 							priority
 							src="/assets/header.avif"
@@ -57,19 +66,31 @@ function LeagueAppBar() {
 							alt="League logo"
 						/>
 					</a>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Heyyyyyyyyyyyyy
-					</Typography>
-					<Button
-						href="/admin"
-						variant="text"
-						endIcon={<ArrowOutward></ArrowOutward>}
+					<Container
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
 					>
-						<Typography textAlign="center" pt="5px">
-							ADMIN
-						</Typography>
-					</Button>
-					<AppBarleagueButton />
+						<Button href="/home" variant="text" style={{ float: 'left' }}>
+							<Typography textAlign="center" pt="5px">
+								HOME
+							</Typography>
+						</Button>
+						<Button
+							href="/admin"
+							variant="text"
+							endIcon={<ArrowOutward></ArrowOutward>}
+							style={{ float: 'right' }}
+						>
+							<Typography textAlign="right" pt="5px">
+								ADMIN
+							</Typography>
+						</Button>
+						<AppBarleagueButton />
+					</Container>
+
 					{AuthInfo ? <AppBarUser user={AuthInfo} /> : <AppBarLogin />}
 				</Toolbar>
 			</AppBar>

@@ -91,7 +91,7 @@ export default function HandshakePage() {
 
 				console.log('Setting cookies');
 				console.log(cookies);
-				// router.push('/home');
+				router.push('/home');
 			} catch (err) {
 				console.log(_resp);
 				setErr(err);

@@ -20,6 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
 import Button from '@mui/material/Button';
+import Image from 'next/image';
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
@@ -169,14 +170,18 @@ const GridItem = styled(Paper)(({ theme }) => ({
 function ManageGame(props) {
 	return (
 		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
-			<Typography variant="h4">Manage Games</Typography>
+			<Typography variant="h4" gutterBottom>
+				Manage Games
+			</Typography>
 		</Paper>
 	);
 }
 function ManageLeague(props) {
 	return (
 		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
-			<Typography variant="h4">Manage Leagues</Typography>
+			<Typography variant="h4" gutterBottom>
+				Manage Leagues
+			</Typography>
 		</Paper>
 	);
 }
@@ -187,9 +192,11 @@ function ManageUsers(props) {
 			style={{ padding: 15, marginTop: 20 }}
 			sx={{ flexGrow: 1 }}
 		>
-			<Typography variant="h4">Manage Users</Typography>
+			<Typography variant="h4" gutterBottom>
+				Manage Users
+			</Typography>
 			<Grid2 container spacing={2}>
-				<Grid2 size={6}>
+				<Grid2 size={7}>
 					<GridItem>
 						<Typography>User list</Typography>
 						<Stack>
@@ -197,7 +204,7 @@ function ManageUsers(props) {
 						</Stack>
 					</GridItem>
 				</Grid2>
-				<Grid2 size={6}>
+				<Grid2 size={5}>
 					<GridItem>
 						<Typography>Manage user</Typography>
 					</GridItem>
@@ -208,63 +215,82 @@ function ManageUsers(props) {
 }
 
 function UsersList() {
-	let [users, setUsers] = useState([{ name: 'example' }]);
+	let [page, setPage] = useState(0);
+	let [rowsPerPage, setRowsPerPage] = useState(10);
+	let [users, setUsers] = useState<fetch_module.User[]>([]);
+	let [totalAmount, setTotalAmount] = useState(0);
+	const handleChange = async (event, page: number) => {
+		setUsers([]);
+		console.log(event, page);
+		setPage(page);
+		fetch_module.fetch_users_paged(page, rowsPerPage).then((ret) => {
+			if (ret) {
+				setUsers(ret.users);
+				setTotalAmount(ret.total_count);
+			}
+		});
+	};
 
 	useEffect(() => {
-		setUsers([
-			...users,
-			{ name: 'example2' },
-			{ name: 'example3' },
-			{ name: 'example4' },
-			{ name: 'example5' },
-			{ name: 'example6' },
-			{ name: 'example7' },
-			{ name: 'example8' },
-			{ name: 'example9' },
-		]);
+		handleChange(null, 0);
 	}, []);
 
-	const handleChange = (event, page: number) => {
-		console.log(event, page);
-	};
 	return (
 		<>
 			<TableContainer>
-				<Table>
+				<Table size="small">
 					<TableHead style={{ color: 'gray' }}>
 						<TableRow sx={{ color: 'gray' }}>
-							<TableCell>Name</TableCell>
-							<TableCell align="right">Example</TableCell>
-							<TableCell align="right">Example</TableCell>
-							<TableCell align="right">Example</TableCell>
-							<TableCell align="right">Example</TableCell>
+							<TableCell align="center">Picture</TableCell>
+							<TableCell>ID</TableCell>
+							<TableCell>Username</TableCell>
+							<TableCell align="right">SteamID64</TableCell>
+							<TableCell align="right">Permissions</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
 						{users.map((user) => (
 							<TableRow
-								key={user.name}
+								key={user.username}
 								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 							>
-								<TableCell component="th" scope="row">
-									{user.name}
+								<TableCell align="center">
+									<Image
+										alt="Profile picture"
+										width="184"
+										height="184"
+										src={user.avatarurl}
+										style={{ width: 24, height: 24 }}
+									/>
 								</TableCell>
-								<TableCell align="right">Example Info</TableCell>
-								<TableCell align="right">Example Info</TableCell>
-								<TableCell align="right">Example Info</TableCell>
-								<TableCell align="right">Example Info</TableCell>
+								<TableCell component="th" scope="row">
+									{user.id}
+								</TableCell>
+								<TableCell>{user.username}</TableCell>
+								<TableCell align="right">{user.steamid}</TableCell>
+								<TableCell align="right">{user.permissions}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
 			</TableContainer>
 			<TablePagination
-				count={20}
-				page={0}
-				rowsPerPage={10}
+				count={totalAmount}
+				page={page}
+				rowsPerPage={rowsPerPage}
+				rowsPerPageOptions={[10, 20, 50]}
 				showFirstButton
 				showLastButton
 				onPageChange={handleChange}
+				onRowsPerPageChange={(
+					event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+				) => {
+					console.log(event);
+					if (event.target.value) {
+						setRowsPerPage(parseInt(event.target.value, 10));
+						handleChange(event, page);
+					}
+				}}
 			/>
 		</>
 	);
