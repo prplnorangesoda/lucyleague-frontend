@@ -50,7 +50,7 @@ function LeagueAppBar() {
 					<a href="/" style={{ maxHeight: '42px' }}>
 						<Image
 							priority
-							src="/assets/header.png"
+							src="/assets/header.avif"
 							height="3000"
 							width="1170"
 							style={header_logo}

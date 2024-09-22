@@ -59,7 +59,7 @@ function Profile() {
 									<Avatar
 										sx={{ width: 150, height: 150 }}
 										variant="rounded"
-										src="/assets/jotchua.png"
+										src="/assets/jotchua.avif"
 									/>
 								)}
 							</Box>

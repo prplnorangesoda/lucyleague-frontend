@@ -18,7 +18,7 @@ const hero = {
 	maxWidth: '100%',
 	padding: '0',
 
-	backgroundImage: 'url(assets/hero/ufo.png)',
+	backgroundImage: 'url(assets/hero/ufo.avif)',
 
 	'background-attachment': 'fixed',
 	'background-position': 'center',
