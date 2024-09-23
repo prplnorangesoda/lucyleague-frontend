@@ -32,8 +32,13 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import * as fetch_module from '@/app/utils/fetch_module';
 import * as perms_module from '@/app/utils/parseperms';
+import * as admin_module from '@/app/utils/admin_module';
 import {
 	Card,
+	Checkbox,
+	FormControl,
+	FormControlLabel,
+	FormGroup,
 	Stack,
 	styled,
 	Table,
@@ -43,6 +48,7 @@ import {
 	TableHead,
 	TablePagination,
 	TableRow,
+	TextField,
 } from '@mui/material';
 import GenericCard from '@/app/components/GenericCard';
 import { useRouter } from 'next/navigation';
@@ -109,7 +115,7 @@ function Admin() {
 			setErr('No auth-token cookie');
 			router.push('/login');
 		}
-	}, []);
+	}, [cookies, router]);
 	return (
 		<AppWrapper>
 			<CookiesProvider />
@@ -182,7 +188,118 @@ function ManageLeague(props) {
 			<Typography variant="h4" gutterBottom>
 				Manage Leagues
 			</Typography>
+			<Grid2 container spacing={2}>
+				<Grid2 size={4}>
+					<GridItem>
+						<Typography gutterBottom>Current leagues</Typography>
+						<Stack>
+							<LeaguesList />
+						</Stack>
+					</GridItem>
+				</Grid2>
+				<Grid2 size={4}>
+					<GridItem>
+						<Typography gutterBottom>Edit league</Typography>
+					</GridItem>
+				</Grid2>
+				<Grid2 size={4}>
+					<GridItem>
+						<Typography gutterBottom>Create new league</Typography>
+						<AddLeague />
+					</GridItem>
+				</Grid2>
+			</Grid2>
 		</Paper>
+	);
+}
+
+function AddLeague(props) {
+	let [leagueName, setLeagueName] = useState('');
+	let [acceptingTeams, setAccepting] = useState(true);
+	let [isHidden, setHidden] = useState(false);
+
+	let [feedback, setFeedback] = useState('');
+	let [cookies] = useCookies(['auth-token']);
+
+	const handleSubmit = () => {
+		if (
+			!confirm(
+				'Are you sure you want to create a league with name ' + leagueName + '?'
+			)
+		)
+			return;
+		setFeedback('submitted');
+		console.log(leagueName, acceptingTeams, isHidden);
+		if (leagueName === '') {
+			setFeedback('Name must not be empty');
+			return;
+		}
+		admin_module
+			.add_new_league(
+				{
+					accepting_teams: acceptingTeams,
+					is_hidden: isHidden,
+					name: leagueName,
+				},
+				cookies['auth-token']
+			)
+			.then((league) => {
+				if (league !== null) {
+					setFeedback('Successful');
+					setTimeout(() => {
+						window.location.reload();
+					}, 500);
+				}
+			});
+	};
+
+	return (
+		<Stack>
+			<FormGroup style={{ display: 'flex', alignItems: 'center' }}>
+				<TextField
+					size="small"
+					label="Name"
+					required
+					onChange={(event) => {
+						setLeagueName(event.target.value);
+					}}
+					value={leagueName}
+					sx={{ pb: 1 }}
+				/>
+				<FormControlLabel
+					label="Accepting teams?"
+					control={
+						<Checkbox
+							value={acceptingTeams}
+							defaultChecked
+							onChange={(event, bool) => {
+								setAccepting(bool);
+							}}
+						/>
+					}
+				/>
+				<FormControlLabel
+					label="Hidden?"
+					control={
+						<Checkbox
+							value={isHidden}
+							onChange={(event, bool) => {
+								setHidden(bool);
+							}}
+						/>
+					}
+				/>
+				<Button
+					sx={{ pt: 1 }}
+					type="submit"
+					variant="contained"
+					onClick={handleSubmit}
+				>
+					<Typography>CREATE</Typography>
+				</Button>
+				<Typography>{feedback}</Typography>
+			</FormGroup>
+		</Stack>
 	);
 }
 function ManageUsers(props) {
@@ -198,7 +315,7 @@ function ManageUsers(props) {
 			<Grid2 container spacing={2}>
 				<Grid2 size={7}>
 					<GridItem>
-						<Typography>User list</Typography>
+						<Typography gutterBottom>User list</Typography>
 						<Stack>
 							<UsersList />
 						</Stack>
@@ -206,11 +323,57 @@ function ManageUsers(props) {
 				</Grid2>
 				<Grid2 size={5}>
 					<GridItem>
-						<Typography>Manage user</Typography>
+						<Typography gutterBottom>Manage user</Typography>
 					</GridItem>
 				</Grid2>
 			</Grid2>
 		</Paper>
+	);
+}
+function LeaguesList(props?: {}) {
+	let [leagues, setLeagues] = useState<fetch_module.League[] | null>(null);
+
+	useEffect(() => {
+		fetch_module.fetch_leagues().then(setLeagues);
+	}, []);
+	return (
+		<>
+			<TableContainer>
+				<Table size="small">
+					<TableHead style={{ color: 'gray' }}>
+						<TableRow sx={{ color: 'gray' }}>
+							<TableCell>ID</TableCell>
+							<TableCell>Name</TableCell>
+							<TableCell align="right">Accepting teams</TableCell>
+							<TableCell align="right">Is hidden</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{leagues ? (
+							leagues.map((league) => (
+								<TableRow
+									key={league.id}
+									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+								>
+									<TableCell component="th" align="center">
+										{league.id}
+									</TableCell>
+									<TableCell scope="row">{league.name}</TableCell>
+									<TableCell align="right">
+										{league.accepting_teams.toString()}
+									</TableCell>
+									<TableCell align="right">
+										{league.is_hidden.toString()}
+									</TableCell>
+								</TableRow>
+							))
+						) : (
+							<></>
+						)}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</>
 	);
 }
 
@@ -233,7 +396,7 @@ function UsersList() {
 
 	useEffect(() => {
 		handleChange(null, 0);
-	}, []);
+	}, [handleChange]);
 
 	return (
 		<>

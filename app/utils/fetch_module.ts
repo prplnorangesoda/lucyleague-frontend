@@ -99,3 +99,29 @@ export async function fetch_users_paged(
 
 	return details;
 }
+
+export interface League {
+	id: number;
+	name: string;
+	accepting_teams: boolean;
+	created_at: Date;
+	is_hidden: boolean;
+}
+
+export async function fetch_leagues(): Promise<League[] | null> {
+	const url = globals.API_BASE + 'leagues';
+
+	let resp = await fetch(url);
+
+	let leagues: League[];
+
+	if (resp.status != 200) {
+		return null;
+	}
+	try {
+		leagues = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+	return leagues;
+}

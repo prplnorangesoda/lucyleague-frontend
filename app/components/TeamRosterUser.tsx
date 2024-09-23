@@ -10,7 +10,7 @@ function TeamRosterUser(props) {
 		<Button
 			href={'/profile?id=' + props.id}
 			size="large"
-			variant="blank"
+			variant="text"
 			sx={{ pl: 1, mr: 1 }}
 		>
 			<Avatar sx={{ mr: 2, height: 45, width: 45 }} variant="rounded" />

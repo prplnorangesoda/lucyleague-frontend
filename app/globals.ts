@@ -1,7 +1,7 @@
 'use client';
 
-export default {
-	API_BASE: process.env.NEXT_PUBLIC_API_BASE,
+let globals = {
+	API_BASE: process.env.NEXT_PUBLIC_API_BASE!,
 	/**
 	 * Should not be used if there is no port.
 	 *
@@ -16,3 +16,7 @@ export default {
 		return str.substring(0, index);
 	},
 };
+
+Object.freeze(globals);
+
+export default globals;
