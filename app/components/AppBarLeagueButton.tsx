@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-function AppBarUser(props) {
+function AppBarLeagueButton(props) {
 	const router = useRouter();
 
 	const PushTo = (url) => {
@@ -29,10 +29,9 @@ function AppBarUser(props) {
 						{...bindTrigger(popupState)}
 						endIcon={<KeyboardArrowDownIcon />}
 					>
-						<Typography align="right" pt="5px">
-							League
-						</Typography>
+						<Typography align="right">LEAGUES</Typography>
 					</Button>
+
 					<Menu {...bindMenu(popupState)}>
 						<MenuItem onClick={popupState.close}>Season</MenuItem>
 					</Menu>
@@ -42,4 +41,4 @@ function AppBarUser(props) {
 	);
 }
 
-export default AppBarUser;
+export default AppBarLeagueButton;

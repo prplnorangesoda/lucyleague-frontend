@@ -10,8 +10,16 @@ export interface StoredUser {
 	authToken: string;
 }
 
+export interface StoredLeagues {
+	leagues: fetch_module.League[];
+	time_set: Date;
+}
+
 export default function AuthProvider(props) {
 	const [userInfo, setUserInfo] = useState<fetch_module.User | null>(null);
+	const [leaguesInfo, setLeaguesInfo] = useState<fetch_module.League[] | null>(
+		null
+	);
 	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken: string | undefined = cookies['auth-token'];
 	useEffect(() => {
@@ -20,7 +28,12 @@ export default function AuthProvider(props) {
 			if (stored_user && stored_user !== 'null') {
 				let actual_info: StoredUser = JSON.parse(stored_user);
 				// don't make another request if our auth token hasn't changed
-				if (authToken === actual_info.authToken) return;
+				if (
+					authToken === actual_info.authToken ||
+					Date.now() - new Date(actual_info.time_set).getTime() >
+						24 * 60 * 60 * 1000
+				)
+					return;
 			}
 			fetch_module
 				.fetch_user_from_auth(authToken)
@@ -32,12 +45,32 @@ export default function AuthProvider(props) {
 	}, [authToken]);
 
 	useEffect(() => {
+		let stored_leagues = window.localStorage.getItem('leagues-cache');
+		if (stored_leagues && stored_leagues !== 'null') {
+			let leagues_info: StoredLeagues = JSON.parse(stored_leagues);
+			if (
+				Date.now() - new Date(leagues_info.time_set).getTime() >
+				24 * 60 * 60 * 1000
+			)
+				return;
+		}
+	}, []);
+
+	useEffect(() => {
 		if (userInfo) {
-			let time_set = Date.now();
+			let time_set = new Date(Date.now());
 			let serialize = JSON.stringify({ userInfo, time_set, authToken });
 			window.localStorage.setItem('user-cache', serialize);
 		}
-	}, [userInfo]);
+	}, [authToken, userInfo]);
+
+	useEffect(() => {
+		if (leaguesInfo) {
+			let time_set = new Date(Date.now());
+			let serialize = JSON.stringify({ leaguesInfo, time_set });
+			window.localStorage.setItem('leagues-cache', serialize);
+		}
+	}, [leaguesInfo]);
 
 	return <></>;
 }

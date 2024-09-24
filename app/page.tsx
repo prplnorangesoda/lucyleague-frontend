@@ -14,7 +14,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import AppWrapper from './components/AppWrapper';
 
 const hero = {
-	height: '50%',
+	height: '100%',
 	maxWidth: '100%',
 	padding: '0',
 
@@ -31,7 +31,7 @@ const blur = {
 	backdropFilter: 'blur(6px)',
 
 	margin: '0',
-	height: '100%',
+	height: '50vh',
 	width: 'inherit',
 	display: 'flex',
 	flexDirection: 'column',
@@ -81,7 +81,18 @@ export default function Home() {
 				</Box>
 			</Container>
 
-			<Paper style={{ height: '45%' }} elevation={1}></Paper>
+			<Container maxWidth="md" sx={{ mt: 1, pb: 5 }}>
+				<Paper elevation={1} style={{ padding: '10%' }}>
+					<Typography variant="h3" gutterBottom>
+						Why us?
+					</Typography>
+					<Typography pb={200}>
+						Cause were the best LOL (imagine this says something actually
+						useful)
+					</Typography>
+					<Typography> If you see this tell speakers he is bald</Typography>
+				</Paper>
+			</Container>
 		</AppWrapper>
 	);
 }

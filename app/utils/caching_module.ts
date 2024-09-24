@@ -1,5 +1,5 @@
 'use client';
-import { StoredUser } from '../components/AuthProvider';
+import { StoredUser } from '../components/CacheProvider';
 import { User } from './fetch_module';
 
 export function get_user_info(): Promise<StoredUser> {
@@ -22,3 +22,5 @@ export function get_user_info(): Promise<StoredUser> {
 
 	return new Promise(recursive_function);
 }
+
+export function get_leagues(): Promise<StoredLeagues> {}

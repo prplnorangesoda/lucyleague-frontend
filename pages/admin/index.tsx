@@ -15,7 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import Link from '@mui/material/Link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { CookiesProvider, useCookies } from 'react-cookie';
 
@@ -382,21 +382,20 @@ function UsersList() {
 	let [rowsPerPage, setRowsPerPage] = useState(10);
 	let [users, setUsers] = useState<fetch_module.User[]>([]);
 	let [totalAmount, setTotalAmount] = useState(0);
-	const handleChange = async (event, page: number) => {
+
+	function handleChange(event, page: number) {
 		setUsers([]);
 		console.log(event, page);
 		setPage(page);
+	}
+	useEffect(() => {
 		fetch_module.fetch_users_paged(page, rowsPerPage).then((ret) => {
 			if (ret) {
 				setUsers(ret.users);
 				setTotalAmount(ret.total_count);
 			}
 		});
-	};
-
-	useEffect(() => {
-		handleChange(null, 0);
-	}, [handleChange]);
+	}, [page, rowsPerPage]);
 
 	return (
 		<>
@@ -451,7 +450,6 @@ function UsersList() {
 					console.log(event);
 					if (event.target.value) {
 						setRowsPerPage(parseInt(event.target.value, 10));
-						handleChange(event, page);
 					}
 				}}
 			/>

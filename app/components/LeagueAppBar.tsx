@@ -14,7 +14,7 @@ import { useCookies, CookiesProvider } from 'react-cookie';
 import globals from '../globals';
 
 import * as fetch_module from '../utils/fetch_module';
-import * as userinfo_module from '../utils/userinfo_module';
+import * as userinfo_module from '../utils/caching_module';
 
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
@@ -43,7 +43,7 @@ function LeagueAppBar() {
 	}, [authToken]);
 
 	return (
-		<Box sx={{ height: 'auto' }}>
+		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
 			<CookiesProvider />
 			<AppBar position="static">
 				<Toolbar
@@ -53,7 +53,6 @@ function LeagueAppBar() {
 						alignItems: 'center',
 						alignContent: 'space-evenly',
 						justifyContent: 'space-between',
-						gap: 'auto',
 					}}
 				>
 					<a href="/" style={{ maxHeight: '42px', float: 'left' }}>
@@ -71,12 +70,11 @@ function LeagueAppBar() {
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
+							flex: 0,
 						}}
 					>
 						<Button href="/home" variant="text" style={{ float: 'left' }}>
-							<Typography textAlign="center" pt="5px">
-								HOME
-							</Typography>
+							<Typography textAlign="center">HOME</Typography>
 						</Button>
 						<Button
 							href="/admin"
@@ -84,14 +82,14 @@ function LeagueAppBar() {
 							endIcon={<ArrowOutward></ArrowOutward>}
 							style={{ float: 'right' }}
 						>
-							<Typography textAlign="right" pt="5px">
-								ADMIN
-							</Typography>
+							<Typography textAlign="right">ADMIN</Typography>
 						</Button>
 						<AppBarleagueButton />
 					</Container>
 
-					{AuthInfo ? <AppBarUser user={AuthInfo} /> : <AppBarLogin />}
+					<Box>
+						{AuthInfo ? <AppBarUser user={AuthInfo} /> : <AppBarLogin />}
+					</Box>
 				</Toolbar>
 			</AppBar>
 		</Box>
