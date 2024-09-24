@@ -10,13 +10,13 @@ export interface User {
 	username: string;
 	created_at: string;
 }
-let cached_state;
+let cached_user;
 
 export let fetch_user_from_auth = async function (
 	token: string
 ): Promise<User> {
-	if (cached_state) return cached_state;
-	let authInfo;
+	if (cached_user) return cached_user;
+	let authInfo: User;
 
 	// we are running on the client side - hostname unnecessary
 	const url = globals.API_BASE + 'user/authtoken/';
@@ -25,22 +25,25 @@ export let fetch_user_from_auth = async function (
 	}
 
 	let resp = await fetch(url + token);
+	if (resp.status == 404) {
+		throw new Error('User not found');
+	}
 	try {
 		authInfo = await resp.json();
 	} catch (err) {
 		throw new Error('API response malformed: ' + err);
 	}
-	cached_state = authInfo;
+	cached_user = authInfo;
 	return authInfo;
 };
 
 /**
  * Calls the API for user info from a steamid64.
- * @param {string} s64 the steamid
- * @returns {Promise<any|null>} API response user info. `null` if not found.
  */
-export let fetch_info_from_s64 = async function (s64) {
-	let userInfo;
+export let fetch_info_from_s64 = async function (
+	s64: string
+): Promise<User | null> {
+	let userInfo: User;
 
 	if (typeof s64 !== 'string') {
 		try {
@@ -106,6 +109,22 @@ export interface League {
 	accepting_teams: boolean;
 	created_at: Date;
 	is_hidden: boolean;
+}
+
+export async function logout(auth_token: string): Promise<boolean> {
+	const url = globals.API_BASE + 'logout';
+
+	return (
+		(
+			await fetch(url, {
+				method: 'POST',
+				headers: {
+					['Content-Type']: 'application/json',
+				},
+				body: JSON.stringify({ auth_token }),
+			})
+		).status == 200
+	);
 }
 
 export async function fetch_leagues(): Promise<League[] | null> {

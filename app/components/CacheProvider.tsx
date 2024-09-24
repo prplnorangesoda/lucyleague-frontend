@@ -42,7 +42,7 @@ export default function AuthProvider(props) {
 				.then(setUserInfo)
 				.catch(console.error);
 		} else {
-			window.localStorage.setItem('user-cache', 'null');
+			setUserInfo(null);
 		}
 	}, [authToken]);
 

@@ -88,7 +88,11 @@ function LeagueAppBar() {
 					</Container>
 
 					<Box>
-						{AuthInfo ? <AppBarUser user={AuthInfo} /> : <AppBarLogin />}
+						{AuthInfo ? (
+							<AppBarUser user={AuthInfo} authToken={authToken} />
+						) : (
+							<AppBarLogin />
+						)}
 					</Box>
 				</Toolbar>
 			</AppBar>
