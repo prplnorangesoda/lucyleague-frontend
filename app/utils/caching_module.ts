@@ -1,5 +1,5 @@
 'use client';
-import { StoredUser } from '../components/CacheProvider';
+import { StoredUser, StoredLeagues } from '../components/CacheProvider';
 import { User } from './fetch_module';
 
 export function get_user_info(): Promise<StoredUser> {
@@ -23,4 +23,23 @@ export function get_user_info(): Promise<StoredUser> {
 	return new Promise(recursive_function);
 }
 
-export function get_leagues(): Promise<StoredLeagues> {}
+export function get_leagues(): Promise<StoredLeagues> {
+	let recursive_function = (
+		resolve: (user: StoredLeagues) => void,
+		reject: (reason: any) => void,
+		depth: number = 0
+	) => {
+		if (depth >= 5) {
+			reject('Depth limit exceeded');
+			return;
+		}
+		let leagues_cache = window.localStorage.getItem('leagues-cache');
+		if (!leagues_cache || leagues_cache === 'null') {
+			console.log('No cache found, delaying by 2000ms', depth++);
+			// check again in a second
+			setTimeout(recursive_function, 2000, resolve, reject, depth++);
+		} else resolve(JSON.parse(leagues_cache));
+	};
+
+	return new Promise(recursive_function);
+}

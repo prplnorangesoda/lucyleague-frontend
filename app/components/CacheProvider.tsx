@@ -11,7 +11,7 @@ export interface StoredUser {
 }
 
 export interface StoredLeagues {
-	leagues: fetch_module.League[];
+	leaguesInfo: fetch_module.League[];
 	time_set: Date;
 }
 
@@ -28,13 +28,15 @@ export default function AuthProvider(props) {
 			if (stored_user && stored_user !== 'null') {
 				let actual_info: StoredUser = JSON.parse(stored_user);
 				// don't make another request if our auth token hasn't changed
+				console.log('CacheProvider: StoredUser:', actual_info);
 				if (
 					authToken === actual_info.authToken ||
-					Date.now() - new Date(actual_info.time_set).getTime() >
+					Date.now() - new Date(actual_info.time_set).getTime() <
 						24 * 60 * 60 * 1000
 				)
 					return;
 			}
+			console.log('CacheProvider: fetching new user info');
 			fetch_module
 				.fetch_user_from_auth(authToken)
 				.then(setUserInfo)
@@ -48,12 +50,15 @@ export default function AuthProvider(props) {
 		let stored_leagues = window.localStorage.getItem('leagues-cache');
 		if (stored_leagues && stored_leagues !== 'null') {
 			let leagues_info: StoredLeagues = JSON.parse(stored_leagues);
+			console.log('CacheProvider: StoredLeagues: ', leagues_info);
 			if (
-				Date.now() - new Date(leagues_info.time_set).getTime() >
-				24 * 60 * 60 * 1000
+				Date.now() - new Date(leagues_info.time_set).getTime() <
+				1 * 60 * 60 * 1000
 			)
 				return;
 		}
+		console.log('CacheProvider: fetching new leagues');
+		fetch_module.fetch_leagues().then(setLeaguesInfo).catch(console.error);
 	}, []);
 
 	useEffect(() => {
