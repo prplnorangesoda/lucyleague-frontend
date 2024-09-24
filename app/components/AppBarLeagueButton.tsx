@@ -54,13 +54,19 @@ function AppBarLeagueButton(props) {
 							currentLeagues
 								.filter((value) => !value.is_hidden)
 								.map((league) => (
-									<MenuItem onClick={popupState.close}>{league.name}</MenuItem>
+									<MenuItem key={league.name} onClick={popupState.close}>
+										{league.name}
+									</MenuItem>
 								))
 						) : (
-							<MenuItem onClick={popupState.close}> Loading </MenuItem>
+							<MenuItem key="Loading" onClick={popupState.close}>
+								Loading
+							</MenuItem>
 						)}
 						<Divider />
-						<MenuItem onClick={popupState.close}>All leagues</MenuItem>
+						<MenuItem key="AllLeagues" onClick={popupState.close}>
+							All leagues
+						</MenuItem>
 					</Menu>
 				</div>
 			)}
