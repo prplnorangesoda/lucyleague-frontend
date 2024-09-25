@@ -4,7 +4,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-	title: 'Passtime League',
+	title: 'league.passtime.tf',
 	description: 'a league for 4v4 passtime',
 };
 
@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body style={{ height: '100vh' }} className={inter.className}>
-				{children}{' '}
+				{children}
 			</body>
 		</html>
 	);
