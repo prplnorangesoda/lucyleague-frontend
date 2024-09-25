@@ -20,10 +20,10 @@ const hero = {
 
 	backgroundImage: 'url(assets/hero/ufo.avif)',
 
-	'background-attachment': 'fixed',
-	'background-position': 'center',
-	'background-repeat': 'no-repeat',
-	'background-size': 'cover',
+	backgroundAttachment: 'fixed',
+	backgroundPosition: 'center',
+	backgroundRepeat: 'no-repeat',
+	backgroundSize: 'cover',
 };
 
 const blur = {

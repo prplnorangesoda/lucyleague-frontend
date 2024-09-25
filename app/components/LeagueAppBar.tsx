@@ -25,8 +25,8 @@ function LeagueAppBar() {
 	const header_logo = {
 		width: 'auto',
 		height: 'auto',
-		'max-width': '200px',
-		'max-height': '42px',
+		maxWidth: '200px',
+		maxHeight: '42px',
 	};
 
 	const [AuthInfo, setAuthInfo] = useState<fetch_module.User | null>(null);
@@ -70,21 +70,31 @@ function LeagueAppBar() {
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
-							flex: 0,
+							flex: 1,
 						}}
 					>
-						<Button href="/home" variant="text" style={{ float: 'left' }}>
+						<Button
+							href="/home"
+							variant="text"
+							style={{ flex: 1, width: 'auto', float: 'left' }}
+						>
 							<Typography textAlign="center">HOME</Typography>
 						</Button>
 						<Button
 							href="/admin"
 							variant="text"
-							endIcon={<ArrowOutward></ArrowOutward>}
-							style={{ float: 'right' }}
+							style={{ flex: 1, width: 'auto', float: 'right' }}
 						>
 							<Typography textAlign="right">ADMIN</Typography>
 						</Button>
-						<AppBarleagueButton />
+						<Button
+							href="/leagues/"
+							variant="text"
+							style={{ flex: 1, width: 'auto', float: 'right' }}
+						>
+							<Typography textAlign="right">LEAGUES</Typography>
+						</Button>
+						{/* <AppBarleagueButton /> */}
 					</Container>
 
 					<Box>

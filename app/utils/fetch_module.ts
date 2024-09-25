@@ -113,18 +113,16 @@ export interface League {
 
 export async function logout(auth_token: string): Promise<boolean> {
 	const url = globals.API_BASE + 'logout';
-
-	return (
-		(
-			await fetch(url, {
-				method: 'POST',
-				headers: {
-					['Content-Type']: 'application/json',
-				},
-				body: JSON.stringify({ auth_token }),
-			})
-		).status == 200
-	);
+	let result = (
+		await fetch(url, {
+			method: 'POST',
+			headers: {
+				['Content-Type']: 'application/json',
+			},
+			body: JSON.stringify({ auth_token }),
+		})
+	).status;
+	return result === 200 || result === 400;
 }
 
 export async function fetch_leagues(): Promise<League[] | null> {
