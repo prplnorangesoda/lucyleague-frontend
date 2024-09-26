@@ -1,7 +1,14 @@
 import AppWrapper from '@/app/components/AppWrapper';
 import { StoredLeagues } from '@/app/components/CacheProvider';
 import { fetch_leagues, League } from '@/app/utils/fetch_module';
-import { Paper, Typography, Container, Box, Stack } from '@mui/material';
+import {
+	Paper,
+	Typography,
+	Container,
+	Box,
+	Stack,
+	Button,
+} from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 
 const splitLeagues = (leagues: League[]): [League[], League[]] => {
@@ -41,13 +48,31 @@ export default function AllLeaguesPage() {
 								<Typography key={index} variant="h3">
 									{league.name}
 								</Typography>
+								<Button href={`/league?id=${league.id}`} variant="contained">
+									GO TO LEAGUE
+								</Button>
 							</Stack>
 						))
 					) : (
 						<></>
 					)}
 				</Paper>
-				<Paper></Paper>
+				<Paper>
+					{hiddenLeagues ? (
+						hiddenLeagues.map((league, index) => (
+							<Stack alignContent="center" alignItems="center">
+								<Typography key={index} variant="h3">
+									{league.name}
+								</Typography>
+								<Button href={`/league?id=${league.id}`} variant="contained">
+									GO TO LEAGUE
+								</Button>
+							</Stack>
+						))
+					) : (
+						<></>
+					)}
+				</Paper>
 			</Container>
 		</AppWrapper>
 	);

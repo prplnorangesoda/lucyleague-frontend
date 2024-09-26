@@ -142,3 +142,23 @@ export async function fetch_leagues(): Promise<League[] | null> {
 	}
 	return leagues;
 }
+
+export interface DeepLeague {}
+
+export async function fetch_league(id: number): Promise<DeepLeague | null> {
+	const url = `${globals.API_BASE}leagues/${id}`;
+
+	let resp = await fetch(url);
+
+	let league: DeepLeague;
+
+	if (resp.status != 200) {
+		return null;
+	}
+	try {
+		league = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+	return league;
+}
