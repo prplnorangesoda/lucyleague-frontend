@@ -1,4 +1,8 @@
-import { fetch_league, LeagueReturn } from '@/app/utils/fetch_module';
+import {
+	fetch_league,
+	LeagueReturn,
+	DivisionOptionalTeams,
+} from '@/app/utils/fetch_module';
 import {
 	Box,
 	Container,
@@ -14,10 +18,50 @@ import {
 } from '@mui/material';
 import { useCallback, useState } from 'react';
 
+const DivisionsDisplay = ({
+	divisions,
+}: {
+	divisions: DivisionOptionalTeams[];
+}) => {
+	return (
+		<TableContainer>
+			<Table size="small">
+				<TableHead>
+					<TableRow>
+						<TableCell>ID</TableCell>
+						<TableCell>Name</TableCell>
+						<TableCell>Created&nbsp;at</TableCell>
+						<TableCell align="right">Teams&nbsp;in&nbsp;div</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{divisions.length != 0 ? (
+						divisions.map((value, index) => (
+							<TableRow key={index}>
+								<TableCell>{value.info.id}</TableCell>
+								<TableCell>{value.info.name}</TableCell>
+								<TableCell>{value.teams!.length}</TableCell>
+							</TableRow>
+						))
+					) : (
+						<TableRow>
+							<Typography pt={3} pb={3}>
+								There are no divisions associated with this league.
+							</Typography>
+						</TableRow>
+					)}
+				</TableBody>
+			</Table>
+		</TableContainer>
+	);
+};
+
 export default function LeagueDivisions() {
 	let [league, setLeague] = useState<LeagueReturn | null>(null);
 	let [leagueInput, setInput] = useState('');
 	let [feedback, setFeedback] = useState('');
+
+	const submitDiv = useCallback(() => {}, []);
 
 	const submitLeague = useCallback(
 		async (event) => {
@@ -60,34 +104,16 @@ export default function LeagueDivisions() {
 			<Box>
 				{league ? (
 					<>
-						<Typography variant="h5">{league.info.name}</Typography>
-						<TableContainer>
-							<Table size="small">
-								<TableHead>
-									<TableRow>
-										<TableCell>Dessert (100g serving)</TableCell>
-										<TableCell align="right">Calories</TableCell>
-										<TableCell align="right">Fat&nbsp;(g)</TableCell>
-										<TableCell align="right">Carbs&nbsp;(g)</TableCell>
-										<TableCell align="right">Protein&nbsp;(g)</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{league.divisions.length != 0 ? (
-										league.divisions.map((value, index) => (
-											<TableRow key={index}></TableRow>
-										))
-									) : (
-										<TableRow>
-											<Typography pt={3} pb={3}>
-												{' '}
-												There are no divisions associated with this league.
-											</Typography>
-										</TableRow>
-									)}
-								</TableBody>
-							</Table>
-						</TableContainer>
+						<Typography variant="h5" mt={2}>
+							{'League name: ' + league.info.name}
+						</Typography>
+						<DivisionsDisplay divisions={league.divisions} />
+						<Container>
+							<Typography variant="h5"> Add new division </Typography>
+							<Button onClick={() => {}} variant="contained">
+								SUBMIT
+							</Button>
+						</Container>
 					</>
 				) : (
 					<></>

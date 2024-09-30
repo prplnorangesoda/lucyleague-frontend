@@ -42,15 +42,7 @@ interface PermActProps {
 	perms: perms_module.Permissions;
 }
 // to all my haters
-/**
- * @typedef {Object} PermActProps
- * @property {import('@/app/utils/parseperms').Permissions} perms
- */
-/**
- *
- * @param {PermActProps} props
- * @returns
- */
+
 function PermissionsActions({ perms }: PermActProps) {
 	let ret: [React.ReactNode] = [<></>];
 

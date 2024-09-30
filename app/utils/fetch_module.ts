@@ -12,7 +12,7 @@ export interface User {
 	username: string;
 	created_at: string;
 }
-let cached_user;
+let cached_user: User | undefined;
 
 export let fetch_user_from_auth = async function (
 	token: string
@@ -148,7 +148,7 @@ export interface DeepTeamDivAssociation {
 export interface DivisionOptionalTeams {
 	info: Division;
 	admins: WrappedDivisionAdmin[];
-	teams: DeepTeamDivAssociation | undefined;
+	teams: DeepTeamDivAssociation[] | undefined;
 }
 export interface League {
 	id: number;
