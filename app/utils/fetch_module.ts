@@ -110,6 +110,10 @@ export interface League {
 	created_at: Date;
 	is_hidden: boolean;
 }
+export interface LeagueReturn {
+	info: League;
+	divisions: null[];
+}
 
 export async function logout(auth_token: string): Promise<boolean> {
 	const url = globals.API_BASE + 'logout';
@@ -125,12 +129,12 @@ export async function logout(auth_token: string): Promise<boolean> {
 	return result === 200 || result === 400;
 }
 
-export async function fetch_leagues(): Promise<League[] | null> {
+export async function fetch_leagues(): Promise<LeagueReturn[] | null> {
 	const url = globals.API_BASE + 'leagues';
 
 	let resp = await fetch(url);
 
-	let leagues: League[];
+	let leagues: LeagueReturn[];
 
 	if (resp.status != 200) {
 		return null;
@@ -143,14 +147,12 @@ export async function fetch_leagues(): Promise<League[] | null> {
 	return leagues;
 }
 
-export interface DeepLeague {}
-
-export async function fetch_league(id: number): Promise<DeepLeague | null> {
+export async function fetch_league(id: number): Promise<LeagueReturn | null> {
 	const url = `${globals.API_BASE}leagues/${id}`;
 
 	let resp = await fetch(url);
 
-	let league: DeepLeague;
+	let league: LeagueReturn;
 
 	if (resp.status != 200) {
 		return null;

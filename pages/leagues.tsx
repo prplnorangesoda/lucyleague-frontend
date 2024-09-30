@@ -1,6 +1,6 @@
 import AppWrapper from '@/app/components/AppWrapper';
 import { StoredLeagues } from '@/app/components/CacheProvider';
-import { fetch_leagues, League } from '@/app/utils/fetch_module';
+import { fetch_leagues, League, LeagueReturn } from '@/app/utils/fetch_module';
 import {
 	Paper,
 	Typography,
@@ -11,18 +11,24 @@ import {
 } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 
-const splitLeagues = (leagues: League[]): [League[], League[]] => {
-	let shownLeagues: League[] = [];
-	let hiddenLeagues: League[] = [];
+const splitLeagues = (
+	leagues: LeagueReturn[]
+): [LeagueReturn[], LeagueReturn[]] => {
+	let shownLeagues: LeagueReturn[] = [];
+	let hiddenLeagues: LeagueReturn[] = [];
 	for (let league of leagues) {
-		league.is_hidden ? hiddenLeagues.push(league) : shownLeagues.push(league);
+		league.info.is_hidden
+			? hiddenLeagues.push(league)
+			: shownLeagues.push(league);
 	}
 	return [shownLeagues, hiddenLeagues];
 };
 
 export default function AllLeaguesPage() {
-	const [shownLeagues, setShownLeagues] = useState<League[] | null>(null);
-	const [hiddenLeagues, setHiddenLeagues] = useState<League[] | null>(null);
+	const [shownLeagues, setShownLeagues] = useState<LeagueReturn[] | null>(null);
+	const [hiddenLeagues, setHiddenLeagues] = useState<LeagueReturn[] | null>(
+		null
+	);
 	const [err, setErr] = useState('');
 
 	useEffect(() => {
@@ -44,11 +50,14 @@ export default function AllLeaguesPage() {
 				<Paper sx={{ mt: 5, padding: 5 }}>
 					{shownLeagues ? (
 						shownLeagues.map((league, index) => (
-							<Stack alignContent="center" alignItems="center">
+							<Stack key={index} alignContent="center" alignItems="center">
 								<Typography key={index} variant="h3">
-									{league.name}
+									{league.info.name}
 								</Typography>
-								<Button href={`/league?id=${league.id}`} variant="contained">
+								<Button
+									href={`/league?id=${league.info.id}`}
+									variant="contained"
+								>
 									GO TO LEAGUE
 								</Button>
 							</Stack>
@@ -60,11 +69,14 @@ export default function AllLeaguesPage() {
 				<Paper>
 					{hiddenLeagues ? (
 						hiddenLeagues.map((league, index) => (
-							<Stack alignContent="center" alignItems="center">
+							<Stack key={index} alignContent="center" alignItems="center">
 								<Typography key={index} variant="h3">
-									{league.name}
+									{league.info.name}
 								</Typography>
-								<Button href={`/league?id=${league.id}`} variant="contained">
+								<Button
+									href={`/league?id=${league.info.id}`}
+									variant="contained"
+								>
 									GO TO LEAGUE
 								</Button>
 							</Stack>

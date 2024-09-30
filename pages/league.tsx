@@ -9,13 +9,7 @@ export default function LeaguePage() {
 	const params = useSearchParams();
 	const router = useRouter();
 	const [id, setId] = useState<number | null>(null);
-	const [league, setLeague] = useState<fetch_mod.League | null>({
-		id: 1,
-		name: 'Hey This Is the League title',
-		accepting_teams: true,
-		created_at: new Date(),
-		is_hidden: false,
-	});
+	const [league, setLeague] = useState<fetch_mod.LeagueReturn | null>(null);
 
 	useEffect(() => {
 		if (params) {
@@ -38,7 +32,7 @@ export default function LeaguePage() {
 		<AppWrapper>
 			<Container maxWidth="lg">
 				<Typography variant="h2" align="center">
-					{league ? league.name : 'Loading'}
+					{league ? league.info.name : 'Loading'}
 				</Typography>
 				<Paper></Paper>
 			</Container>
