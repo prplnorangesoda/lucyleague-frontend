@@ -113,18 +113,16 @@ export interface League {
 
 export async function logout(auth_token: string): Promise<boolean> {
 	const url = globals.API_BASE + 'logout';
-
-	return (
-		(
-			await fetch(url, {
-				method: 'POST',
-				headers: {
-					['Content-Type']: 'application/json',
-				},
-				body: JSON.stringify({ auth_token }),
-			})
-		).status == 200
-	);
+	let result = (
+		await fetch(url, {
+			method: 'POST',
+			headers: {
+				['Content-Type']: 'application/json',
+			},
+			body: JSON.stringify({ auth_token }),
+		})
+	).status;
+	return result === 200 || result === 400;
 }
 
 export async function fetch_leagues(): Promise<League[] | null> {
@@ -143,4 +141,24 @@ export async function fetch_leagues(): Promise<League[] | null> {
 		throw new Error('API response malformed: ' + err);
 	}
 	return leagues;
+}
+
+export interface DeepLeague {}
+
+export async function fetch_league(id: number): Promise<DeepLeague | null> {
+	const url = `${globals.API_BASE}leagues/${id}`;
+
+	let resp = await fetch(url);
+
+	let league: DeepLeague;
+
+	if (resp.status != 200) {
+		return null;
+	}
+	try {
+		league = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+	return league;
 }

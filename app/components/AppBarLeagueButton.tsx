@@ -41,11 +41,12 @@ function AppBarLeagueButton(props) {
 	return (
 		<PopupState variant="popover" popupId="AppBarLeagueButton">
 			{(popupState) => (
-				<div>
+				<div style={{ flex: 1, width: 'auto' }}>
 					<Button
 						variant="text"
 						{...bindTrigger(popupState)}
 						endIcon={<KeyboardArrowDownIcon />}
+						fullWidth
 					>
 						<Typography align="right">LEAGUES</Typography>
 					</Button>
