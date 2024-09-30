@@ -108,8 +108,6 @@ function Admin() {
 
 			<Box
 				sx={{
-					width: '100dvw',
-					height: '100dvh',
 					display: 'flex',
 					flexDirection: 'column',
 				}}

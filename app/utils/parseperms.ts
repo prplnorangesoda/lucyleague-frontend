@@ -11,16 +11,6 @@ export const PERMISSIONS = Object.freeze({
 	CREATEGAME: 8,
 });
 
-/**
- * A set of permissions a user can have.
- * @typedef {Object} Permissions
- * @property {boolean} ADMIN
- * @property {boolean} SETPERMISSIONS - Set permissions for other users
- * @property {boolean} CREATELEAGUE - Create new leagues and edit existing.
- * @property {boolean} CREATEGAME - Create new games and edit existing.
- *
- */
-
 export interface Permissions {
 	ADMIN: boolean;
 	SETPERMISSIONS: boolean;
