@@ -2,6 +2,8 @@
 
 import globals from '../globals';
 
+type i64 = number;
+type String = string;
 export interface User {
 	id: number;
 	permissions: number;
@@ -103,6 +105,51 @@ export async function fetch_users_paged(
 	return details;
 }
 
+interface Division {
+	id: i64;
+	leagueid: i64;
+	name: String;
+	created_at: string;
+}
+
+export interface DivisionAdmin {
+	id: i64;
+	divisionid: i64;
+	userid: i64;
+	relation: String;
+}
+
+export interface WrappedDivisionAdmin {
+	inner: DivisionAdmin;
+	username: String;
+	avatarurl: String;
+}
+
+export interface Team {
+	id: i64;
+	leagueid: i64;
+	team_name: String;
+	created_at: string;
+}
+export interface TeamDivAssociation {
+	id: i64;
+	roster_name: String | undefined;
+	teamid: i64;
+	divisionid: i64;
+	points_up: i64;
+	points_down: i64;
+	created_at: String;
+}
+
+export interface DeepTeamDivAssociation {
+	team_info: Team;
+	association_info: TeamDivAssociation;
+}
+export interface DivisionOptionalTeams {
+	info: Division;
+	admins: WrappedDivisionAdmin[];
+	teams: DeepTeamDivAssociation | undefined;
+}
 export interface League {
 	id: number;
 	name: string;
@@ -112,7 +159,7 @@ export interface League {
 }
 export interface LeagueReturn {
 	info: League;
-	divisions: null[];
+	divisions: DivisionOptionalTeams[];
 }
 
 export async function logout(auth_token: string): Promise<boolean> {
