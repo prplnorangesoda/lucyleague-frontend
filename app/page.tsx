@@ -10,8 +10,10 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import React from 'react';
 
+
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import AppWrapper from './components/AppWrapper';
+import Grid from '@mui/material/Grid';
 
 const hero = {
 	height: '100%',
@@ -43,7 +45,7 @@ export default function Home() {
 		<AppWrapper>
 			<Container style={hero}>
 				<Box sx={blur}>
-					<Typography align="center" component={'span'} variant="h2">
+					<Typography align="center" component={'span'} variant="h3">
 						<Box
 							sx={{
 								fontWeight: 'bold',
@@ -81,18 +83,18 @@ export default function Home() {
 				</Box>
 			</Container>
 
-			<Container maxWidth="md" sx={{ mt: 1, pb: 5 }}>
-				<Paper elevation={1} style={{ padding: '10%' }}>
+			<Grid container sx={{mt: 4, justifyContent: 'center'}}>
+				<Box sx={{pb: 50, maxWidth: '50%'}}>
 					<Typography variant="h3" gutterBottom>
-						Why us?
+							What is 4v4 PASS Time?
 					</Typography>
-					<Typography pb={200}>
-						Cause were the best LOL (imagine this says something actually
-						useful)
+						
+					<Typography variant='body1'>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</Typography>
-					<Typography> If you see this tell speakers he is bald</Typography>
-				</Paper>
-			</Container>
+					</Box>
+			</Grid>
+
 		</AppWrapper>
 	);
 }

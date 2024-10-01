@@ -20,6 +20,16 @@ import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
 import { Button, Container } from '@mui/material';
 import { ArrowOutward } from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Admin from '@/pages/admin';
+
+import MenuIcon from '@mui/icons-material/Menu';
+
+// todo move this into a dropdown menu for mobile if width is too small
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 function LeagueAppBar() {
 	const header_logo = {
@@ -41,6 +51,9 @@ function LeagueAppBar() {
 			setAuthInfo(result.userInfo);
 		});
 	}, [authToken]);
+
+	// use this for dynamic resizing of menu
+	const screnW = useMediaQuery('(min-width:750px)');
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
@@ -65,45 +78,55 @@ function LeagueAppBar() {
 							alt="League logo"
 						/>
 					</a>
-					<Container
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							flex: 1,
-						}}
-					>
-						<Button
-							href="/home"
-							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'left' }}
-						>
-							<Typography textAlign="center">HOME</Typography>
-						</Button>
-						<Button
-							href="/admin"
-							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'right' }}
-						>
-							<Typography textAlign="right">ADMIN</Typography>
-						</Button>
-						<Button
-							href="/leagues/"
-							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'right' }}
-						>
-							<Typography textAlign="right">LEAGUES</Typography>
-						</Button>
-						{/* <AppBarleagueButton /> */}
-					</Container>
 
-					<Box>
-						{AuthInfo ? (
-							<AppBarUser user={AuthInfo} authToken={authToken} />
+					{screnW ? (
+							<><Container
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								maxWidth: '40%',
+								flex: 1,
+							}}
+						>
+							<Button
+								href="/home"
+								variant="text"
+								startIcon={<HomeIcon />}
+								style={{ flex: 1, width: 'auto', float: 'center' }}
+							>
+
+								<Typography textAlign="center">HOME</Typography>
+							</Button>
+							<Button
+								href="/admin"
+								variant="text"
+								startIcon={<AdminPanelSettingsIcon />}
+								style={{ flex: 1, width: 'auto', float: 'center' }}
+							>
+								<Typography textAlign="right">ADMIN</Typography>
+							</Button>
+							<Button
+								href="/leagues/"
+								variant="text"
+								startIcon={<DashboardIcon />}
+								style={{ flex: 1, width: 'auto', float: 'center' }}
+							>
+								<Typography textAlign="right">LEAGUES</Typography>
+							</Button>
+							{/* <AppBarleagueButton /> */}
+						</Container><Box>
+								{AuthInfo ? (
+									<AppBarUser user={AuthInfo} authToken={authToken} />
+								) : (
+									<AppBarLogin />
+								)}
+							</Box></>
 						) : (
-							<AppBarLogin />
-						)}
-					</Box>
+							<p> hamburger <MenuIcon /> </p>
+
+					)}
+
 				</Toolbar>
 			</AppBar>
 		</Box>
