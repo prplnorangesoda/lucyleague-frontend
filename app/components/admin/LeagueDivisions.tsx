@@ -7,6 +7,7 @@ import {
 	Box,
 	Container,
 	Button,
+	FormGroup,
 	Typography,
 	TextField,
 	Table,
@@ -17,6 +18,10 @@ import {
 	TableRow,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
+
+import { useCookies } from 'react-cookie';
+
+import * as admin_module from '@/app/utils/admin_module';
 
 const DivisionsDisplay = ({
 	divisions,
@@ -56,12 +61,81 @@ const DivisionsDisplay = ({
 	);
 };
 
+const AddDivision = (props: { league: LeagueReturn }) => {
+	const [divName, setName] = useState('');
+	const [feedback, setFeedback] = useState('');
+
+	let [cookies] = useCookies(['auth-token']);
+
+	const submitDiv = useCallback(async () => {
+		if (
+			!confirm(
+				'Are you sure you want to create a division with name ' + divName + '?'
+			)
+		)
+			return;
+		setFeedback('submitting');
+		console.log(divName);
+		if (divName === '') {
+			setFeedback('Name must not be empty');
+			return;
+		}
+		admin_module
+			.add_new_division(
+				{
+					leagueid: props.league.info.id.toString(),
+					name: divName,
+				},
+				cookies['auth-token']!
+			)
+			.then((division) => {
+				if (division !== null) {
+					setFeedback('Successful');
+					setTimeout(() => {
+						window.location.reload();
+					}, 500);
+				} else {
+					setFeedback('Unsuccessful: check console');
+				}
+			})
+			.catch((err) => {
+				setFeedback('Error, check console');
+				console.error(err);
+			});
+	}, [props.league, divName]);
+
+	return (
+		<>
+			<FormGroup style={{ display: 'flex', alignItems: 'center' }}>
+				<Typography variant="h5"> Add new division </Typography>
+				<TextField
+					size="small"
+					label="Name"
+					required
+					onChange={(event) => {
+						setName(event.target.value);
+					}}
+					value={divName}
+					sx={{ pb: 1 }}
+				/>
+				<Button
+					onClick={async () => {
+						await submitDiv();
+						window.location.reload();
+					}}
+					variant="contained"
+				>
+					SUBMIT
+				</Button>
+			</FormGroup>
+			{feedback}
+		</>
+	);
+};
 export default function LeagueDivisions() {
 	let [league, setLeague] = useState<LeagueReturn | null>(null);
 	let [leagueInput, setInput] = useState('');
 	let [feedback, setFeedback] = useState('');
-
-	const submitDiv = useCallback(() => {}, []);
 
 	const submitLeague = useCallback(
 		async (event) => {
@@ -108,12 +182,7 @@ export default function LeagueDivisions() {
 							{'League name: ' + league.info.name}
 						</Typography>
 						<DivisionsDisplay divisions={league.divisions} />
-						<Container>
-							<Typography variant="h5"> Add new division </Typography>
-							<Button onClick={() => {}} variant="contained">
-								SUBMIT
-							</Button>
-						</Container>
+						<AddDivision league={league} />
 					</>
 				) : (
 					<></>

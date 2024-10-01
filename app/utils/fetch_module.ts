@@ -105,7 +105,7 @@ export async function fetch_users_paged(
 	return details;
 }
 
-interface Division {
+export interface Division {
 	id: i64;
 	leagueid: i64;
 	name: String;
