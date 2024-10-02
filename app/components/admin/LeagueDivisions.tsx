@@ -45,7 +45,8 @@ const DivisionsDisplay = ({
 							<TableRow key={index}>
 								<TableCell>{value.info.id}</TableCell>
 								<TableCell>{value.info.name}</TableCell>
-								<TableCell>{value.teams!.length}</TableCell>
+								<TableCell>lol</TableCell>
+								<TableCell align="right">{value.teams!.length}</TableCell>
 							</TableRow>
 						))
 					) : (
@@ -83,7 +84,7 @@ const AddDivision = (props: { league: LeagueReturn }) => {
 		admin_module
 			.add_new_division(
 				{
-					leagueid: props.league.info.id.toString(),
+					leagueid: props.league.info.id,
 					name: divName,
 				},
 				cookies['auth-token']!
@@ -118,13 +119,7 @@ const AddDivision = (props: { league: LeagueReturn }) => {
 					value={divName}
 					sx={{ pb: 1 }}
 				/>
-				<Button
-					onClick={async () => {
-						await submitDiv();
-						window.location.reload();
-					}}
-					variant="contained"
-				>
+				<Button onClick={submitDiv} variant="contained">
 					SUBMIT
 				</Button>
 			</FormGroup>

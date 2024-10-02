@@ -35,7 +35,7 @@ export async function add_new_league(
 }
 
 interface MiniDivision {
-	leagueid: string;
+	leagueid: number;
 	name: string;
 }
 
@@ -43,7 +43,7 @@ export async function add_new_division(
 	info: MiniDivision,
 	authorization: string
 ): Promise<Division | null> {
-	let url = globals.API_BASE + 'admin/leagues/' + info.leagueid + 'divisions';
+	let url = globals.API_BASE + 'admin/divisions';
 
 	let resp = await fetch(url, {
 		method: 'POST',

@@ -48,7 +48,7 @@ function AppBarLeagueButton(props) {
 						endIcon={<KeyboardArrowDownIcon />}
 						fullWidth
 					>
-						<Typography align="right">LEAGUES</Typography>
+						<Typography align="center">LEAGUES</Typography>
 					</Button>
 					<Menu {...bindMenu(popupState)}>
 						{currentLeagues ? (

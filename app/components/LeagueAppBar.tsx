@@ -48,11 +48,7 @@ function LeagueAppBar() {
 			<AppBar position="static">
 				<Toolbar
 					style={{
-						paddingRight: '10px',
-						paddingLeft: '10px',
 						alignItems: 'center',
-						alignContent: 'space-evenly',
-						justifyContent: 'space-between',
 					}}
 				>
 					<a href="/" style={{ maxHeight: '42px', float: 'left' }}>
@@ -76,23 +72,23 @@ function LeagueAppBar() {
 						<Button
 							href="/home"
 							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'left' }}
+							style={{ flex: 1, width: 'auto' }}
 						>
 							<Typography textAlign="center">HOME</Typography>
 						</Button>
 						<Button
 							href="/admin"
 							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'right' }}
+							style={{ flex: 1, width: 'auto' }}
 						>
-							<Typography textAlign="right">ADMIN</Typography>
+							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
 						<Button
 							href="/leagues/"
 							variant="text"
-							style={{ flex: 1, width: 'auto', float: 'right' }}
+							style={{ flex: 1, width: 'fit-content' }}
 						>
-							<Typography textAlign="right">LEAGUES</Typography>
+							<Typography textAlign="center">LEAGUES</Typography>
 						</Button>
 						{/* <AppBarleagueButton /> */}
 					</Container>
