@@ -25,10 +25,9 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import Admin from '@/pages/admin';
 
-import MenuIcon from '@mui/icons-material/Menu';
-
 // todo move this into a dropdown menu for mobile if width is too small
 import useMediaQuery from '@mui/material/useMediaQuery';
+import AppBarCondensed from './appbar/AppBarCondensed';
 
 
 function LeagueAppBar() {
@@ -85,7 +84,7 @@ function LeagueAppBar() {
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
-								maxWidth: '40%',
+								maxWidth: '55%',
 								flex: 1,
 							}}
 						>
@@ -93,26 +92,25 @@ function LeagueAppBar() {
 								href="/home"
 								variant="text"
 								startIcon={<HomeIcon />}
-								style={{ flex: 1, width: 'auto', float: 'center' }}
+								style={{ width: '30%', float: 'center' }}
 							>
-
 								<Typography textAlign="center">HOME</Typography>
-							</Button>
-							<Button
-								href="/admin"
-								variant="text"
-								startIcon={<AdminPanelSettingsIcon />}
-								style={{ flex: 1, width: 'auto', float: 'center' }}
-							>
-								<Typography textAlign="right">ADMIN</Typography>
 							</Button>
 							<Button
 								href="/leagues/"
 								variant="text"
 								startIcon={<DashboardIcon />}
-								style={{ flex: 1, width: 'auto', float: 'center' }}
+								style={{ width: '30%', float: 'center' }}
 							>
-								<Typography textAlign="right">LEAGUES</Typography>
+								<Typography textAlign="center">LEAGUES</Typography>
+							</Button>
+							<Button
+								href="/admin"
+								variant="text"
+								startIcon={<AdminPanelSettingsIcon />}
+								style={{ width: '30%', float: 'center' }}
+							>
+								<Typography textAlign="center">ADMIN</Typography>
 							</Button>
 							{/* <AppBarleagueButton /> */}
 						</Container><Box>
@@ -123,8 +121,9 @@ function LeagueAppBar() {
 								)}
 							</Box></>
 						) : (
-							<p> hamburger <MenuIcon /> </p>
-
+						<div>
+							<AppBarCondensed user={AuthInfo} authToken={authToken} />	
+						</div>
 					)}
 
 				</Toolbar>

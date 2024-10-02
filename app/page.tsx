@@ -84,7 +84,7 @@ export default function Home() {
 			</Container>
 
 			<Grid container sx={{mt: 4, justifyContent: 'center'}}>
-				<Box sx={{pb: 50, maxWidth: '50%'}}>
+				<Box sx={{pb: 50, maxWidth: '70%'}}>
 					<Typography variant="h3" gutterBottom>
 							What is 4v4 PASS Time?
 					</Typography>
