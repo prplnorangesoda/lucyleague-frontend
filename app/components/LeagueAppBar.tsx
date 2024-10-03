@@ -29,7 +29,6 @@ import Admin from '@/pages/admin';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
 
-
 function LeagueAppBar() {
 	const header_logo = {
 		width: 'auto',
@@ -108,6 +107,13 @@ function LeagueAppBar() {
 					<Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />
+						) : (
+							<AppBarLogin />
+						)}
+					</Box>
+					{/* <Box>
+						{AuthInfo ? (
+							<AppBarUser user={AuthInfo} authToken={authToken} />
 					{screnW ? (
 							<><Container
 							style={{
@@ -142,7 +148,6 @@ function LeagueAppBar() {
 							>
 								<Typography textAlign="center">ADMIN</Typography>
 							</Button>
-							{/* <AppBarleagueButton /> */}
 						</Container><Box>
 								{AuthInfo ? (
 									<AppBarUser user={AuthInfo} authToken={authToken} />
@@ -154,8 +159,7 @@ function LeagueAppBar() {
 						<div>
 							<AppBarCondensed user={AuthInfo} authToken={authToken} />	
 						</div>
-					)}
-
+					)} */}
 				</Toolbar>
 			</AppBar>
 		</Box>
