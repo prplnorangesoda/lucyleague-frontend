@@ -133,7 +133,7 @@ function LeagueDisplay({ divisions }: { divisions: DivisionOptionalTeams[] }) {
 				<TableBody>
 					{divisions.length != 0 ? (
 						divisions.map((div) => (
-							<TableRow>
+							<TableRow key={div.info.name}>
 								<TableCell>{div.info.name}</TableCell>
 								<TableCell align="right">
 									<IconButton href={'/division-table?id=' + div.info.id}>
