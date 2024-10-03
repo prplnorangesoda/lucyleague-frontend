@@ -20,6 +20,15 @@ import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
 import { Button, Container } from '@mui/material';
 import { ArrowOutward } from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Admin from '@/pages/admin';
+
+// todo move this into a dropdown menu for mobile if width is too small
+import useMediaQuery from '@mui/material/useMediaQuery';
+import AppBarCondensed from './appbar/AppBarCondensed';
+
 
 function LeagueAppBar() {
 	const header_logo = {
@@ -41,6 +50,9 @@ function LeagueAppBar() {
 			setAuthInfo(result.userInfo);
 		});
 	}, [authToken]);
+
+	// use this for dynamic resizing of menu
+	const screnW = useMediaQuery('(min-width:750px)');
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
@@ -96,10 +108,54 @@ function LeagueAppBar() {
 					<Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />
+					{screnW ? (
+							<><Container
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								maxWidth: '55%',
+								flex: 1,
+							}}
+						>
+							<Button
+								href="/home"
+								variant="text"
+								startIcon={<HomeIcon />}
+								style={{ width: '30%', float: 'center' }}
+							>
+								<Typography textAlign="center">HOME</Typography>
+							</Button>
+							<Button
+								href="/leagues/"
+								variant="text"
+								startIcon={<DashboardIcon />}
+								style={{ width: '30%', float: 'center' }}
+							>
+								<Typography textAlign="center">LEAGUES</Typography>
+							</Button>
+							<Button
+								href="/admin"
+								variant="text"
+								startIcon={<AdminPanelSettingsIcon />}
+								style={{ width: '30%', float: 'center' }}
+							>
+								<Typography textAlign="center">ADMIN</Typography>
+							</Button>
+							{/* <AppBarleagueButton /> */}
+						</Container><Box>
+								{AuthInfo ? (
+									<AppBarUser user={AuthInfo} authToken={authToken} />
+								) : (
+									<AppBarLogin />
+								)}
+							</Box></>
 						) : (
-							<AppBarLogin />
-						)}
-					</Box>
+						<div>
+							<AppBarCondensed user={AuthInfo} authToken={authToken} />	
+						</div>
+					)}
+
 				</Toolbar>
 			</AppBar>
 		</Box>
