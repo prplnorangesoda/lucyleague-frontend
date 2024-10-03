@@ -60,11 +60,7 @@ function LeagueAppBar() {
 			<AppBar position="static">
 				<Toolbar
 					style={{
-						paddingRight: '10px',
-						paddingLeft: '10px',
 						alignItems: 'center',
-						alignContent: 'space-evenly',
-						justifyContent: 'space-between',
 					}}
 				>
 					<a href="/" style={{ maxHeight: '42px', float: 'left' }}>
@@ -77,7 +73,41 @@ function LeagueAppBar() {
 							alt="League logo"
 						/>
 					</a>
+					<Container
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							flex: 1,
+						}}
+					>
+						<Button
+							href="/home"
+							variant="text"
+							style={{ flex: 1, width: 'auto' }}
+						>
+							<Typography textAlign="center">HOME</Typography>
+						</Button>
+						<Button
+							href="/admin"
+							variant="text"
+							style={{ flex: 1, width: 'auto' }}
+						>
+							<Typography textAlign="center">ADMIN</Typography>
+						</Button>
+						<Button
+							href="/leagues/"
+							variant="text"
+							style={{ flex: 1, width: 'fit-content' }}
+						>
+							<Typography textAlign="center">LEAGUES</Typography>
+						</Button>
+						{/* <AppBarleagueButton /> */}
+					</Container>
 
+					<Box>
+						{AuthInfo ? (
+							<AppBarUser user={AuthInfo} authToken={authToken} />
 					{screnW ? (
 							<><Container
 							style={{

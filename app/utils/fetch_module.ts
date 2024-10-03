@@ -2,6 +2,8 @@
 
 import globals from '../globals';
 
+type i64 = number;
+type String = string;
 export interface User {
 	id: number;
 	permissions: number;
@@ -10,7 +12,7 @@ export interface User {
 	username: string;
 	created_at: string;
 }
-let cached_user;
+let cached_user: User | undefined;
 
 export let fetch_user_from_auth = async function (
 	token: string
@@ -103,12 +105,61 @@ export async function fetch_users_paged(
 	return details;
 }
 
+export interface Division {
+	id: i64;
+	leagueid: i64;
+	name: String;
+	created_at: string;
+}
+
+export interface DivisionAdmin {
+	id: i64;
+	divisionid: i64;
+	userid: i64;
+	relation: String;
+}
+
+export interface WrappedDivisionAdmin {
+	inner: DivisionAdmin;
+	username: String;
+	avatarurl: String;
+}
+
+export interface Team {
+	id: i64;
+	leagueid: i64;
+	team_name: String;
+	created_at: string;
+}
+export interface TeamDivAssociation {
+	id: i64;
+	roster_name: String | undefined;
+	teamid: i64;
+	divisionid: i64;
+	points_up: i64;
+	points_down: i64;
+	created_at: String;
+}
+
+export interface DeepTeamDivAssociation {
+	team_info: Team;
+	association_info: TeamDivAssociation;
+}
+export interface DivisionOptionalTeams {
+	info: Division;
+	admins: WrappedDivisionAdmin[];
+	teams: DeepTeamDivAssociation[] | undefined;
+}
 export interface League {
 	id: number;
 	name: string;
 	accepting_teams: boolean;
 	created_at: Date;
 	is_hidden: boolean;
+}
+export interface LeagueReturn {
+	info: League;
+	divisions: DivisionOptionalTeams[];
 }
 
 export async function logout(auth_token: string): Promise<boolean> {
@@ -125,12 +176,12 @@ export async function logout(auth_token: string): Promise<boolean> {
 	return result === 200 || result === 400;
 }
 
-export async function fetch_leagues(): Promise<League[] | null> {
+export async function fetch_leagues(): Promise<LeagueReturn[] | null> {
 	const url = globals.API_BASE + 'leagues';
 
 	let resp = await fetch(url);
 
-	let leagues: League[];
+	let leagues: LeagueReturn[];
 
 	if (resp.status != 200) {
 		return null;
@@ -143,14 +194,12 @@ export async function fetch_leagues(): Promise<League[] | null> {
 	return leagues;
 }
 
-export interface DeepLeague {}
-
-export async function fetch_league(id: number): Promise<DeepLeague | null> {
+export async function fetch_league(id: number): Promise<LeagueReturn | null> {
 	const url = `${globals.API_BASE}leagues/${id}`;
 
 	let resp = await fetch(url);
 
-	let league: DeepLeague;
+	let league: LeagueReturn;
 
 	if (resp.status != 200) {
 		return null;

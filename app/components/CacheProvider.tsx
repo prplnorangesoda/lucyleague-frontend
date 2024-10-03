@@ -17,9 +17,9 @@ export interface StoredLeagues {
 
 export default function AuthProvider(props) {
 	const [userInfo, setUserInfo] = useState<fetch_module.User | null>(null);
-	const [leaguesInfo, setLeaguesInfo] = useState<fetch_module.League[] | null>(
-		null
-	);
+	const [leaguesInfo, setLeaguesInfo] = useState<
+		fetch_module.LeagueReturn[] | null
+	>(null);
 	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken: string | undefined = cookies['auth-token'];
 	useEffect(() => {

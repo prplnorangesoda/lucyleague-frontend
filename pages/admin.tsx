@@ -1,34 +1,16 @@
 'use client';
 
-import theme from '@/app/theme';
-import LeagueAppBar from '@/app/components/LeagueAppBar';
-import UserTeamHistory from '@/app/components/UserTeamHistory';
-
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Pagination from '@mui/material/Pagination';
-import Link from '@mui/material/Link';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { CookiesProvider, useCookies } from 'react-cookie';
 
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
-import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
-
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import * as fetch_module from '@/app/utils/fetch_module';
 import * as perms_module from '@/app/utils/parseperms';
@@ -54,18 +36,14 @@ import GenericCard from '@/app/components/GenericCard';
 import { useRouter } from 'next/navigation';
 import AppWrapper from '@/app/components/AppWrapper';
 import Grid2 from '@mui/material/Grid2';
+import LeagueDivisions from '@/app/components/admin/LeagueDivisions';
 
+interface PermActProps {
+	perms: perms_module.Permissions;
+}
 // to all my haters
-/**
- * @typedef {Object} PermActProps
- * @property {import('@/app/utils/parseperms').Permissions} perms
- */
-/**
- *
- * @param {PermActProps} props
- * @returns
- */
-function PermissionsActions({ perms }) {
+
+function PermissionsActions({ perms }: PermActProps) {
 	let ret: [React.ReactNode] = [<></>];
 
 	if (perms.CREATEGAME || perms.ADMIN) {
@@ -122,8 +100,6 @@ function Admin() {
 
 			<Box
 				sx={{
-					width: '100dvw',
-					height: '100dvh',
 					display: 'flex',
 					flexDirection: 'column',
 				}}
@@ -175,7 +151,7 @@ const GridItem = styled(Paper)(({ theme }) => ({
 
 function ManageGame(props) {
 	return (
-		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
+		<Paper key="manageGames" elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h4" gutterBottom>
 				Manage Games
 			</Typography>
@@ -184,12 +160,12 @@ function ManageGame(props) {
 }
 function ManageLeague(props) {
 	return (
-		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
+		<Paper key="manageLeague" elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h4" gutterBottom>
 				Manage Leagues
 			</Typography>
 			<Grid2 container spacing={2}>
-				<Grid2 size={4}>
+				<Grid2 size={8}>
 					<GridItem>
 						<Typography gutterBottom>Current leagues</Typography>
 						<Stack>
@@ -199,13 +175,14 @@ function ManageLeague(props) {
 				</Grid2>
 				<Grid2 size={4}>
 					<GridItem>
-						<Typography gutterBottom>Edit league</Typography>
-					</GridItem>
-				</Grid2>
-				<Grid2 size={4}>
-					<GridItem>
 						<Typography gutterBottom>Create new league</Typography>
 						<AddLeague />
+					</GridItem>
+				</Grid2>
+				<Grid2 size={12}>
+					<GridItem>
+						<Typography gutterBottom>Manage league divisions</Typography>
+						<LeagueDivisions />
 					</GridItem>
 				</Grid2>
 			</Grid2>
@@ -308,6 +285,7 @@ function ManageUsers(props) {
 			elevation={2}
 			style={{ padding: 15, marginTop: 20 }}
 			sx={{ flexGrow: 1 }}
+			key="manageUsers"
 		>
 			<Typography variant="h4" gutterBottom>
 				Manage Users
@@ -331,7 +309,9 @@ function ManageUsers(props) {
 	);
 }
 function LeaguesList(props?: {}) {
-	let [leagues, setLeagues] = useState<fetch_module.League[] | null>(null);
+	let [leagues, setLeagues] = useState<fetch_module.LeagueReturn[] | null>(
+		null
+	);
 
 	useEffect(() => {
 		fetch_module.fetch_leagues().then(setLeagues);
@@ -344,6 +324,7 @@ function LeaguesList(props?: {}) {
 						<TableRow sx={{ color: 'gray' }}>
 							<TableCell>ID</TableCell>
 							<TableCell>Name</TableCell>
+							<TableCell align="right">Divisions</TableCell>
 							<TableCell align="right">Accepting teams</TableCell>
 							<TableCell align="right">Is hidden</TableCell>
 						</TableRow>
@@ -352,18 +333,19 @@ function LeaguesList(props?: {}) {
 						{leagues ? (
 							leagues.map((league) => (
 								<TableRow
-									key={league.id}
+									key={league.info.id}
 									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 								>
 									<TableCell component="th" align="center">
-										{league.id}
+										{league.info.id}
 									</TableCell>
-									<TableCell scope="row">{league.name}</TableCell>
+									<TableCell scope="row">{league.info.name}</TableCell>
+									<TableCell align="right">{league.divisions.length}</TableCell>
 									<TableCell align="right">
-										{league.accepting_teams.toString()}
+										{league.info.accepting_teams.toString()}
 									</TableCell>
 									<TableCell align="right">
-										{league.is_hidden.toString()}
+										{league.info.is_hidden.toString()}
 									</TableCell>
 								</TableRow>
 							))
