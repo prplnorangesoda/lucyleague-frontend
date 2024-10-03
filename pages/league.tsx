@@ -34,7 +34,7 @@ export default function LeaguePage() {
 				<Typography variant="h2" align="center">
 					{league ? league.info.name : 'Loading'}
 				</Typography>
-				<Paper></Paper>
+				<Paper style={{ padding: 50 }}>there is nothing here yet</Paper>
 			</Container>
 		</AppWrapper>
 	);

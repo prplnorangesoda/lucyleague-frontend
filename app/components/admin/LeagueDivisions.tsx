@@ -16,12 +16,14 @@ import {
 	TableCell,
 	TableBody,
 	TableRow,
+	IconButton,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
 import * as admin_module from '@/app/utils/admin_module';
+import { Delete, Edit } from '@mui/icons-material';
 
 const DivisionsDisplay = ({
 	divisions,
@@ -37,6 +39,8 @@ const DivisionsDisplay = ({
 						<TableCell>Name</TableCell>
 						<TableCell>Created&nbsp;at</TableCell>
 						<TableCell align="right">Teams&nbsp;in&nbsp;div</TableCell>
+						<TableCell align="center">Edit</TableCell>
+						<TableCell align="center">Delete</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -45,8 +49,18 @@ const DivisionsDisplay = ({
 							<TableRow key={index}>
 								<TableCell>{value.info.id}</TableCell>
 								<TableCell>{value.info.name}</TableCell>
-								<TableCell>lol</TableCell>
+								<TableCell>{value.info.created_at}</TableCell>
 								<TableCell align="right">{value.teams!.length}</TableCell>
+								<TableCell align="center">
+									<IconButton>
+										<Edit />
+									</IconButton>
+								</TableCell>
+								<TableCell align="center">
+									<IconButton>
+										<Delete />
+									</IconButton>
+								</TableCell>
 							</TableRow>
 						))
 					) : (

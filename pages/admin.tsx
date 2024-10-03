@@ -151,7 +151,7 @@ const GridItem = styled(Paper)(({ theme }) => ({
 
 function ManageGame(props) {
 	return (
-		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
+		<Paper key="manageGames" elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h4" gutterBottom>
 				Manage Games
 			</Typography>
@@ -160,7 +160,7 @@ function ManageGame(props) {
 }
 function ManageLeague(props) {
 	return (
-		<Paper elevation={2} style={{ padding: 15, marginTop: 20 }}>
+		<Paper key="manageLeague" elevation={2} style={{ padding: 15, marginTop: 20 }}>
 			<Typography variant="h4" gutterBottom>
 				Manage Leagues
 			</Typography>
@@ -285,6 +285,7 @@ function ManageUsers(props) {
 			elevation={2}
 			style={{ padding: 15, marginTop: 20 }}
 			sx={{ flexGrow: 1 }}
+			key="manageUsers"
 		>
 			<Typography variant="h4" gutterBottom>
 				Manage Users

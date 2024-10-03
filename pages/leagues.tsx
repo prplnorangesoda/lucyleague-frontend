@@ -6,6 +6,7 @@ import {
 	League,
 	LeagueReturn,
 } from '@/app/utils/fetch_module';
+import { ArrowOutward } from '@mui/icons-material';
 import {
 	Paper,
 	Typography,
@@ -19,6 +20,8 @@ import {
 	TableBody,
 	TableRow,
 	TableCell,
+	ButtonGroup,
+	IconButton,
 } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 
@@ -68,12 +71,23 @@ export default function AllLeaguesPage() {
 								<Container maxWidth="sm" sx={{ mb: 5 }}>
 									<LeagueDisplay divisions={league.divisions} />
 								</Container>
-								<Button
-									href={`/league?id=${league.info.id}`}
-									variant="contained"
-								>
-									GO TO LEAGUE
-								</Button>
+								<ButtonGroup>
+									<Button
+										href={`/league-sign-up?id=${league.info.id}`}
+										variant="contained"
+										endIcon={<ArrowOutward />}
+										disabled={!league.info.accepting_teams}
+									>
+										SIGN UP FOR THIS LEAGUE
+									</Button>
+									<Button
+										href={`/league?id=${league.info.id}`}
+										variant="contained"
+										endIcon={<ArrowOutward />}
+									>
+										GO TO LEAGUE
+									</Button>
+								</ButtonGroup>
 							</Stack>
 						))
 					) : (
@@ -106,15 +120,28 @@ export default function AllLeaguesPage() {
 function LeagueDisplay({ divisions }: { divisions: DivisionOptionalTeams[] }) {
 	return (
 		<TableContainer>
+			<Typography variant="h6" gutterBottom>
+				Divisions
+			</Typography>
 			<Table>
 				<TableHead>
 					<TableRow>
 						<TableCell>Name</TableCell>
+						<TableCell align="right">Go to division table</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{divisions.length != 0 ? (
-						divisions.map((div) => <TableRow>{div.info.name}</TableRow>)
+						divisions.map((div) => (
+							<TableRow>
+								<TableCell>{div.info.name}</TableCell>
+								<TableCell align="right">
+									<IconButton href={'/division-table?id=' + div.info.id}>
+										<ArrowOutward />
+									</IconButton>
+								</TableCell>
+							</TableRow>
+						))
 					) : (
 						<TableRow>
 							<TableCell>There are no divisions for this league.</TableCell>

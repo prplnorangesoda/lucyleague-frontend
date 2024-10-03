@@ -15,10 +15,12 @@ export default function AppWrapper(props: PropsWithChildren<{}>) {
 				sx={{
 					position: 'absolute',
 					width: '100%',
-					height: '90dvh',
+					height: 'calc(100dvh - 64px)',
 					top: '64px',
 					display: 'flex',
 					flexDirection: 'column',
+					overflowY: 'scroll',
+					overflowX: 'hidden',
 				}}
 			>
 				{props.children}
