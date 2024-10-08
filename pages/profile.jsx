@@ -20,7 +20,7 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
-import * as fetchModule from '@/app/utils/fetch_module';
+import * as fetchModule from '@/app/modules/fetch_module';
 
 import { Suspense } from 'react';
 

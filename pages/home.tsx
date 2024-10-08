@@ -1,6 +1,6 @@
 import AppWrapper from '@/app/components/AppWrapper';
-import { User } from '@/app/utils/fetch_module';
-import { get_user_info } from '@/app/utils/userinfo_module';
+import { User } from '@/app/modules/fetch_module';
+import { get_user_info } from '@/app/modules/caching_module';
 import {
 	Grid2,
 	Typography,
@@ -8,6 +8,8 @@ import {
 	Paper,
 	Stack,
 	Container,
+	Avatar,
+	Box,
 } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -23,26 +25,28 @@ const GridItem = styled(Paper)(({ theme }) => ({
 	}),
 }));
 
+const TeamInfo = (props: { team: any }) => {
+	return <Box></Box>;
+};
+const UpcomingGames = (props) => {
+	return <></>;
+};
+
 const YouInfo = (props: { user: User }) => {
 	return (
-		<Container>
-			<Image
+		<Stack sx={{ display: 'flex', alignItems: 'center' }}>
+			<Avatar
+				variant="rounded"
+				sx={{ height: 'auto', width: 'auto' }}
 				src={props.user.avatarurl}
-				width="184"
-				height="184"
 				alt="Your profile picture"
-				style={{
-					maxWidth: '100%',
-					maxHeight: '100%',
-					aspectRatio: 1,
-					objectFit: 'scale-down',
-				}}
 			/>
-		</Container>
+		</Stack>
 	);
 };
 
 export default function Home() {
+	let [team, setTeam] = useState(null);
 	let [currentuser, setUser] = useState<User | null>(null);
 
 	useEffect(() => {
@@ -59,19 +63,25 @@ export default function Home() {
 			<Grid2 container padding={5} spacing={2}>
 				<Grid2 size={8}>
 					<GridItem>
-						<Typography variant="h5" gutterBottom>
-							Your team
+						<Typography align="left" variant="h4" gutterBottom>
+							Dashboard
 						</Typography>
-						<Stack></Stack>
+						<Typography> What if speakers was called freakers</Typography>
 					</GridItem>
 				</Grid2>
 				<Grid2 size={4}>
 					<GridItem>
 						<Typography variant="h5" gutterBottom>
-							You
+							Your team
 						</Typography>
 						<Stack>
-							{currentuser ? <YouInfo user={currentuser} /> : <></>}
+							{team ? (
+								<TeamInfo team={team} />
+							) : (
+								<Typography>You&apos;re not in a team yet.</Typography>
+							)}
+							<TeamInfo team />
+							<UpcomingGames />
 						</Stack>
 					</GridItem>
 				</Grid2>

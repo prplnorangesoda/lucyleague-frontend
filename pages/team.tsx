@@ -6,7 +6,7 @@ import theme from '@/app/theme';
 import LeagueAppBar from '@/app/components/LeagueAppBar';
 import UserTeamHistory from '@/app/components/UserTeamHistory';
 
-import { ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import Container from '@mui/material/Container';
@@ -22,32 +22,52 @@ import TeamMatchesTable from '@/app/components/TeamMatchesTable';
 import TeamRoster from '@/app/components/TeamRoster';
 
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import AppWrapper from '@/app/components/AppWrapper';
 
-
+const tagStyle = {
+	'::before': {
+		content: '"["',
+		color: 'gray',
+	},
+	'::after': {
+		content: '"]"',
+		color: 'gray',
+	},
+};
 function Profile() {
-	const [TeamID, seTeamID] = useState(null);
+	const [TeamID, setTeamID] = useState<number | null>(null);
+	const router = useRouter();
 	const params = useSearchParams();
-	const teamid = params.get('id');
 
+	useEffect(() => {
+		if (!params) return;
+		const teamid = params!.get('id');
+		console.log(teamid);
+		if (teamid === null) return;
+		if (!teamid) router.push('home/');
 
-	return (<>
-		<ThemeProvider theme={theme} style={{ height: '100vh' }}>
-			<CssBaseline />
-			<LeagueAppBar />
+		setTeamID(window.parseInt(teamid));
+	}, [params, setTeamID]);
 
+	useEffect(() => {}, [TeamID]);
+
+	return (
+		<AppWrapper>
 			<Container maxWidth="xl">
 				<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h4">
+						<Box component="span" sx={tagStyle}>
+							TAG
+						</Box>{' '}
+						Team #1
+					</Typography>
 
-                <Typography sx={{ fontWeight: 'regular' }} variant="h4">
-                                [TAG]
-                                Team #1
-                            </Typography>
-
-							<Typography sx={{ fontWeight: 'light' }} variant="h6">
-								<Link href="#" underline="none">
-									division
-								</Link>
-							</Typography>
+					<Typography sx={{ fontWeight: 'light' }} variant="h6">
+						<Link href="#" underline="none">
+							division
+						</Link>
+					</Typography>
 
 					<Box
 						sx={{
@@ -69,7 +89,6 @@ function Profile() {
 					</Box>
 
 					<TeamRoster></TeamRoster>
-
 				</Paper>
 
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -82,8 +101,8 @@ function Profile() {
 					</Box>
 				</Paper>
 			</Container>
-		</ThemeProvider>
-	</>);
+		</AppWrapper>
+	);
 }
 
 export default Profile;

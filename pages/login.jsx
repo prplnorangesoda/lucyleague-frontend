@@ -35,24 +35,23 @@ const LoginCard = styled(Card)(({ theme }) => ({
 export default function LoginPage(props) {
 	let [steamurl, setSteamurl] = useState('');
 
-	let get_auth_url = () => {
-		let pre_part = window.encodeURIComponent(window.location.protocol + '//');
-		let identity_url = window.encodeURIComponent(window.location.host);
-		let root_part = 'https://steamcommunity.com/openid/login';
-		let claimed_id =
-			'openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select';
-		let identity = `openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select`;
-		let return_part = `openid.return_to=${pre_part + identity_url}/handshake`;
-		let realm = `openid.realm=${pre_part + identity_url}`;
-		let mode = 'openid.mode=checkid_setup';
-		let ns = 'openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0';
-
-		return `${root_part}?${claimed_id}&${identity}&${return_part}&${realm}&${mode}&${ns}`;
-	};
-
 	useEffect(() => {
+		let get_auth_url = () => {
+			let pre_part = window.encodeURIComponent(window.location.protocol + '//');
+			let identity_url = window.encodeURIComponent(window.location.host);
+			let root_part = 'https://steamcommunity.com/openid/login';
+			let claimed_id =
+				'openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select';
+			let identity = `openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select`;
+			let return_part = `openid.return_to=${pre_part + identity_url}/handshake`;
+			let realm = `openid.realm=${pre_part + identity_url}`;
+			let mode = 'openid.mode=checkid_setup';
+			let ns = 'openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0';
+
+			return `${root_part}?${claimed_id}&${identity}&${return_part}&${realm}&${mode}&${ns}`;
+		};
 		setSteamurl(get_auth_url());
-	}, [get_auth_url]);
+	}, []);
 	return (
 		<AppWrapper>
 			<Stack

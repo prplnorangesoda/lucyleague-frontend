@@ -10,20 +10,22 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import React from 'react';
 
+
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import AppWrapper from './components/AppWrapper';
+import Grid from '@mui/material/Grid';
 
 const hero = {
-	height: '50%',
+	height: '100%',
 	maxWidth: '100%',
 	padding: '0',
 
 	backgroundImage: 'url(assets/hero/ufo.avif)',
 
-	'background-attachment': 'fixed',
-	'background-position': 'center',
-	'background-repeat': 'no-repeat',
-	'background-size': 'cover',
+	backgroundAttachment: 'fixed',
+	backgroundPosition: 'center',
+	backgroundRepeat: 'no-repeat',
+	backgroundSize: 'cover',
 };
 
 const blur = {
@@ -31,7 +33,7 @@ const blur = {
 	backdropFilter: 'blur(6px)',
 
 	margin: '0',
-	height: '100%',
+	height: '50vh',
 	width: 'inherit',
 	display: 'flex',
 	flexDirection: 'column',
@@ -43,7 +45,7 @@ export default function Home() {
 		<AppWrapper>
 			<Container style={hero}>
 				<Box sx={blur}>
-					<Typography align="center" component={'span'} variant="h2">
+					<Typography align="center" component={'span'} variant="h3">
 						<Box
 							sx={{
 								fontWeight: 'bold',
@@ -81,7 +83,18 @@ export default function Home() {
 				</Box>
 			</Container>
 
-			<Paper style={{ height: '45%' }} elevation={1}></Paper>
+			<Grid container sx={{mt: 4, justifyContent: 'center'}}>
+				<Box sx={{pb: 50, maxWidth: '70%'}}>
+					<Typography variant="h3" gutterBottom>
+							What is 4v4 PASS Time?
+					</Typography>
+						
+					<Typography variant='body1'>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</Typography>
+					</Box>
+			</Grid>
+
 		</AppWrapper>
 	);
 }
