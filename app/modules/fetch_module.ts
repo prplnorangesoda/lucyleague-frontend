@@ -47,15 +47,6 @@ export let fetch_info_from_s64 = async function (
 ): Promise<User | null> {
 	let userInfo: User;
 
-	if (typeof s64 !== 'string') {
-		try {
-			//@ts-ignore
-			s64 = s64.toString();
-		} catch (err) {
-			throw new Error('Specified s64 was invalid');
-		}
-	}
-
 	const url = globals.API_BASE + 'user/steamid/';
 	const query = url + s64;
 

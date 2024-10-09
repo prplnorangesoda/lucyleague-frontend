@@ -65,3 +65,39 @@ export async function add_new_division(
 	}
 	return new_div;
 }
+
+interface UserTeam {
+
+}
+interface MiniTeam {
+	leagueid: number,
+	privacy: string, 
+	team_name: string,
+	team_tag: string,
+}
+export async function add_new_team(
+	info: MiniTeam,
+	authorization: string
+): Promise<UserTeam | null> {
+	let url = globals.API_BASE + 'teams';
+
+	let resp = await fetch(url, {
+		method: 'POST',
+		headers: {
+			['Authorization']: `Bearer ${authorization}`,
+			['Content-Type']: 'application/json',
+		},
+		body: JSON.stringify(info),
+	});
+	if (resp.status != 201) {
+		return null;
+	}
+	let new_assoc: UserTeam;
+
+	try {
+		new_assoc = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+	return new_assoc;
+}
