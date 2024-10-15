@@ -43,30 +43,36 @@ export function useUserAuthToken(authtoken: string) {
 	};
 }
 
-// export let fetch_user_from_auth = async function (
-// 	token: string
-// ): Promise<User> {
-// 	if (cached_user) return cached_user;
-// 	let authInfo: User;
+/**
+ *
+ * @param token User authentication token
+ * @deprecated
+ * @returns
+ */
+export let fetch_user_from_auth = async function (
+	token: string
+): Promise<User> {
+	if (cached_user) return cached_user;
+	let authInfo: User;
 
-// 	// we are running on the client side - hostname unnecessary
-// 	const url = globals.API_BASE + 'user/authtoken/';
-// 	if (!token) {
-// 		throw new Error('No token specified to fetch info for');
-// 	}
+	// we are running on the client side - hostname unnecessary
+	const url = globals.API_BASE + 'user/authtoken/';
+	if (!token) {
+		throw new Error('No token specified to fetch info for');
+	}
 
-// 	let resp = await fetch(url + token);
-// 	if (resp.status == 404) {
-// 		throw new Error('User not found');
-// 	}
-// 	try {
-// 		authInfo = await resp.json();
-// 	} catch (err) {
-// 		throw new Error('API response malformed: ' + err);
-// 	}
-// 	cached_user = authInfo;
-// 	return authInfo;
-// };
+	let resp = await fetch(url + token);
+	if (resp.status == 404) {
+		throw new Error('User not found');
+	}
+	try {
+		authInfo = await resp.json();
+	} catch (err) {
+		throw new Error('API response malformed: ' + err);
+	}
+	cached_user = authInfo;
+	return authInfo;
+};
 
 // /**
 //  * Calls the API for user info from a steamid64.
@@ -214,6 +220,37 @@ export async function fetch_leagues(): Promise<LeagueReturn[] | null> {
 	return leagues;
 }
 
+export function useLeagueId(id: number | string) {
+	id = parseInt(id.toString());
+	if (Object.is(id, NaN)) {
+		throw new Error('Invalid id passed to useLeagueId');
+	}
+
+	if (id === -1) {
+		return {
+			league: null,
+			isLoading: false,
+			isError: new Error('Invalid ID'),
+		};
+	}
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'leagues/' + id,
+		fetcher
+	);
+
+	return {
+		league: data as LeagueReturn,
+		isLoading,
+		isError: error,
+	};
+}
+
+/**
+ *
+ * @param id League id
+ * @deprecated
+ * @returns
+ */
 export async function fetch_league(id: number): Promise<LeagueReturn | null> {
 	const url = `${globals.API_BASE}leagues/${id}`;
 

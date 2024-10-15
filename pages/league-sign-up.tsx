@@ -15,34 +15,27 @@ import {
 	TextField,
 	Button,
 	Box,
+	CircularProgress,
 } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+function Waiting() {
+	return (
+		<AppWrapper>
+			<CircularProgress />
+		</AppWrapper>
+	);
+}
 
 export default function LeagueSignUpPage(props) {
 	const params = useSearchParams();
-	const router = useRouter();
-	const [id, setId] = useState<number | null>(null);
-	const [league, setLeague] = useState<fetch_mod.LeagueReturn | null>(null);
-	useEffect(() => {
-		if (params) {
-			console.log('LeagueSignUpPage: params exists', params);
-			const paramId = params.get('id');
-			if (params.size === 0) return;
-			if (paramId) {
-				console.log('LeagueSignUpPage: paramId exists', paramId);
-				setId(parseInt(paramId));
-			} else {
-				router.push('/');
-			}
-		}
-	}, [params, router, setId]);
-
-	useEffect(() => {
-		if (id) fetch_mod.fetch_league(id).then(setLeague).catch(console.error);
-	}, [id]);
+	if (!params) {
+		return <Waiting />;
+	}
+	const paramId = params.get('id');
+	if (!paramId) return <Waiting />;
 
 	return (
 		<AppWrapper>
@@ -57,20 +50,21 @@ export default function LeagueSignUpPage(props) {
 					<Typography component="h1" variant="h3">
 						Signing up for a league
 					</Typography>
-					<Typography component="p" variant="h6">
-						You are signing up for: {league?.info.name}
-					</Typography>
-					<SignUpForLeague leagueid={id ? id : -1} />
+					<SignUpForLeague leagueid={paramId} />
 				</GenericCard>
 			</Stack>
 		</AppWrapper>
 	);
 }
-function SignUpForLeague(props: { leagueid: number }) {
+function SignUpForLeague(props: { leagueid: string }) {
+	if (Object.is(parseInt(props.leagueid), NaN)) {
+		throw new Error('Not a valid ID passed');
+	}
 	const router = useRouter();
 	const [privacy, setPrivacy] = useState('');
 	const [teamName, setTeamName] = useState('');
 	const [teamTag, setTeamTag] = useState('');
+	const { league, isLoading, isError } = fetch_mod.useLeagueId(props.leagueid);
 
 	const [cookies] = useCookies(['auth-token']);
 	const handleChange = (event: SelectChangeEvent) => {
@@ -82,7 +76,7 @@ function SignUpForLeague(props: { leagueid: number }) {
 		if (!authtoken) router.push('/login');
 		let team = await add_new_team(
 			{
-				leagueid: props.leagueid,
+				leagueid: parseInt(props.leagueid),
 				privacy: privacy,
 				team_name: teamName,
 				team_tag: teamTag,
@@ -92,45 +86,53 @@ function SignUpForLeague(props: { leagueid: number }) {
 	};
 
 	return (
-		<Stack gap={2} padding={5} paddingTop={2} paddingBottom={2}>
-			<Box display="flex" justifyContent="space-between">
-				<TextField
-					label="Name"
-					required
-					helperText="You can modify this later."
-					onChange={(event) => {
-						setTeamName(event.target.value);
-					}}
-					value={teamName}
-					sx={{ pb: 1, width: '70%' }}
-				/>
-				<TextField
-					label="Tag"
-					required
-					onChange={(event) => {
-						setTeamTag(event.target.value);
-					}}
-					value={teamTag}
-					sx={{ pb: 1, width: '20%', mr: 1 }}
-				/>
-			</Box>
+		<>
+			{league ? (
+				<Typography>Signing up for: {league.info.name}</Typography>
+			) : (
+				<></>
+			)}
 
-			<FormControl required>
-				<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
-				<Select
-					labelId="select-team-privacy-label"
-					id="select-team-privacy"
-					value={privacy}
-					label="Team privacy"
-					onChange={handleChange}
-				>
-					<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
-					<MenuItem value={'private'}>Invite-only</MenuItem>
-				</Select>
-			</FormControl>
-			<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
-				SUBMIT (ha lol this doesnt do anything yet)
-			</Button>
-		</Stack>
+			<Stack gap={2} padding={5} paddingTop={2} paddingBottom={2}>
+				<Box display="flex" justifyContent="space-between">
+					<TextField
+						label="Name"
+						required
+						helperText="You can modify this later."
+						onChange={(event) => {
+							setTeamName(event.target.value);
+						}}
+						value={teamName}
+						sx={{ pb: 1, width: '70%' }}
+					/>
+					<TextField
+						label="Tag"
+						required
+						onChange={(event) => {
+							setTeamTag(event.target.value);
+						}}
+						value={teamTag}
+						sx={{ pb: 1, width: '20%', mr: 1 }}
+					/>
+				</Box>
+
+				<FormControl required>
+					<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
+					<Select
+						labelId="select-team-privacy-label"
+						id="select-team-privacy"
+						value={privacy}
+						label="Team privacy"
+						onChange={handleChange}
+					>
+						<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
+						<MenuItem value={'private'}>Invite-only</MenuItem>
+					</Select>
+				</FormControl>
+				<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
+					SUBMIT (ha lol this doesnt do anything yet)
+				</Button>
+			</Stack>
+		</>
 	);
 }

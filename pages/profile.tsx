@@ -70,6 +70,9 @@ function UserProfile({ s64 }: { s64: string | null }) {
 	if (s64 === null) return <CircularProgress />;
 	const { user, isLoading, isError } = useUserS64(s64);
 
+	if (isError) {
+		console.error(isError);
+	}
 	return (
 		<>
 			<Box sx={{ pr: '20px' }}>
