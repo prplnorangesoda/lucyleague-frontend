@@ -1,7 +1,7 @@
 'use client';
 
 import globals from '../globals';
-
+import useSWR from 'swr';
 type i64 = number;
 type String = string;
 export interface User {
@@ -14,55 +14,84 @@ export interface User {
 }
 let cached_user: User | undefined;
 
-export let fetch_user_from_auth = async function (
-	token: string
-): Promise<User> {
-	if (cached_user) return cached_user;
-	let authInfo: User;
+//@ts-ignore
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-	// we are running on the client side - hostname unnecessary
-	const url = globals.API_BASE + 'user/authtoken/';
-	if (!token) {
-		throw new Error('No token specified to fetch info for');
-	}
+export function useUserS64(steamid: number | string) {
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'user/steamid/' + steamid,
+		fetcher
+	);
 
-	let resp = await fetch(url + token);
-	if (resp.status == 404) {
-		throw new Error('User not found');
-	}
-	try {
-		authInfo = await resp.json();
-	} catch (err) {
-		throw new Error('API response malformed: ' + err);
-	}
-	cached_user = authInfo;
-	return authInfo;
-};
+	return {
+		user: data as User,
+		isLoading,
+		isError: error,
+	};
+}
 
-/**
- * Calls the API for user info from a steamid64.
- */
-export let fetch_info_from_s64 = async function (
-	s64: string
-): Promise<User | null> {
-	let userInfo: User;
+export function useUserAuthToken(authtoken: string) {
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'user/authtoken/' + authtoken,
+		fetcher
+	);
 
-	const url = globals.API_BASE + 'user/steamid/';
-	const query = url + s64;
+	return {
+		user: data as User,
+		isLoading,
+		isError: error,
+	};
+}
 
-	let resp = await fetch(query);
+// export let fetch_user_from_auth = async function (
+// 	token: string
+// ): Promise<User> {
+// 	if (cached_user) return cached_user;
+// 	let authInfo: User;
 
-	if (resp.status == 404) {
-		return null;
-	}
-	try {
-		userInfo = await resp.json();
-	} catch (err) {
-		throw new Error('API response malformed: ' + err);
-	}
+// 	// we are running on the client side - hostname unnecessary
+// 	const url = globals.API_BASE + 'user/authtoken/';
+// 	if (!token) {
+// 		throw new Error('No token specified to fetch info for');
+// 	}
 
-	return userInfo;
-};
+// 	let resp = await fetch(url + token);
+// 	if (resp.status == 404) {
+// 		throw new Error('User not found');
+// 	}
+// 	try {
+// 		authInfo = await resp.json();
+// 	} catch (err) {
+// 		throw new Error('API response malformed: ' + err);
+// 	}
+// 	cached_user = authInfo;
+// 	return authInfo;
+// };
+
+// /**
+//  * Calls the API for user info from a steamid64.
+//  */
+// export let fetch_info_from_s64 = async function (
+// 	s64: string
+// ): Promise<User | null> {
+// 	let userInfo: User;
+
+// 	const url = globals.API_BASE + 'user/steamid/';
+// 	const query = url + s64;
+
+// 	let resp = await fetch(query);
+
+// 	if (resp.status == 404) {
+// 		return null;
+// 	}
+// 	try {
+// 		userInfo = await resp.json();
+// 	} catch (err) {
+// 		throw new Error('API response malformed: ' + err);
+// 	}
+
+// 	return userInfo;
+// };
 
 interface PagedUserResponse {
 	total_count: number;

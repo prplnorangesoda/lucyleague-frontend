@@ -1,12 +1,4 @@
-'use client';
-
-// kinda ass but w/e
-import theme from '@/app/theme';
-import LeagueAppBar from '@/app/components/LeagueAppBar';
 import UserTeamHistory from '@/app/components/UserTeamHistory';
-
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import AppWrapper from '@/app/components/AppWrapper';
 
 import Container from '@mui/material/Container';
@@ -20,25 +12,21 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
-import * as fetchModule from '@/app/modules/fetch_module';
+import { useUserS64 } from '@/app/modules/fetch_module';
+import useSWR from 'swr';
+import { CircularProgress, Skeleton } from '@mui/material';
 
-import { Suspense } from 'react';
-
-function Profile() {
-	const [UserInfo, setUserInfo] = useState(null);
+function ProfilePage() {
 	const params = useSearchParams();
+	if (params === null) {
+		throw new Error('Whatever');
+	}
 	const s64 = params.get('id');
-
-	useEffect(() => {
-		if (s64 || s64 !== null) {
-			fetchModule.fetch_info_from_s64(s64).then(setUserInfo);
-		}
-	}, [s64]);
 
 	return (
 		<>
-			<AppWrapper theme={theme}>
-				<Container maxWidth="xl">
+			<AppWrapper>
+				<Container maxWidth="md">
 					<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
 						<Box
 							sx={{
@@ -48,33 +36,7 @@ function Profile() {
 								justifyContent: 'center',
 							}}
 						>
-							<Box sx={{ pr: '20px' }}>
-								{UserInfo ? (
-									<Avatar
-										sx={{ width: 150, height: 150 }}
-										variant="rounded"
-										src={UserInfo.avatarurl}
-									/>
-								) : (
-									<Avatar
-										sx={{ width: 150, height: 150 }}
-										variant="rounded"
-										src="/assets/jotchua.avif"
-									/>
-								)}
-							</Box>
-
-							<Box sx={{ mt: '8px' }}>
-								<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-									{UserInfo ? UserInfo.username : 'No user found'}
-								</Typography>
-
-								<Typography sx={{ fontWeight: 'light' }} variant="h5">
-									<Link href="#" underline="none">
-										no current team
-									</Link>
-								</Typography>
-							</Box>
+							<UserProfile s64={s64} />
 
 							<Box sx={{ flexGrow: 1 }}></Box>
 						</Box>
@@ -86,7 +48,7 @@ function Profile() {
 								Roster History
 							</Typography>
 						</Box>
-						<UserTeamHistory></UserTeamHistory>
+						<UserTeamHistory />
 					</Paper>
 
 					<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -104,4 +66,37 @@ function Profile() {
 	);
 }
 
-export default Profile;
+function UserProfile({ s64 }: { s64: string | null }) {
+	if (s64 === null) return <CircularProgress />;
+	const { user, isLoading, isError } = useUserS64(s64);
+
+	return (
+		<>
+			<Box sx={{ pr: '20px' }}>
+				{isLoading || isError ? (
+					<CircularProgress size={150} />
+				) : (
+					<Avatar
+						sx={{ width: 150, height: 150 }}
+						variant="rounded"
+						src={user.avatarurl}
+					/>
+				)}
+			</Box>
+
+			<Box sx={{ mt: '8px' }}>
+				<Typography sx={{ fontWeight: 'regular' }} variant="h4">
+					{isLoading || isError ? <Skeleton /> : user.username}
+				</Typography>
+
+				<Typography sx={{ fontWeight: 'light' }} variant="h5">
+					<Link href="#" underline="none">
+						no current team
+					</Link>
+				</Typography>
+			</Box>
+		</>
+	);
+}
+
+export default ProfilePage;
