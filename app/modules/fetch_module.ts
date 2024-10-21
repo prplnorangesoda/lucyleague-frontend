@@ -12,10 +12,44 @@ export interface User {
 	username: string;
 	created_at: string;
 }
+export interface Team {
+	id: i64;
+	owner_id: String;
+	team_name: String;
+	team_tag: String;
+	created_at: string;
+}
+export interface TeamResponse {
+	info: Team;
+	owner: User;
+	team_div_assocs: TeamDivAssociation[];
+}
+export interface TeamDivAssociation {
+	id: i64;
+	roster_name: String | undefined;
+	teamid: i64;
+	divisionid: i64;
+	points_up: i64;
+	points_down: i64;
+	created_at: String;
+}
 let cached_user: User | undefined;
 
 //@ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+export function useBaseTeam(id: string) {
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'teams/' + id,
+		fetcher
+	);
+
+	return {
+		team: data as TeamResponse,
+		isLoading,
+		isError: error,
+	};
+}
 
 export function useUserS64(steamid: number | string) {
 	const { data, error, isLoading } = useSWR(
@@ -149,22 +183,6 @@ export interface WrappedDivisionAdmin {
 	inner: DivisionAdmin;
 	username: String;
 	avatarurl: String;
-}
-
-export interface Team {
-	id: i64;
-	leagueid: i64;
-	team_name: String;
-	created_at: string;
-}
-export interface TeamDivAssociation {
-	id: i64;
-	roster_name: String | undefined;
-	teamid: i64;
-	divisionid: i64;
-	points_up: i64;
-	points_down: i64;
-	created_at: String;
 }
 
 export interface DeepTeamDivAssociation {

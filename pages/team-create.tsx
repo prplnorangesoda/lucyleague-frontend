@@ -29,14 +29,7 @@ function Waiting() {
 	);
 }
 
-export default function LeagueSignUpPage(props) {
-	const params = useSearchParams();
-	if (!params) {
-		return <Waiting />;
-	}
-	const paramId = params.get('id');
-	if (!paramId) return <Waiting />;
-
+export default function TeamSignUpPage(props) {
 	return (
 		<AppWrapper>
 			<Stack
@@ -48,50 +41,45 @@ export default function LeagueSignUpPage(props) {
 			>
 				<GenericCard>
 					<Typography component="h1" variant="h3">
-						Signing up for a league
+						Creating a new team
 					</Typography>
-					<SignUpForLeague leagueid={paramId} />
+					<CreateNewTeamMenu />
 				</GenericCard>
 			</Stack>
 		</AppWrapper>
 	);
 }
-function SignUpForLeague(props: { leagueid: string }) {
-	if (Object.is(parseInt(props.leagueid), NaN)) {
-		throw new Error('Not a valid ID passed');
-	}
+function CreateNewTeamMenu(props) {
 	const router = useRouter();
-	const [privacy, setPrivacy] = useState('');
 	const [teamName, setTeamName] = useState('');
 	const [teamTag, setTeamTag] = useState('');
-	const { league, isLoading, isError } = fetch_mod.useLeagueId(props.leagueid);
 
 	const [cookies] = useCookies(['auth-token']);
-	const handleChange = (event: SelectChangeEvent) => {
-		setPrivacy(event.target.value as string);
-	};
 
 	const postTeam = async () => {
 		let authtoken = cookies['auth-token'];
 		if (!authtoken) router.push('/login');
 		let team = await add_new_team(
 			{
-				leagueid: parseInt(props.leagueid),
-				privacy: privacy,
 				team_name: teamName,
 				team_tag: teamTag,
 			},
 			authtoken
 		);
+		if (team === null) {
+			console.error('Team is null');
+		} else {
+			router.push(`/team?id=${team.id}`);
+		}
 	};
 
 	return (
 		<>
-			{league ? (
+			{/* {league ? (
 				<Typography>Signing up for: {league.info.name}</Typography>
 			) : (
 				<></>
-			)}
+			)} */}
 
 			<Stack gap={2} padding={5} paddingTop={2} paddingBottom={2}>
 				<Box display="flex" justifyContent="space-between">
@@ -117,6 +105,7 @@ function SignUpForLeague(props: { leagueid: string }) {
 				</Box>
 
 				<FormControl required>
+					{/* 
 					<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
 					<Select
 						labelId="select-team-privacy-label"
@@ -127,10 +116,10 @@ function SignUpForLeague(props: { leagueid: string }) {
 					>
 						<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
 						<MenuItem value={'private'}>Invite-only</MenuItem>
-					</Select>
+					</Select> */}
 				</FormControl>
 				<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
-					SUBMIT (ha lol this doesnt do anything yet)
+					CREATE A NEW TEAM
 				</Button>
 			</Stack>
 		</>

@@ -24,8 +24,6 @@ import TeamRoster from '@/app/components/TeamRoster';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import AppWrapper from '@/app/components/AppWrapper';
-import { CircularProgress, Skeleton } from '@mui/material';
-import { useBaseTeam } from '@/app/modules/fetch_module';
 
 const tagStyle = {
 	'::before': {
@@ -37,33 +35,69 @@ const tagStyle = {
 		color: 'gray',
 	},
 };
-function TeamPage() {
+function TeamDivAssocPage() {
+	const [TeamID, setTeamID] = useState<number | null>(null);
 	const router = useRouter();
 	const params = useSearchParams();
 
-	if (!params) return <CircularProgress />;
-	const teamid = params.get('id');
-	console.log(teamid);
-	if (teamid === null) return <CircularProgress />;
+	useEffect(() => {
+		if (!params) return;
+		const teamid = params!.get('id');
+		console.log(teamid);
+		if (teamid === null) return;
+		if (!teamid) router.push('home/');
+
+		setTeamID(window.parseInt(teamid));
+	}, [params, setTeamID]);
+
+	useEffect(() => {}, [TeamID]);
 
 	return (
 		<AppWrapper>
 			<Container maxWidth="xl">
-				<TeamTitle id={teamid} key={teamid} />
+				<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h4">
+						<Box component="span" sx={tagStyle}>
+							TAG
+						</Box>{' '}
+						Team #1
+					</Typography>
 
-				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-					<Box>
-						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Current rosters
-						</Typography>
+					<Typography sx={{ fontWeight: 'light' }} variant="h6">
+						<Link href="#" underline="none">
+							division
+						</Link>
+					</Typography>
+
+					<Box
+						sx={{
+							display: 'flex',
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+							justifyContent: 'center',
+						}}
+					>
+						<Box sx={{ flexGrow: 1 }}></Box>
 					</Box>
 				</Paper>
 
 				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 					<Box>
 						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Past rosters
+							Roster
 						</Typography>
+					</Box>
+
+					<TeamRoster></TeamRoster>
+				</Paper>
+
+				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+					<Box>
+						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+							Matches
+						</Typography>
+
+						<TeamMatchesTable></TeamMatchesTable>
 					</Box>
 				</Paper>
 			</Container>
@@ -71,33 +105,4 @@ function TeamPage() {
 	);
 }
 
-export default TeamPage;
-function TeamTitle(props: { id: string }) {
-	let { team, isError, isLoading } = useBaseTeam(props.id);
-	if (!team) return;
-	return (
-		<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
-			<>
-				<Typography sx={{ fontWeight: 'regular' }} align="center" variant="h4">
-					<Box component="span" sx={tagStyle}>
-						{team ? team.info.team_tag : <Skeleton />}
-					</Box>
-					{
-						// prespace the name
-						team ? ' ' + team.info.team_name : <Skeleton />
-					}
-				</Typography>
-				<Typography variant="h6">
-					{'Team manager: '}
-					{team ? (
-						<Link href={`/profile/?id=${team.owner.steamid}`}>
-							{team.owner.username}
-						</Link>
-					) : (
-						<Skeleton />
-					)}
-				</Typography>
-			</>
-		</Paper>
-	);
-}
+export default TeamDivAssocPage;
