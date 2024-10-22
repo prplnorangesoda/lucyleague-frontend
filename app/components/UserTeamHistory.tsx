@@ -11,11 +11,11 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
 import { useTheme } from '@mui/material/styles';
+import { useUserS64Deep } from '../modules/fetch_module';
+import { Skeleton } from '@mui/material';
 
-function AddRow(season_id, team_name, team_division, join_date, leave_date) {}
-
-function UserTeamHistory() {
-	const theme = useTheme();
+function UserTeamHistory(props: { s64: string }) {
+	let { user, isLoading, isError } = useUserS64Deep(props.s64);
 
 	return (
 		<TableContainer>
@@ -31,13 +31,25 @@ function UserTeamHistory() {
 				</TableHead>
 
 				<TableBody>
-					<TableRow>
-						<TableCell> Season </TableCell>
-						<TableCell> Team </TableCell>
-						<TableCell> Division </TableCell>
-						<TableCell> Join Date </TableCell>
-						<TableCell> Leave Date </TableCell>
-					</TableRow>
+					{user ? (
+						user.rosters.length != 0 ? (
+							user.rosters.map((roster) => (
+								<TableRow key={roster.id}>
+									<TableCell> Season </TableCell>
+									<TableCell> Team </TableCell>
+									<TableCell> Division </TableCell>
+									<TableCell> Join Date </TableCell>
+									<TableCell> Leave Date </TableCell>
+								</TableRow>
+							))
+						) : (
+							<TableRow>
+								<TableCell>not currently signed up to any rosters</TableCell>
+							</TableRow>
+						)
+					) : (
+						<Skeleton />
+					)}
 				</TableBody>
 			</Table>
 		</TableContainer>

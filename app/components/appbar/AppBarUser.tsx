@@ -26,7 +26,6 @@ function AppBarUser(props: { user: fetch_mod.User; authToken: string }) {
 					path: '/',
 					sameSite: 'lax',
 				});
-				updateCookies();
 				purgeUserCache();
 				window.location.reload();
 			}
@@ -45,10 +44,13 @@ function AppBarUser(props: { user: fetch_mod.User; authToken: string }) {
 		<PopupState variant="popover" popupId="AppBarUserMenu">
 			{(popupState) => (
 				<div>
-					<Button variant="text" {...bindTrigger(popupState)}>
+					<Button
+						variant="text"
+						sx={{ width: 'auto' }}
+						{...bindTrigger(popupState)}
+					>
 						<Typography align="right">
-							{' '}
-							{props.user.username ? props.user.username : 'username'}{' '}
+							{props.user.username ? props.user.username : 'username'}
 						</Typography>
 						<Avatar
 							sx={{ ml: 2, height: 40, width: 40 }}

@@ -46,15 +46,6 @@ const YouInfo = (props: { user: User }) => {
 };
 
 export default function Home() {
-	let [team, setTeam] = useState(null);
-	let [currentuser, setUser] = useState<User | null>(null);
-
-	useEffect(() => {
-		get_user_info().then((userInfo) => {
-			setUser(userInfo.userInfo);
-		});
-	});
-
 	return (
 		<AppWrapper>
 			<Typography align="center" variant="h3" gutterBottom>
@@ -75,11 +66,7 @@ export default function Home() {
 							Your team
 						</Typography>
 						<Stack>
-							{team ? (
-								<TeamInfo team={team} />
-							) : (
-								<Typography>You&apos;re not in a team yet.</Typography>
-							)}
+							<Typography>Your team will be here soon</Typography>
 							<TeamInfo team />
 							<UpcomingGames />
 						</Stack>

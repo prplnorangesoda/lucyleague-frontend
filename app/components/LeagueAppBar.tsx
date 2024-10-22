@@ -11,7 +11,6 @@ import AppBarUser from './appbar/AppBarUser';
 import AppBarLogin from './appbar/AppBarLogin';
 
 import { useCookies, CookiesProvider } from 'react-cookie';
-import globals from '../globals';
 
 import * as fetch_module from '../modules/fetch_module';
 import * as userinfo_module from '../modules/caching_module';
@@ -19,16 +18,16 @@ import * as userinfo_module from '../modules/caching_module';
 import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
 import { Button, Container } from '@mui/material';
-import { ArrowOutward } from '@mui/icons-material';
-import HomeIcon from '@mui/icons-material/Home';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import Admin from '@/pages/admin';
 
 // todo move this into a dropdown menu for mobile if width is too small
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
 
+const button_style = {
+	flex: '1 1 auto',
+	position: 'relative',
+	text_align: 'center',
+};
 function LeagueAppBar() {
 	const header_logo = {
 		width: 'auto',
@@ -72,45 +71,63 @@ function LeagueAppBar() {
 							alt="League logo"
 						/>
 					</a>
+					{
+						// LEFT BUTTONS
+					}
 					<Container
 						style={{
 							display: 'flex',
+							flexFlow: 'row',
+							listStyle: 'none',
+							alignItems: 'left',
+							justifyContent: 'space-between',
+							gap: 10,
+							flex: 0,
+						}}
+					>
+						<Button href="/home" variant="text" sx={{ ml: 1 }}>
+							<Typography textAlign="center">HOME</Typography>
+						</Button>
+					</Container>
+					<Container
+						style={{
+							display: 'flex',
+							flexFlow: 'row',
+							listStyle: 'none',
 							alignItems: 'center',
-							justifyContent: 'center',
+							justifyContent: 'space-between',
+							gap: 10,
 							flex: 1,
 						}}
 					>
-						<Button
-							href="/home"
-							variant="text"
-							style={{ flex: 1, width: 'auto' }}
-						>
-							<Typography textAlign="center">HOME</Typography>
-						</Button>
-						<Button
-							href="/admin"
-							variant="text"
-							style={{ flex: 1, width: 'auto' }}
-						>
-							<Typography textAlign="center">ADMIN</Typography>
-						</Button>
-						<Button
-							href="/leagues/"
-							variant="text"
-							style={{ flex: 1, width: 'fit-content' }}
-						>
+						<Button href="/leagues/" variant="text" sx={button_style}>
 							<Typography textAlign="center">LEAGUES</Typography>
 						</Button>
 						{/* <AppBarleagueButton /> */}
 					</Container>
 
-					<Box>
+					<Container
+						style={{
+							display: 'flex',
+							flexFlow: 'row',
+							listStyle: 'none',
+							alignItems: 'right',
+							justifyContent: 'space-between',
+							gap: 10,
+							paddingRight: 0,
+							marginRight: 0,
+							flex: 0,
+						}}
+					>
+						<Button href="/admin/" variant="text" sx={button_style}>
+							<Typography textAlign="center">ADMIN</Typography>
+						</Button>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />
 						) : (
 							<AppBarLogin />
 						)}
-					</Box>
+					</Container>
 					{/* <Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />

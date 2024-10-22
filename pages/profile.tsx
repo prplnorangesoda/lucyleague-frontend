@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
-import { useUserS64 } from '@/app/modules/fetch_module';
+import { useUserS64, useUserS64Deep } from '@/app/modules/fetch_module';
 import useSWR from 'swr';
 import { CircularProgress, Skeleton } from '@mui/material';
 
@@ -22,6 +22,9 @@ function ProfilePage() {
 		throw new Error('Whatever');
 	}
 	const s64 = params.get('id');
+	if (!s64) {
+		return <CircularProgress />;
+	}
 
 	return (
 		<>
@@ -48,7 +51,7 @@ function ProfilePage() {
 								Roster History
 							</Typography>
 						</Box>
-						<UserTeamHistory />
+						<UserTeamHistory s64={s64} />
 					</Paper>
 
 					<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -68,7 +71,7 @@ function ProfilePage() {
 
 function UserProfile({ s64 }: { s64: string | null }) {
 	if (s64 === null) return <CircularProgress />;
-	const { user, isLoading, isError } = useUserS64(s64);
+	const { user, isLoading, isError } = useUserS64Deep(s64);
 
 	if (isError) {
 		console.error(isError);
@@ -76,26 +79,41 @@ function UserProfile({ s64 }: { s64: string | null }) {
 	return (
 		<>
 			<Box sx={{ pr: '20px' }}>
-				{isLoading || isError ? (
-					<CircularProgress size={150} />
-				) : (
+				{user ? (
 					<Avatar
 						sx={{ width: 150, height: 150 }}
 						variant="rounded"
-						src={user.avatarurl}
+						src={user.info.avatarurl}
 					/>
+				) : (
+					<CircularProgress size={150} />
 				)}
 			</Box>
 
 			<Box sx={{ mt: '8px' }}>
 				<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-					{isLoading || isError ? <Skeleton /> : user.username}
+					{isLoading || isError ? <Skeleton /> : user.info.username}
 				</Typography>
 
-				<Typography sx={{ fontWeight: 'light' }} variant="h5">
-					<Link href="#" underline="none">
-						no current team
-					</Link>
+				<Typography sx={{ fontWeight: 'light' }} gutterBottom variant="h5">
+					{user ? (
+						[
+							<Typography> Manager of: </Typography>,
+							user.ownerships.map((ownership) => (
+								<Box key={ownership.id}>
+									<Link
+										key={ownership.id}
+										href={`/team/?id=${ownership.id}`}
+										underline="none"
+									>
+										{ownership.team_name}
+									</Link>
+								</Box>
+							)),
+						]
+					) : (
+						<Typography> not managing any teams</Typography>
+					)}
 				</Typography>
 			</Box>
 		</>

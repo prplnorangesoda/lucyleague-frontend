@@ -4,6 +4,13 @@ import globals from '../globals';
 import useSWR from 'swr';
 type i64 = number;
 type String = string;
+export interface UserResponse {
+	info: User;
+}
+export interface UserResponseDeep {
+	ownerships: Team[];
+	rosters: TeamDivAssociation[];
+}
 export interface User {
 	id: number;
 	permissions: number;
@@ -58,7 +65,20 @@ export function useUserS64(steamid: number | string) {
 	);
 
 	return {
-		user: data as User,
+		user: data as UserResponse,
+		isLoading,
+		isError: error,
+	};
+}
+
+export function useUserS64Deep(steamid: number | string) {
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'user/steamid/' + steamid + '?deep=true',
+		fetcher
+	);
+
+	return {
+		user: data as UserResponse & UserResponseDeep,
 		isLoading,
 		isError: error,
 	};
