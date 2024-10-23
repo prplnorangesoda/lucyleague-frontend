@@ -5,16 +5,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-
 export default function LoginButton() {
-	return <Button
-		startIcon={<LoginIcon />}
-		variant="text"
-		color="inherit"
-		href="/login"
-	>
-		<Typography component={'span'}>
-			<Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
-		</Typography>
-	</Button>;
+	return (
+		<Button
+			startIcon={<LoginIcon />}
+			variant="text"
+			color="inherit"
+			href="/login/"
+		>
+			<Typography component={'span'}>
+				<Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
+			</Typography>
+		</Button>
+	);
 }

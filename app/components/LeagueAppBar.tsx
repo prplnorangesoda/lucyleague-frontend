@@ -24,7 +24,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
 
 const button_style = {
-	flex: '1 1 auto',
+	flex: '0 0 auto',
 	position: 'relative',
 	text_align: 'center',
 };
@@ -36,7 +36,8 @@ function LeagueAppBar() {
 		maxHeight: '42px',
 	};
 
-	const [AuthInfo, setAuthInfo] = useState<fetch_module.User | null>(null);
+	const [AuthInfo, setAuthInfo] =
+		useState<fetch_module.UserResponseDeep | null>(null);
 
 	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
@@ -85,7 +86,7 @@ function LeagueAppBar() {
 							flex: 0,
 						}}
 					>
-						<Button href="/home" variant="text" sx={{ ml: 1 }}>
+						<Button href="/home/" variant="text" sx={{ ml: 1 }}>
 							<Typography textAlign="center">HOME</Typography>
 						</Button>
 					</Container>
@@ -95,7 +96,7 @@ function LeagueAppBar() {
 							flexFlow: 'row',
 							listStyle: 'none',
 							alignItems: 'center',
-							justifyContent: 'space-between',
+							justifyContent: 'center',
 							gap: 10,
 							flex: 1,
 						}}
@@ -122,12 +123,12 @@ function LeagueAppBar() {
 						<Button href="/admin/" variant="text" sx={button_style}>
 							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
-						{AuthInfo ? (
-							<AppBarUser user={AuthInfo} authToken={authToken} />
-						) : (
-							<AppBarLogin />
-						)}
 					</Container>
+					{AuthInfo ? (
+						<AppBarUser user={AuthInfo} authToken={authToken} />
+					) : (
+						<AppBarLogin />
+					)}
 					{/* <Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />

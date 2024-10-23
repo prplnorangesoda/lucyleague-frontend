@@ -47,27 +47,25 @@ function TeamPage() {
 	if (teamid === null) return <CircularProgress />;
 
 	return (
-		<AppWrapper>
-			<Container maxWidth="xl">
-				<TeamTitle id={teamid} key={teamid} />
+		<Container maxWidth="xl">
+			<TeamTitle id={teamid} key={teamid} />
 
-				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-					<Box>
-						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Current rosters
-						</Typography>
-					</Box>
-				</Paper>
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Current rosters
+					</Typography>
+				</Box>
+			</Paper>
 
-				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-					<Box>
-						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Past rosters
-						</Typography>
-					</Box>
-				</Paper>
-			</Container>
-		</AppWrapper>
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Past rosters
+					</Typography>
+				</Box>
+			</Paper>
+		</Container>
 	);
 }
 

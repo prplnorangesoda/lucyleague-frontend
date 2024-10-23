@@ -99,8 +99,7 @@ export default function HandshakePage() {
 		});
 	}, [searchParams]);
 	return (
-		<AppWrapper>
-			<CssBaseline />
+		<>
 			{errorStatus ? (
 				'An error occurred, report this! : ' + errorStatus
 			) : (
@@ -129,6 +128,6 @@ export default function HandshakePage() {
 					)}
 				</Container>
 			)}
-		</AppWrapper>
+		</>
 	);
 }

@@ -27,45 +27,41 @@ function ProfilePage() {
 	}
 
 	return (
-		<>
-			<AppWrapper>
-				<Container maxWidth="md">
-					<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
-						<Box
-							sx={{
-								display: 'flex',
-								flexWrap: 'wrap',
-								flexDirection: 'row',
-								justifyContent: 'center',
-							}}
-						>
-							<UserProfile s64={s64} />
+		<Container maxWidth="md">
+			<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexWrap: 'wrap',
+						flexDirection: 'row',
+						justifyContent: 'center',
+					}}
+				>
+					<UserProfile s64={s64} />
 
-							<Box sx={{ flexGrow: 1 }}></Box>
-						</Box>
-					</Paper>
+					<Box sx={{ flexGrow: 1 }}></Box>
+				</Box>
+			</Paper>
 
-					<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-						<Box>
-							<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-								Roster History
-							</Typography>
-						</Box>
-						<UserTeamHistory s64={s64} />
-					</Paper>
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Roster History
+					</Typography>
+				</Box>
+				<UserTeamHistory s64={s64} />
+			</Paper>
 
-					<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-						<Box>
-							<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-								Punishment History
-							</Typography>
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Punishment History
+					</Typography>
 
-							<Box sx={{ mt: '10px' }}>nothing yet...</Box>
-						</Box>
-					</Paper>
-				</Container>
-			</AppWrapper>
-		</>
+					<Box sx={{ mt: '10px' }}>nothing yet...</Box>
+				</Box>
+			</Paper>
+		</Container>
 	);
 }
 

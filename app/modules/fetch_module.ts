@@ -4,10 +4,12 @@ import globals from '../globals';
 import useSWR from 'swr';
 type i64 = number;
 type String = string;
-export interface UserResponse {
+
+export type UserResponseDeep = UserResponseBase & UserResponseDeepComponents;
+export interface UserResponseBase {
 	info: User;
 }
-export interface UserResponseDeep {
+export interface UserResponseDeepComponents {
 	ownerships: Team[];
 	rosters: TeamDivAssociation[];
 }
@@ -40,7 +42,6 @@ export interface TeamDivAssociation {
 	points_down: i64;
 	created_at: String;
 }
-let cached_user: User | undefined;
 
 //@ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -65,7 +66,7 @@ export function useUserS64(steamid: number | string) {
 	);
 
 	return {
-		user: data as UserResponse,
+		user: data as UserResponseBase,
 		isLoading,
 		isError: error,
 	};
@@ -78,7 +79,7 @@ export function useUserS64Deep(steamid: number | string) {
 	);
 
 	return {
-		user: data as UserResponse & UserResponseDeep,
+		user: data as UserResponseBase & UserResponseDeep,
 		isLoading,
 		isError: error,
 	};
@@ -97,6 +98,20 @@ export function useUserAuthToken(authtoken: string) {
 	};
 }
 
+export function useUserAuthTokenDeep(authtoken: string) {
+	const { data, error, isLoading } = useSWR(
+		globals.API_BASE + 'user/authtoken/' + authtoken + '?deep=true',
+		fetcher
+	);
+
+	return {
+		user: data as User,
+		isLoading,
+		isError: error,
+	};
+}
+
+let cached_user: UserResponseDeep | undefined;
 /**
  *
  * @param token User authentication token
@@ -105,17 +120,18 @@ export function useUserAuthToken(authtoken: string) {
  */
 export let fetch_user_from_auth = async function (
 	token: string
-): Promise<User> {
+): Promise<UserResponseDeep> {
 	if (cached_user) return cached_user;
-	let authInfo: User;
+	let authInfo: UserResponseDeep;
 
-	// we are running on the client side - hostname unnecessary
-	const url = globals.API_BASE + 'user/authtoken/';
 	if (!token) {
 		throw new Error('No token specified to fetch info for');
 	}
 
-	let resp = await fetch(url + token);
+	// we are running on the client side - hostname unnecessary
+	const url = globals.API_BASE + 'user/authtoken/' + token + '?deep=true';
+
+	let resp = await fetch(url);
 	if (resp.status == 404) {
 		throw new Error('User not found');
 	}

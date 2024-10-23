@@ -47,7 +47,7 @@ const YouInfo = (props: { user: User }) => {
 
 export default function Home() {
 	return (
-		<AppWrapper>
+		<>
 			<Typography align="center" variant="h3" gutterBottom>
 				Home
 			</Typography>
@@ -73,6 +73,6 @@ export default function Home() {
 					</GridItem>
 				</Grid2>
 			</Grid2>
-		</AppWrapper>
+		</>
 	);
 }

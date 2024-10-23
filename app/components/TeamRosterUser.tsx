@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 function TeamRosterUser(props) {
 	return (
 		<Button
-			href={'/profile?id=' + props.id}
+			href={'/profile/?id=' + props.id}
 			size="large"
 			variant="text"
 			sx={{ pl: 1, mr: 1 }}

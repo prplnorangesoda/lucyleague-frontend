@@ -2,21 +2,25 @@
 import { StoredUser, StoredLeagues } from '../components/CacheProvider';
 import { User } from './fetch_module';
 
+/**
+ * A way to get the locally cached user, provided by the [CacheProvider](../components/CacheProvider.tsx)
+ * @returns The cached local user
+ */
 export function get_user_info(): Promise<StoredUser> {
 	let recursive_function = (
 		resolve: (user: StoredUser) => void,
 		reject: (reason: any) => void,
 		depth: number = 0
 	) => {
-		if (depth >= 5) {
+		if (depth >= 10) {
 			reject('Depth limit exceeded');
 			return;
 		}
 		let user_cache = window.localStorage.getItem('user-cache');
 		if (!user_cache || user_cache === 'null') {
-			console.log('No cache found, delaying by 2000ms', depth++);
+			console.log('No cache found, delaying by 1000ms', depth++);
 			// check again in a second
-			setTimeout(recursive_function, 2000, resolve, reject, depth++);
+			setTimeout(recursive_function, 1000, resolve, reject, depth++);
 		} else resolve(JSON.parse(user_cache));
 	};
 

@@ -1,4 +1,8 @@
 'use client';
+export const metadata = {
+	title: 'league | admin',
+	description: '4v4 passtime league admin panel',
+};
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -71,10 +75,10 @@ function Admin() {
 			fetch_module
 				.fetch_user_from_auth(cookies['auth-token'])
 				.then((user) => {
-					if (user.permissions === 0) {
+					if (user.info.permissions === 0) {
 						router.push('/');
 					}
-					setPerms(perms_module.from_bitfield(user.permissions));
+					setPerms(perms_module.from_bitfield(user.info.permissions));
 				})
 				.catch((reason) => {
 					setErr('API error: ' + reason);
@@ -95,44 +99,40 @@ function Admin() {
 		}
 	}, [cookies, router]);
 	return (
-		<AppWrapper>
-			<CookiesProvider />
-
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-				}}
-			>
-				{error ? (
-					<Stack maxWidth="sm" alignSelf="center">
-						<GenericCard>
-							There was an error:
-							<br />
-							{error}
-						</GenericCard>
-					</Stack>
-				) : (
-					<></>
-				)}
-				{perms ? (
-					<PermissionsActions perms={perms} />
-				) : (
-					<Stack
-						height="100%"
-						maxWidth="sm"
-						alignSelf="center"
-						direction="column"
-					>
-						<GenericCard variant="outlined">
-							<Typography variant="h5">
-								We&apos;re verifying your permissions, hold on a sec...
-							</Typography>
-						</GenericCard>
-					</Stack>
-				)}
-			</Box>
-		</AppWrapper>
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+			}}
+		>
+			{error ? (
+				<Stack maxWidth="sm" alignSelf="center">
+					<GenericCard>
+						There was an error:
+						<br />
+						{error}
+					</GenericCard>
+				</Stack>
+			) : (
+				<></>
+			)}
+			{perms ? (
+				<PermissionsActions perms={perms} />
+			) : (
+				<Stack
+					height="100%"
+					maxWidth="sm"
+					alignSelf="center"
+					direction="column"
+				>
+					<GenericCard variant="outlined">
+						<Typography variant="h5">
+							We&apos;re verifying your permissions, hold on a sec...
+						</Typography>
+					</GenericCard>
+				</Stack>
+			)}
+		</Box>
 	);
 }
 

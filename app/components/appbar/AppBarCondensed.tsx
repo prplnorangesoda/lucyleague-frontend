@@ -25,13 +25,13 @@ import { useCookies } from 'react-cookie';
 
 // mobile support is it's own beast so we'll do this
 function AppBarCondensed(props: { user: fetch_mod.User; authToken: string }) {
-    const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
 
-    const toggleDrawer = (newOpen: boolean) => () => {
-      setOpen(newOpen);
-    };  
+	const toggleDrawer = (newOpen: boolean) => () => {
+		setOpen(newOpen);
+	};
 
-    const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
+	const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
 		'auth-token',
 	]);
 	const router = useRouter();
@@ -59,67 +59,66 @@ function AppBarCondensed(props: { user: fetch_mod.User; authToken: string }) {
 		window.localStorage.setItem('user-cache', 'null');
 	};
 
+	const Options = (
+		<Box sx={{ width: 'auto' }}>
+			<Box>
+				<Image
+					priority
+					src="/assets/header.avif"
+					height="42"
+					width="107"
+					style={{ marginLeft: '10px', marginTop: '10px' }}
+					alt="League logo"
+				></Image>
+			</Box>
+			<List>
+				<ListItemButton href="/home/">
+					<ListItemIcon>
+						<HomeIcon />
+					</ListItemIcon>
+					Home
+				</ListItemButton>
+				<ListItemButton href="/leagues/">
+					<ListItemIcon>
+						<DashboardIcon />
+					</ListItemIcon>
+					Leagues
+				</ListItemButton>
+			</List>
+			<Divider />
 
-    const Options = (
-    <Box sx={{width: 'auto'}}>
-            <Box>
-                <Image
-                    priority
-                    src="/assets/header.avif"
-                    height="42"
-                    width="107"
-                    style={{'marginLeft': "10px", 'marginTop': "10px"}}
-                    alt="League logo">
-                </Image>
-            </Box>
-        <List>
-            <ListItemButton href="/home">
-                <ListItemIcon>
-                    <HomeIcon />
-                </ListItemIcon>
-                Home
-            </ListItemButton>
-            <ListItemButton href="/leagues/">
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                Leagues
-            </ListItemButton>
-        </List>
-        <Divider />
-
-        { props.user? (
-            <List>
-                <ListItemButton href="/login">
-                    <ListItemIcon>
-
-                    </ListItemIcon>
-                    <Typography component={'span'}>
-                        {props.user.username}
-                    </Typography>
-                </ListItemButton>
-            </List>
-        ) : (
-            <List>
-                <ListItemButton href="/login">
-                    <ListItemIcon>
-                        <LoginIcon />
-                    </ListItemIcon>
-                    <Typography component={'span'}>
-                        <Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
-                    </Typography>
-                </ListItemButton>
-            </List>
-        )}
-    </Box>)
+			{props.user ? (
+				<List>
+					<ListItemButton href="/login/">
+						<ListItemIcon></ListItemIcon>
+						<Typography component={'span'}>{props.user.username}</Typography>
+					</ListItemButton>
+				</List>
+			) : (
+				<List>
+					<ListItemButton href="/login/">
+						<ListItemIcon>
+							<LoginIcon />
+						</ListItemIcon>
+						<Typography component={'span'}>
+							<Box sx={{ fontWeight: 'bold' }}>LOGIN</Box>
+						</Typography>
+					</ListItemButton>
+				</List>
+			)}
+		</Box>
+	);
 
 	return (
-        <div>
-            <IconButton onClick={toggleDrawer(true)}> <MenuIcon/> </IconButton>
-            <Drawer anchor='top' open={open} onClose={toggleDrawer(false)}>
-                {Options}
-            </Drawer>
-        </div>
+		<div>
+			<IconButton onClick={toggleDrawer(true)}>
+				{' '}
+				<MenuIcon />{' '}
+			</IconButton>
+			<Drawer anchor="top" open={open} onClose={toggleDrawer(false)}>
+				{Options}
+			</Drawer>
+		</div>
 	);
 }
 

@@ -29,13 +29,11 @@ export default function LeaguePage() {
 		if (id) fetch_mod.fetch_league(id).then(setLeague).catch(console.error);
 	}, [id]);
 	return (
-		<AppWrapper>
-			<Container maxWidth="lg">
-				<Typography variant="h2" align="center">
-					{league ? league.info.name : 'Loading'}
-				</Typography>
-				<Paper style={{ padding: 50 }}>there is nothing here yet</Paper>
-			</Container>
-		</AppWrapper>
+		<Container maxWidth="lg">
+			<Typography variant="h2" align="center">
+				{league ? league.info.name : 'Loading'}
+			</Typography>
+			<Paper style={{ padding: 50 }}>there is nothing here yet</Paper>
+		</Container>
 	);
 }

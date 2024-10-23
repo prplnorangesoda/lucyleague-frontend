@@ -53,55 +53,53 @@ function TeamDivAssocPage() {
 	useEffect(() => {}, [TeamID]);
 
 	return (
-		<AppWrapper>
-			<Container maxWidth="xl">
-				<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
-					<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-						<Box component="span" sx={tagStyle}>
-							TAG
-						</Box>{' '}
-						Team #1
+		<Container maxWidth="xl">
+			<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
+				<Typography sx={{ fontWeight: 'regular' }} variant="h4">
+					<Box component="span" sx={tagStyle}>
+						TAG
+					</Box>{' '}
+					Team #1
+				</Typography>
+
+				<Typography sx={{ fontWeight: 'light' }} variant="h6">
+					<Link href="#" underline="none">
+						division
+					</Link>
+				</Typography>
+
+				<Box
+					sx={{
+						display: 'flex',
+						flexWrap: 'wrap',
+						flexDirection: 'row',
+						justifyContent: 'center',
+					}}
+				>
+					<Box sx={{ flexGrow: 1 }}></Box>
+				</Box>
+			</Paper>
+
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Roster
+					</Typography>
+				</Box>
+
+				<TeamRoster></TeamRoster>
+			</Paper>
+
+			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+				<Box>
+					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+						Matches
 					</Typography>
 
-					<Typography sx={{ fontWeight: 'light' }} variant="h6">
-						<Link href="#" underline="none">
-							division
-						</Link>
-					</Typography>
-
-					<Box
-						sx={{
-							display: 'flex',
-							flexWrap: 'wrap',
-							flexDirection: 'row',
-							justifyContent: 'center',
-						}}
-					>
-						<Box sx={{ flexGrow: 1 }}></Box>
-					</Box>
-				</Paper>
-
-				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-					<Box>
-						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Roster
-						</Typography>
-					</Box>
-
-					<TeamRoster></TeamRoster>
-				</Paper>
-
-				<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-					<Box>
-						<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-							Matches
-						</Typography>
-
-						<TeamMatchesTable></TeamMatchesTable>
-					</Box>
-				</Paper>
-			</Container>
-		</AppWrapper>
+					<TeamMatchesTable></TeamMatchesTable>
+				</Box>
+			</Paper>
+		</Container>
 	);
 }
 

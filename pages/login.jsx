@@ -53,7 +53,6 @@ export default function LoginPage(props) {
 		setSteamurl(get_auth_url());
 	}, []);
 	return (
-		<AppWrapper>
 			<Stack
 				maxWidth="sm"
 				direction="column"
@@ -82,6 +81,5 @@ export default function LoginPage(props) {
 					</Button>
 				</LoginCard>
 			</Stack>
-		</AppWrapper>
 	);
 }

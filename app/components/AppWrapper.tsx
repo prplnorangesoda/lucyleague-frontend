@@ -4,10 +4,12 @@ import theme from '../theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import LeagueAppBar from './LeagueAppBar';
 import AuthProvider from './CacheProvider';
+import { CookiesProvider } from 'react-cookie';
 
 export default function AppWrapper(props: PropsWithChildren<{}>) {
 	return (
 		<ThemeProvider theme={theme}>
+			<CookiesProvider />
 			<AuthProvider />
 			<CssBaseline />
 			<LeagueAppBar />

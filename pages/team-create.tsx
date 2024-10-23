@@ -21,32 +21,23 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-function Waiting() {
-	return (
-		<AppWrapper>
-			<CircularProgress />
-		</AppWrapper>
-	);
-}
 
 export default function TeamSignUpPage(props) {
 	return (
-		<AppWrapper>
-			<Stack
-				maxWidth="sm"
-				direction="column"
-				justifyContent="space-between"
-				alignSelf="center"
-				flex="1 1"
-			>
-				<GenericCard>
-					<Typography component="h1" variant="h3">
-						Creating a new team
-					</Typography>
-					<CreateNewTeamMenu />
-				</GenericCard>
-			</Stack>
-		</AppWrapper>
+		<Stack
+			maxWidth="sm"
+			direction="column"
+			justifyContent="space-between"
+			alignSelf="center"
+			flex="1 1"
+		>
+			<GenericCard>
+				<Typography component="h1" variant="h3">
+					Creating a new team
+				</Typography>
+				<CreateNewTeamMenu />
+			</GenericCard>
+		</Stack>
 	);
 }
 function CreateNewTeamMenu(props) {

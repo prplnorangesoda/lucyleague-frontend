@@ -12,7 +12,10 @@ import React, { useCallback, useEffect } from 'react';
 import * as fetch_mod from '@/app/modules/fetch_module';
 import { useCookies } from 'react-cookie';
 
-function AppBarUser(props: { user: fetch_mod.User; authToken: string }) {
+function AppBarUser(props: {
+	user: fetch_mod.UserResponseDeep;
+	authToken: string;
+}) {
 	const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
 		'auth-token',
 	]);
@@ -33,7 +36,7 @@ function AppBarUser(props: { user: fetch_mod.User; authToken: string }) {
 	};
 
 	const PushToProfile = () => {
-		router.push('/profile?id=' + props.user.steamid);
+		router.push('/profile?id=' + props.user.info.steamid);
 	};
 
 	const purgeUserCache = () => {
@@ -50,12 +53,12 @@ function AppBarUser(props: { user: fetch_mod.User; authToken: string }) {
 						{...bindTrigger(popupState)}
 					>
 						<Typography align="right">
-							{props.user.username ? props.user.username : 'username'}
+							{props.user.info.username ? props.user.info.username : 'username'}
 						</Typography>
 						<Avatar
 							sx={{ ml: 2, height: 40, width: 40 }}
 							variant="rounded"
-							src={props.user.avatarurl}
+							src={props.user.info.avatarurl}
 						/>
 					</Button>
 					<Menu {...bindMenu(popupState)}>

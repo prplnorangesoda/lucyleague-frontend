@@ -59,62 +59,57 @@ export default function AllLeaguesPage() {
 			.catch(console.error);
 	}, [setShownLeagues, setHiddenLeagues]);
 	return (
-		<AppWrapper>
-			<Container maxWidth="md">
-				<Paper sx={{ mt: 5, padding: 5 }}>
-					{shownLeagues ? (
-						shownLeagues.map((league, index) => (
-							<Stack key={index} alignContent="center" alignItems="center">
-								<Typography key={index} variant="h3" gutterBottom>
-									{league.info.name}
-								</Typography>
-								<Container maxWidth="sm" sx={{ mb: 5 }}>
-									<LeagueDisplay divisions={league.divisions} />
-								</Container>
-								<ButtonGroup>
-									<Button
-										href={`/league-sign-up?id=${league.info.id}`}
-										variant="contained"
-										endIcon={<ArrowOutward />}
-										disabled={!league.info.accepting_teams}
-									>
-										SIGN UP FOR THIS LEAGUE
-									</Button>
-									<Button
-										href={`/league?id=${league.info.id}`}
-										variant="contained"
-										endIcon={<ArrowOutward />}
-									>
-										GO TO LEAGUE
-									</Button>
-								</ButtonGroup>
-							</Stack>
-						))
-					) : (
-						<></>
-					)}
-				</Paper>
-				<Paper>
-					{hiddenLeagues ? (
-						hiddenLeagues.map((league, index) => (
-							<Stack key={index} alignContent="center" alignItems="center">
-								<Typography key={index} variant="h3">
-									{league.info.name}
-								</Typography>
+		<Container maxWidth="md">
+			<Paper sx={{ mt: 5, padding: 5 }}>
+				{shownLeagues ? (
+					shownLeagues.map((league, index) => (
+						<Stack key={index} alignContent="center" alignItems="center">
+							<Typography key={index} variant="h3" gutterBottom>
+								{league.info.name}
+							</Typography>
+							<Container maxWidth="sm" sx={{ mb: 5 }}>
+								<LeagueDisplay divisions={league.divisions} />
+							</Container>
+							<ButtonGroup>
+								<Button
+									href={`/league-sign-up?id=${league.info.id}`}
+									variant="contained"
+									endIcon={<ArrowOutward />}
+									disabled={!league.info.accepting_teams}
+								>
+									SIGN UP FOR THIS LEAGUE
+								</Button>
 								<Button
 									href={`/league?id=${league.info.id}`}
 									variant="contained"
+									endIcon={<ArrowOutward />}
 								>
 									GO TO LEAGUE
 								</Button>
-							</Stack>
-						))
-					) : (
-						<></>
-					)}
-				</Paper>
-			</Container>
-		</AppWrapper>
+							</ButtonGroup>
+						</Stack>
+					))
+				) : (
+					<></>
+				)}
+			</Paper>
+			<Paper>
+				{hiddenLeagues ? (
+					hiddenLeagues.map((league, index) => (
+						<Stack key={index} alignContent="center" alignItems="center">
+							<Typography key={index} variant="h3">
+								{league.info.name}
+							</Typography>
+							<Button href={`/league?id=${league.info.id}`} variant="contained">
+								GO TO LEAGUE
+							</Button>
+						</Stack>
+					))
+				) : (
+					<></>
+				)}
+			</Paper>
+		</Container>
 	);
 }
 function LeagueDisplay({ divisions }: { divisions: DivisionOptionalTeams[] }) {
@@ -136,7 +131,7 @@ function LeagueDisplay({ divisions }: { divisions: DivisionOptionalTeams[] }) {
 							<TableRow key={div.info.name}>
 								<TableCell>{div.info.name}</TableCell>
 								<TableCell align="right">
-									<IconButton href={'/division-table?id=' + div.info.id}>
+									<IconButton href={'/division-table/?id=' + div.info.id}>
 										<ArrowOutward />
 									</IconButton>
 								</TableCell>
