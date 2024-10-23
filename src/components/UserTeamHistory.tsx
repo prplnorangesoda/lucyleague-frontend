@@ -48,7 +48,11 @@ function UserTeamHistory(props: { s64: string }) {
 							</TableRow>
 						)
 					) : (
-						<Skeleton />
+						<TableRow>
+							<TableCell>
+								<Skeleton />
+							</TableCell>
+						</TableRow>
 					)}
 				</TableBody>
 			</Table>
