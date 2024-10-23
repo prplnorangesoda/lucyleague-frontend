@@ -14,7 +14,8 @@ import { useCookies } from 'react-cookie';
 import { useSearchParams } from 'next/navigation';
 import { useUserS64, useUserS64Deep } from '@/app/modules/fetch_module';
 import useSWR from 'swr';
-import { CircularProgress, Skeleton } from '@mui/material';
+import { Button, CircularProgress, Skeleton } from '@mui/material';
+import { useRouter } from 'next/router';
 
 function ProfilePage() {
 	const params = useSearchParams();
@@ -66,6 +67,7 @@ function ProfilePage() {
 }
 
 function UserProfile({ s64 }: { s64: string | null }) {
+	const router = useRouter();
 	if (s64 === null) return <CircularProgress />;
 	const { user, isLoading, isError } = useUserS64Deep(s64);
 
@@ -97,13 +99,16 @@ function UserProfile({ s64 }: { s64: string | null }) {
 							<Typography> Manager of: </Typography>,
 							user.ownerships.map((ownership) => (
 								<Box key={ownership.id}>
-									<Link
+									<Button
 										key={ownership.id}
-										href={`/team/?id=${ownership.id}`}
-										underline="none"
+										onClick={() => {
+											router.push(`/team/?id=${ownership.id}`);
+										}}
+										variant="text"
+										fullWidth
 									>
 										{ownership.team_name}
-									</Link>
+									</Button>
 								</Box>
 							)),
 						]

@@ -1,5 +1,5 @@
-import theme from './theme';
-import LeagueAppBar from './components/LeagueAppBar';
+import theme from '../app/theme';
+import LeagueAppBar from '@/app/components/LeagueAppBar';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,8 +11,10 @@ import Button from '@mui/material/Button';
 import React from 'react';
 
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import AppWrapper from './components/AppWrapper';
+import AppWrapper from '@/app/components/AppWrapper';
 import Grid from '@mui/material/Grid';
+import { Grid2 } from '@mui/material';
+import Link from 'next/link';
 
 const hero = {
 	height: '100%',
@@ -41,18 +43,17 @@ const blur = {
 
 export default function Home() {
 	return (
-		<AppWrapper>
+		<>
 			<Container style={hero}>
 				<Box sx={blur}>
 					<Typography align="center" component={'span'} variant="h3">
 						<Box
 							sx={{
 								fontWeight: 'bold',
-								fontFamily: 'Monospace',
 								wordBreak: 'break-word',
 							}}
 						>
-							Passtime League
+							PASS Time League
 						</Box>
 					</Typography>
 
@@ -62,12 +63,10 @@ export default function Home() {
 						variant="subtitle1"
 						gutterBottom
 					>
-						<Box sx={{ fontWeight: 'light', fontFamily: 'Monospace' }}>
-							the best flipping league ever doooood...
-						</Box>
+						<Box>the best flipping league ever doooood...</Box>
 					</Typography>
 
-					<Box alignSelf="center" sx={{ mt: 4 }}>
+					<Box alignSelf="center" sx={{ mt: 2 }}>
 						<Button
 							startIcon={<AppRegistrationIcon />}
 							variant="contained"
@@ -82,13 +81,13 @@ export default function Home() {
 				</Box>
 			</Container>
 
-			<Grid container sx={{ mt: 4, justifyContent: 'center' }}>
+			<Grid2 container sx={{ mt: 4, justifyContent: 'center' }}>
 				<Box sx={{ pb: 50, maxWidth: '70%' }}>
 					<Typography variant="h3" gutterBottom>
 						What is 4v4 PASS Time?
 					</Typography>
 
-					<Typography variant="body1">
+					<Typography variant="body1" gutterBottom>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -97,8 +96,12 @@ export default function Home() {
 						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
 						culpa qui officia deserunt mollit anim id est laborum.
 					</Typography>
+					<Typography variant="body1">
+						You can find a more complete explanation at{' '}
+						<Link href="https://passtime.tf/">passtime.tf</Link>.
+					</Typography>
 				</Box>
-			</Grid>
-		</AppWrapper>
+			</Grid2>
+		</>
 	);
 }

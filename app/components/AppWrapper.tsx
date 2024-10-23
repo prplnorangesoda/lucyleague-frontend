@@ -1,3 +1,4 @@
+'use client';
 import React, { PropsWithChildren } from 'react';
 import { Box, ThemeProvider } from '@mui/material';
 import theme from '../theme';

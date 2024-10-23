@@ -62,7 +62,14 @@ function AppBarUser(props: {
 						/>
 					</Button>
 					<Menu {...bindMenu(popupState)}>
-						<MenuItem onClick={PushToProfile}>Profile</MenuItem>
+						<MenuItem
+							onClick={() => {
+								popupState.close();
+								PushToProfile();
+							}}
+						>
+							Profile
+						</MenuItem>
 						<MenuItem
 							onClick={() => {
 								popupState.close();

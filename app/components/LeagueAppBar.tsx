@@ -22,6 +22,7 @@ import { Button, Container } from '@mui/material';
 // todo move this into a dropdown menu for mobile if width is too small
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
+import { useRouter } from 'next/router';
 
 const button_style = {
 	flex: '0 0 auto',
@@ -29,6 +30,7 @@ const button_style = {
 	text_align: 'center',
 };
 function LeagueAppBar() {
+	const router = useRouter();
 	const header_logo = {
 		width: 'auto',
 		height: 'auto',
@@ -86,7 +88,11 @@ function LeagueAppBar() {
 							flex: 0,
 						}}
 					>
-						<Button href="/home/" variant="text" sx={{ ml: 1 }}>
+						<Button
+							onClick={() => router.push('/home/')}
+							variant="text"
+							sx={{ ml: 1 }}
+						>
 							<Typography textAlign="center">HOME</Typography>
 						</Button>
 					</Container>
@@ -101,7 +107,11 @@ function LeagueAppBar() {
 							flex: 1,
 						}}
 					>
-						<Button href="/leagues/" variant="text" sx={button_style}>
+						<Button
+							onClick={() => router.push('/leagues/')}
+							variant="text"
+							sx={button_style}
+						>
 							<Typography textAlign="center">LEAGUES</Typography>
 						</Button>
 						{/* <AppBarleagueButton /> */}
@@ -120,7 +130,11 @@ function LeagueAppBar() {
 							flex: 0,
 						}}
 					>
-						<Button href="/admin/" variant="text" sx={button_style}>
+						<Button
+							onClick={() => router.push('/admin/')}
+							variant="text"
+							sx={button_style}
+						>
 							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
 					</Container>
