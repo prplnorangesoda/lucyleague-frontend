@@ -1,13 +1,14 @@
 'use client';
-import AppWrapper from '@/app/components/AppWrapper';
-import GenericCard from '@/app/components/GenericCard';
+import AppWrapper from '@/src/components/AppWrapper';
+import GenericCard from '@/src/components/GenericCard';
 import {
+	useLeagueId,
 	User,
 	UserResponseDeep,
 	useUserAuthTokenDeep,
 	useUserS64Deep,
-} from '@/app/modules/fetch_module';
-import { useLocalUser } from '@/app/modules/hooks';
+} from '@/src/modules/fetch_module';
+import { useLocalUser } from '@/src/modules/hooks';
 import { ArrowOutward } from '@mui/icons-material';
 import {
 	Button,
@@ -54,7 +55,9 @@ export default function LeagueSignUpPage() {
 		<Stack maxWidth="sm" alignSelf="center" minHeight="100%" padding={2}>
 			<GenericCard>
 				<Typography variant="h4"> Signing up for a league </Typography>
-				<Typography> You are signing up for: {'example'}</Typography>
+				<Typography>
+					<LeagueName id={league} />
+				</Typography>
 				{user ? (
 					<SignUpForm user={user} leagueId={league} />
 				) : (
@@ -62,6 +65,13 @@ export default function LeagueSignUpPage() {
 				)}
 			</GenericCard>
 		</Stack>
+	);
+}
+
+function LeagueName({ id }) {
+	let { data } = useLeagueId(id);
+	return (
+		<>{data ? 'You are signing up for: ' + data.info.name : <Skeleton />}</>
 	);
 }
 function SignUpForm({

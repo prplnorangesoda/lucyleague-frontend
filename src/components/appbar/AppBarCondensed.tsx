@@ -17,7 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import LoginIcon from '@mui/icons-material/Login';
 
-import * as fetch_mod from '@/app/modules/fetch_module';
+import * as fetch_mod from '@/src/modules/fetch_module';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

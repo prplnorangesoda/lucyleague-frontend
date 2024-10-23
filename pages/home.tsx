@@ -1,6 +1,5 @@
-import AppWrapper from '@/app/components/AppWrapper';
-import { User } from '@/app/modules/fetch_module';
-import { get_user_info } from '@/app/modules/caching_module';
+import AppWrapper from '@/src/components/AppWrapper';
+import { User } from '@/src/modules/fetch_module';
 import {
 	Grid2,
 	Typography,

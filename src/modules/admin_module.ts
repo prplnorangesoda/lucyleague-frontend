@@ -1,4 +1,4 @@
-import globals from '../globals';
+import globals from '../../src/globals';
 import { League, Division, Team } from './fetch_module';
 
 interface MiniLeague {

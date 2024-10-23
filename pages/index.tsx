@@ -1,5 +1,5 @@
-import theme from '../app/theme';
-import LeagueAppBar from '@/app/components/LeagueAppBar';
+import theme from '@/src/theme';
+import LeagueAppBar from '@/src/components/LeagueAppBar';
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import React from 'react';
 
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import AppWrapper from '@/app/components/AppWrapper';
+import AppWrapper from '@/src/components/AppWrapper';
 import Grid from '@mui/material/Grid';
 import { Grid2 } from '@mui/material';
 import Link from 'next/link';

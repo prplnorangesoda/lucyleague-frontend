@@ -1,13 +1,6 @@
 'use client';
 
 // kinda ass but w/e
-import globals from '@/app/globals';
-import theme from '@/app/theme';
-import LeagueAppBar from '@/app/components/LeagueAppBar';
-import UserTeamHistory from '@/app/components/UserTeamHistory';
-
-import { styled, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -17,13 +10,13 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
-import TeamMatchesTable from '@/app/components/TeamMatchesTable';
+import TeamMatchesTable from '@/src/components/TeamMatchesTable';
 
-import TeamRoster from '@/app/components/TeamRoster';
+import TeamRoster from '@/src/components/TeamRoster';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import AppWrapper from '@/app/components/AppWrapper';
+import AppWrapper from '@/src/components/AppWrapper';
 
 const tagStyle = {
 	'::before': {

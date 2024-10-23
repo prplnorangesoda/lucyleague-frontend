@@ -1,5 +1,3 @@
-import LeagueAppBar from '@/app/components/LeagueAppBar';
-import theme from '@/app/theme';
 import { ArrowOutward, CenterFocusStrong } from '@mui/icons-material';
 
 import {
@@ -16,7 +14,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
-import AppWrapper from '@/app/components/AppWrapper';
+import AppWrapper from '@/src/components/AppWrapper';
 /* https://steamcommunity.com/openid/login
 ?openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select
 &openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select

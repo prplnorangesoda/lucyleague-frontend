@@ -8,11 +8,10 @@ import {
 	ThemeProvider,
 	Typography,
 } from '@mui/material';
-import theme from '@/app/theme';
-import globals from '@/app/globals';
+import globals from '@/src/globals';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
-import AppWrapper from '@/app/components/AppWrapper';
+import AppWrapper from '@/src/components/AppWrapper';
 
 const OPENID_NECESSARY_PARAMETERS = [
 	'openid.ns',

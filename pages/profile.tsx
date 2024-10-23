@@ -1,5 +1,5 @@
-import UserTeamHistory from '@/app/components/UserTeamHistory';
-import AppWrapper from '@/app/components/AppWrapper';
+import UserTeamHistory from '@/src/components/UserTeamHistory';
+import AppWrapper from '@/src/components/AppWrapper';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
-import { useUserS64, useUserS64Deep } from '@/app/modules/fetch_module';
+import { useUserS64, useUserS64Deep } from '@/src/modules/fetch_module';
 import useSWR from 'swr';
 import { Button, CircularProgress, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';

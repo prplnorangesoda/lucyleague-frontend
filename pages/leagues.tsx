@@ -1,11 +1,11 @@
-import AppWrapper from '@/app/components/AppWrapper';
-import { StoredLeagues } from '@/app/components/CacheProvider';
+import AppWrapper from '@/src/components/AppWrapper';
+import { StoredLeagues } from '@/src/components/CacheProvider';
 import {
 	DivisionOptionalTeams,
 	fetch_leagues,
 	League,
 	LeagueReturn,
-} from '@/app/modules/fetch_module';
+} from '@/src/modules/fetch_module';
 import { ArrowOutward } from '@mui/icons-material';
 import {
 	Paper,

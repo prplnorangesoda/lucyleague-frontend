@@ -16,9 +16,9 @@ import { CookiesProvider, useCookies } from 'react-cookie';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 
-import * as fetch_module from '@/app/modules/fetch_module';
-import * as perms_module from '@/app/modules/parseperms';
-import * as admin_module from '@/app/modules/admin_module';
+import * as fetch_module from '@/src/modules/fetch_module';
+import * as perms_module from '@/src/modules/parseperms';
+import * as admin_module from '@/src/modules/admin_module';
 import {
 	Card,
 	Checkbox,
@@ -36,11 +36,11 @@ import {
 	TableRow,
 	TextField,
 } from '@mui/material';
-import GenericCard from '@/app/components/GenericCard';
+import GenericCard from '@/src/components/GenericCard';
 import { useRouter } from 'next/navigation';
-import AppWrapper from '@/app/components/AppWrapper';
+import AppWrapper from '@/src/components/AppWrapper';
 import Grid2 from '@mui/material/Grid2';
-import LeagueDivisions from '@/app/components/admin/LeagueDivisions';
+import LeagueDivisions from '@/src/components/admin/LeagueDivisions';
 
 interface PermActProps {
 	perms: perms_module.Permissions;

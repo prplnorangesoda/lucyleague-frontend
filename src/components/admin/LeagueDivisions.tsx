@@ -2,7 +2,7 @@ import {
 	fetch_league,
 	LeagueReturn,
 	DivisionOptionalTeams,
-} from '@/app/modules/fetch_module';
+} from '@/src/modules/fetch_module';
 import {
 	Box,
 	Container,
@@ -22,7 +22,7 @@ import { useCallback, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
 
-import * as admin_module from '@/app/modules/admin_module';
+import * as admin_module from '@/src/modules/admin_module';
 import { Delete, Edit } from '@mui/icons-material';
 
 const DivisionsDisplay = ({

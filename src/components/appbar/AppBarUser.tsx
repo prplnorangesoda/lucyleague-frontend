@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect } from 'react';
-import * as fetch_mod from '@/app/modules/fetch_module';
+import * as fetch_mod from '@/src/modules/fetch_module';
 import { useCookies } from 'react-cookie';
 
 function AppBarUser(props: {

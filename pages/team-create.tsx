@@ -1,7 +1,5 @@
-import AppWrapper from '@/app/components/AppWrapper';
-import GenericCard from '@/app/components/GenericCard';
-import { add_new_team } from '@/app/modules/admin_module';
-import * as fetch_mod from '@/app/modules/fetch_module';
+import GenericCard from '@/src/components/GenericCard';
+import { add_new_team } from '@/src/modules/admin_module';
 import {
 	Container,
 	Paper,

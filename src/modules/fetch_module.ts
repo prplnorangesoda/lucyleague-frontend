@@ -1,7 +1,7 @@
 'use client';
 
-import globals from '../globals';
-import useSWR from 'swr';
+import globals from '../../src/globals';
+import useSWR, { SWRResponse } from 'swr';
 type i64 = number;
 type String = string;
 
@@ -274,29 +274,21 @@ export async function fetch_leagues(): Promise<LeagueReturn[] | null> {
 	return leagues;
 }
 
-export function useLeagueId(id: number | string) {
+export function useLeagueId(id: number | string): SWRResponse<LeagueReturn> {
 	id = parseInt(id.toString());
 	if (Object.is(id, NaN)) {
 		throw new Error('Invalid id passed to useLeagueId');
 	}
 
 	if (id === -1) {
-		return {
-			league: null,
-			isLoading: false,
-			isError: new Error('Invalid ID'),
-		};
+		throw new Error('Invalid id');
 	}
-	const { data, error, isLoading } = useSWR(
+	const ret = useSWR<LeagueReturn, any>(
 		globals.API_BASE + 'leagues/' + id,
 		fetcher
 	);
 
-	return {
-		league: data as LeagueReturn,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 /**

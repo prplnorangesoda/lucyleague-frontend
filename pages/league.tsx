@@ -1,5 +1,5 @@
-import AppWrapper from '@/app/components/AppWrapper';
-import * as fetch_mod from '@/app/modules/fetch_module';
+import AppWrapper from '@/src/components/AppWrapper';
+import * as fetch_mod from '@/src/modules/fetch_module';
 import { Container, Paper, Typography } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
