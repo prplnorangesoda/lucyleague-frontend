@@ -1,8 +1,4 @@
 'use client';
-export const metadata = {
-	title: 'league | admin',
-	description: '4v4 passtime league admin panel',
-};
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -41,6 +37,7 @@ import { useRouter } from 'next/navigation';
 import AppWrapper from '@/src/components/AppWrapper';
 import Grid2 from '@mui/material/Grid2';
 import LeagueDivisions from '@/src/components/admin/LeagueDivisions';
+import MetaInfo from '@/src/components/MetaInfo';
 
 interface PermActProps {
 	perms: perms_module.Permissions;
@@ -63,7 +60,7 @@ function PermissionsActions({ perms }: PermActProps) {
 	return <Container maxWidth="xl">{ret}</Container>;
 }
 
-function Admin() {
+function AdminPage() {
 	let [perms, setPerms] = useState<perms_module.Permissions | null>(null);
 	let [error, setErr] = useState<string | null>(null);
 	let router = useRouter();
@@ -105,6 +102,7 @@ function Admin() {
 				flexDirection: 'column',
 			}}
 		>
+			<MetaInfo title="admin" description="league admin panel" />
 			{error ? (
 				<Stack maxWidth="sm" alignSelf="center">
 					<GenericCard>
@@ -136,7 +134,7 @@ function Admin() {
 	);
 }
 
-export default Admin;
+export default AdminPage;
 
 const GridItem = styled(Paper)(({ theme }) => ({
 	backgroundColor: '#fff',

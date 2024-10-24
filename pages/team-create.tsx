@@ -29,11 +29,13 @@ export default function TeamSignUpPage(props) {
 			alignSelf="center"
 			flex="1 1"
 		>
-			<GenericCard>
-				<Typography component="h1" variant="h3">
-					Creating a new team
-				</Typography>
-				<CreateNewTeamMenu />
+			<GenericCard elevation={0}>
+				<Stack gap={2} padding={2} paddingTop={2} paddingBottom={2}>
+					<Typography component="h1" variant="h4">
+						Creating a new team
+					</Typography>
+					<CreateNewTeamMenu />
+				</Stack>
 			</GenericCard>
 		</Stack>
 	);
@@ -70,31 +72,30 @@ function CreateNewTeamMenu(props) {
 				<></>
 			)} */}
 
-			<Stack gap={2} padding={5} paddingTop={2} paddingBottom={2}>
-				<Box display="flex" justifyContent="space-between">
-					<TextField
-						label="Name"
-						required
-						helperText="You can modify this later."
-						onChange={(event) => {
-							setTeamName(event.target.value);
-						}}
-						value={teamName}
-						sx={{ pb: 1, width: '70%' }}
-					/>
-					<TextField
-						label="Tag"
-						required
-						onChange={(event) => {
-							setTeamTag(event.target.value);
-						}}
-						value={teamTag}
-						sx={{ pb: 1, width: '20%', mr: 1 }}
-					/>
-				</Box>
+			<Box display="flex" justifyContent="space-between">
+				<TextField
+					label="Name"
+					required
+					helperText="You can modify this later."
+					onChange={(event) => {
+						setTeamName(event.target.value);
+					}}
+					value={teamName}
+					sx={{ pb: 1, width: '70%' }}
+				/>
+				<TextField
+					label="Tag"
+					required
+					onChange={(event) => {
+						setTeamTag(event.target.value);
+					}}
+					value={teamTag}
+					sx={{ pb: 1, width: '20%', mr: 1 }}
+				/>
+			</Box>
 
-				<FormControl required>
-					{/* 
+			<FormControl required>
+				{/* 
 					<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
 					<Select
 						labelId="select-team-privacy-label"
@@ -106,11 +107,10 @@ function CreateNewTeamMenu(props) {
 						<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
 						<MenuItem value={'private'}>Invite-only</MenuItem>
 					</Select> */}
-				</FormControl>
-				<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
-					CREATE A NEW TEAM
-				</Button>
-			</Stack>
+			</FormControl>
+			<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
+				CREATE A NEW TEAM
+			</Button>
 		</>
 	);
 }

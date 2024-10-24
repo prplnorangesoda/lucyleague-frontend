@@ -40,12 +40,13 @@ export default function LeagueSignUpPage() {
 			<Stack minHeight="100%" maxWidth="sm" alignSelf="center">
 				<GenericCard>
 					<Typography>
-						Because of Next.js crap, you're gonna have to sit and wait here
+						Because of Next.js crap, you&apos;re gonna have to sit and wait here
 						until the search params decide to wake up.
 					</Typography>
 					<Typography>
 						If it takes more than 2 seconds to get off this page, go to another
-						one.
+						one. This means your &quot;id&quot; parameter (the one in the link)
+						is missing or incorrect.
 					</Typography>
 				</GenericCard>
 			</Stack>
@@ -81,12 +82,18 @@ function SignUpForm({
 	user: UserResponseDeep;
 	leagueId: string;
 }) {
+	const leagueSwr = useLeagueId(leagueId);
 	const [team, setTeam] = useState('');
 	const handleTeamChange = useCallback((event: SelectChangeEvent) => {
 		setTeam(event.target.value as string);
 	}, []);
 	return user.ownerships.length != 0 ? (
 		<Stack style={{ gap: 10 }} alignItems="center">
+			{leagueSwr.data ? (
+				<Typography>Signing up for:{' ' + leagueSwr.data.info.name}</Typography>
+			) : (
+				<></>
+			)}
 			<FormControl fullWidth required>
 				<InputLabel id="team-select-label">Team</InputLabel>
 				<Select
@@ -110,7 +117,7 @@ function SignUpForm({
 	) : (
 		<Typography>
 			You own no teams. Would you like to{' '}
-			<Link href="/team-sign-up/">create a new one?</Link>
+			<Link href="/team-create/">create a new one?</Link>
 		</Typography>
 	);
 }

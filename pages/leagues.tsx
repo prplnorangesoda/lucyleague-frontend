@@ -23,6 +23,7 @@ import {
 	ButtonGroup,
 	IconButton,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import { ReactNode, useEffect, useState } from 'react';
 
 const splitLeagues = (
@@ -44,6 +45,7 @@ export default function AllLeaguesPage() {
 		null
 	);
 	const [err, setErr] = useState('');
+	const router = useRouter();
 
 	useEffect(() => {
 		fetch_leagues()
@@ -72,7 +74,9 @@ export default function AllLeaguesPage() {
 							</Container>
 							<ButtonGroup>
 								<Button
-									href={`/league-sign-up?id=${league.info.id}`}
+									onClick={() =>
+										router.push(`/league-sign-up/?id=${league.info.id}`)
+									}
 									variant="contained"
 									endIcon={<ArrowOutward />}
 									disabled={!league.info.accepting_teams}
@@ -80,7 +84,7 @@ export default function AllLeaguesPage() {
 									SIGN UP FOR THIS LEAGUE
 								</Button>
 								<Button
-									href={`/league?id=${league.info.id}`}
+									onClick={() => router.push(`/league/?id=${league.info.id}`)}
 									variant="contained"
 									endIcon={<ArrowOutward />}
 								>

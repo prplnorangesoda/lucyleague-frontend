@@ -1,5 +1,5 @@
+'use client';
 import UserTeamHistory from '@/src/components/UserTeamHistory';
-import AppWrapper from '@/src/components/AppWrapper';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -7,13 +7,10 @@ import Box from '@mui/material/Box';
 
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { useSearchParams } from 'next/navigation';
 import { useUserS64, useUserS64Deep } from '@/src/modules/fetch_module';
-import useSWR from 'swr';
 import { Button, CircularProgress, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
 
@@ -66,9 +63,8 @@ function ProfilePage() {
 	);
 }
 
-function UserProfile({ s64 }: { s64: string | null }) {
+function UserProfile({ s64 }: { s64: string }) {
 	const router = useRouter();
-	if (s64 === null) return <CircularProgress />;
 	const { user, isLoading, isError } = useUserS64Deep(s64);
 
 	if (isError) {
@@ -96,7 +92,7 @@ function UserProfile({ s64 }: { s64: string | null }) {
 				<Typography sx={{ fontWeight: 'light' }} gutterBottom variant="h5">
 					{user ? (
 						[
-							<Typography> Manager of: </Typography>,
+							<Typography key="lol"> Manager of: </Typography>,
 							user.ownerships.map((ownership) => (
 								<Box key={ownership.id}>
 									<Button
@@ -105,7 +101,7 @@ function UserProfile({ s64 }: { s64: string | null }) {
 											router.push(`/team/?id=${ownership.id}`);
 										}}
 										variant="text"
-										fullWidth
+										size="small"
 									>
 										{ownership.team_name}
 									</Button>

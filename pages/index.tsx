@@ -15,6 +15,7 @@ import AppWrapper from '@/src/components/AppWrapper';
 import Grid from '@mui/material/Grid';
 import { Grid2 } from '@mui/material';
 import Link from 'next/link';
+import MetaInfo from '@/src/components/MetaInfo';
 
 const hero = {
 	height: '100%',
@@ -44,6 +45,7 @@ const blur = {
 export default function Home() {
 	return (
 		<>
+			<MetaInfo title="lucyleague" description="a league for 4v4 passtime" />
 			<Container style={hero}>
 				<Box sx={blur}>
 					<Typography align="center" component={'span'} variant="h3">

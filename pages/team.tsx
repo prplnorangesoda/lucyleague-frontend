@@ -1,13 +1,6 @@
 'use client';
 
 // kinda ass but w/e
-import globals from '@/src/globals';
-import LeagueAppBar from '@/src/components/LeagueAppBar';
-import UserTeamHistory from '@/src/components/UserTeamHistory';
-
-import { styled, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -16,13 +9,9 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import React, { useState, useEffect } from 'react';
-import TeamMatchesTable from '@/src/components/TeamMatchesTable';
-
-import TeamRoster from '@/src/components/TeamRoster';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import AppWrapper from '@/src/components/AppWrapper';
 import { CircularProgress, Skeleton } from '@mui/material';
 import { useBaseTeam } from '@/src/modules/fetch_module';
 
@@ -49,13 +38,7 @@ function TeamPage() {
 		<Container maxWidth="xl">
 			<TeamTitle id={teamid} key={teamid} />
 
-			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
-				<Box>
-					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
-						Current rosters
-					</Typography>
-				</Box>
-			</Paper>
+			<TeamRosters id={teamid} key={teamid} />
 
 			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 				<Box>
@@ -69,6 +52,19 @@ function TeamPage() {
 }
 
 export default TeamPage;
+function TeamRosters(props: { id: string }) {
+	const { team } = useBaseTeam(props.id);
+	return (
+		<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+			<Box>
+				<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+					Current rosters
+				</Typography>
+			</Box>
+		</Paper>
+	);
+}
+
 function TeamTitle(props: { id: string }) {
 	let { team, isError, isLoading } = useBaseTeam(props.id);
 	if (!team) return;

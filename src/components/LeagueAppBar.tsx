@@ -23,6 +23,7 @@ import { Button, Container } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const button_style = {
 	flex: '0 0 auto',
@@ -64,7 +65,7 @@ function LeagueAppBar() {
 						alignItems: 'center',
 					}}
 				>
-					<a href="/" style={{ maxHeight: '42px', float: 'left' }}>
+					<Link href="/" style={{ maxHeight: '42px', float: 'left' }}>
 						<Image
 							priority
 							src="/assets/header.avif"
@@ -73,7 +74,7 @@ function LeagueAppBar() {
 							style={header_logo}
 							alt="League logo"
 						/>
-					</a>
+					</Link>
 					{
 						// LEFT BUTTONS
 					}
@@ -125,8 +126,6 @@ function LeagueAppBar() {
 							alignItems: 'right',
 							justifyContent: 'space-between',
 							gap: 10,
-							paddingRight: 0,
-							marginRight: 0,
 							flex: 0,
 						}}
 					>
