@@ -57,9 +57,6 @@ export default function LeagueSignUpPage() {
 		<Stack maxWidth="sm" alignSelf="center" minHeight="100%" padding={2}>
 			<GenericCard>
 				<Typography variant="h4"> Signing up for a league </Typography>
-				<Typography>
-					<LeagueName id={league} />
-				</Typography>
 				{user ? (
 					<SignUpForm user={user} leagueId={league} />
 				) : (
@@ -67,13 +64,6 @@ export default function LeagueSignUpPage() {
 				)}
 			</GenericCard>
 		</Stack>
-	);
-}
-
-function LeagueName({ id }) {
-	let { data } = useLeagueId(id);
-	return (
-		<>{data ? 'You are signing up for: ' + data.info.name : <Skeleton />}</>
 	);
 }
 function SignUpForm({

@@ -24,6 +24,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarCondensed from './appbar/AppBarCondensed';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { debugLog } from '../globals';
 
 const button_style = {
 	flex: '0 0 auto',
@@ -44,17 +45,16 @@ function LeagueAppBar() {
 
 	const [cookies] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
+	// use this for dynamic resizing of menu
+	const screnW = useMediaQuery('(min-width:750px)');
 
 	useEffect(() => {
-		console.log('LeagueAppBar: getting user info');
+		debugLog('LeagueAppBar: getting user info');
 		userinfo_module.get_user_info().then((result) => {
-			console.log('userinfo_module succeeded:', result.userInfo);
+			debugLog('caching_module succeeded:', result.userInfo);
 			setAuthInfo(result.userInfo);
 		});
 	}, [authToken]);
-
-	// use this for dynamic resizing of menu
-	const screnW = useMediaQuery('(min-width:750px)');
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>

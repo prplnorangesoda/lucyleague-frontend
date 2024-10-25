@@ -11,12 +11,13 @@ import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect } from 'react';
 import * as fetch_mod from '@/src/modules/fetch_module';
 import { useCookies } from 'react-cookie';
+import { debugLog } from '@/src/globals';
 
 function AppBarUser(props: {
 	user: fetch_mod.UserResponseDeep;
 	authToken: string;
 }) {
-	console.log(props.user);
+	debugLog('AppBarUser props.user:', props.user);
 	const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
 		'auth-token',
 	]);

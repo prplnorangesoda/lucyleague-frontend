@@ -15,7 +15,8 @@ import { useUserS64Deep } from '../modules/fetch_module';
 import { Skeleton } from '@mui/material';
 
 function UserTeamHistory(props: { s64: string }) {
-	let { user, isLoading, isError } = useUserS64Deep(props.s64);
+	let userSwr = useUserS64Deep(props.s64);
+	let user = userSwr.data;
 
 	return (
 		<TableContainer>

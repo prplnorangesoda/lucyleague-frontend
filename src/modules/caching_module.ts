@@ -1,6 +1,7 @@
 'use client';
 import { StoredUser, StoredLeagues } from '../components/CacheProvider';
 import { User } from './fetch_module';
+import { debugLog } from '../globals';
 
 /**
  * A way to get the locally cached user, provided by the [CacheProvider](../components/CacheProvider.tsx)

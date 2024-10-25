@@ -53,7 +53,8 @@ function TeamPage() {
 
 export default TeamPage;
 function TeamRosters(props: { id: string }) {
-	const { team } = useBaseTeam(props.id);
+	const teamSwr = useBaseTeam(props.id);
+	const team = teamSwr.data;
 	return (
 		<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 			<Box>
@@ -66,7 +67,9 @@ function TeamRosters(props: { id: string }) {
 }
 
 function TeamTitle(props: { id: string }) {
-	let { team, isError, isLoading } = useBaseTeam(props.id);
+	let teamSwr = useBaseTeam(props.id);
+
+	let team = teamSwr.data;
 	if (!team) return;
 	return (
 		<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
