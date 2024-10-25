@@ -1,5 +1,6 @@
 import AppWrapper from '@/src/components/AppWrapper';
 import { StoredLeagues } from '@/src/components/CacheProvider';
+import MetaInfo from '@/src/components/MetaInfo';
 import {
 	DivisionOptionalTeams,
 	fetch_leagues,
@@ -62,6 +63,7 @@ export default function AllLeaguesPage() {
 	}, [setShownLeagues, setHiddenLeagues]);
 	return (
 		<Container maxWidth="md">
+			<MetaInfo title="leagues" />
 			<Paper sx={{ mt: 5, padding: 5 }}>
 				{shownLeagues ? (
 					shownLeagues.map((league, index) => (

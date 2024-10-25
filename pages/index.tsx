@@ -45,7 +45,7 @@ const blur = {
 export default function Home() {
 	return (
 		<>
-			<MetaInfo title="lucyleague" description="a league for 4v4 passtime" />
+			<MetaInfo title="welcome" description="a league for 4v4 passtime" />
 			<Container style={hero}>
 				<Box sx={blur}>
 					<Typography align="center" component={'span'} variant="h3">

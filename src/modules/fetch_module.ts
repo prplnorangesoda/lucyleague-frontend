@@ -47,55 +47,36 @@ export interface TeamDivAssociation {
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export function useBaseTeam(id: string) {
-	const { data, error, isLoading } = useSWR(
-		globals.API_BASE + 'teams/' + id,
-		fetcher
-	);
+	const ret = useSWR<TeamResponse>(globals.API_BASE + 'teams/' + id, fetcher);
 
-	return {
-		team: data as TeamResponse,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 export function useUserS64(steamid: number | string) {
-	const { data, error, isLoading } = useSWR(
+	const ret = useSWR<UserResponseBase>(
 		globals.API_BASE + 'user/steamid/' + steamid,
 		fetcher
 	);
 
-	return {
-		user: data as UserResponseBase,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 export function useUserS64Deep(steamid: number | string) {
-	const { data, error, isLoading } = useSWR(
+	const ret = useSWR<UserResponseDeep>(
 		globals.API_BASE + 'user/steamid/' + steamid + '?deep=true',
 		fetcher
 	);
 
-	return {
-		user: data as UserResponseBase & UserResponseDeep,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 export function useUserAuthToken(authtoken: string) {
-	const { data, error, isLoading } = useSWR(
+	const ret = useSWR<UserResponseBase>(
 		globals.API_BASE + 'user/authtoken/' + authtoken,
 		fetcher
 	);
 
-	return {
-		user: data as User,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 export function useUserAuthTokenDeep(authtoken: string) {

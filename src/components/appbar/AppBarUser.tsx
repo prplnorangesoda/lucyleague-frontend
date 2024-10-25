@@ -16,6 +16,7 @@ function AppBarUser(props: {
 	user: fetch_mod.UserResponseDeep;
 	authToken: string;
 }) {
+	console.log(props.user);
 	const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
 		'auth-token',
 	]);

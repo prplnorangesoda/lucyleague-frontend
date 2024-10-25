@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { useUserS64, useUserS64Deep } from '@/src/modules/fetch_module';
 import { Button, CircularProgress, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
+import MetaInfo from '@/src/components/MetaInfo';
 
 function ProfilePage() {
 	const params = useSearchParams();
@@ -21,7 +22,12 @@ function ProfilePage() {
 	}
 	const s64 = params.get('id');
 	if (!s64) {
-		return <CircularProgress />;
+		return (
+			<>
+				<CircularProgress />
+				<MetaInfo />
+			</>
+		);
 	}
 
 	return (
@@ -65,11 +71,13 @@ function ProfilePage() {
 
 function UserProfile({ s64 }: { s64: string }) {
 	const router = useRouter();
-	const { user, isLoading, isError } = useUserS64Deep(s64);
+	const userSwr = useUserS64Deep(s64);
 
-	if (isError) {
-		console.error(isError);
+	if (userSwr.error) {
+		console.error(userSwr.error);
 	}
+
+	const user = userSwr.data;
 	return (
 		<>
 			<Box sx={{ pr: '20px' }}>
@@ -83,14 +91,15 @@ function UserProfile({ s64 }: { s64: string }) {
 					<CircularProgress size={150} />
 				)}
 			</Box>
+			{user ? <MetaInfo title={user.info.username + "'s profile"} /> : <></>}
 
 			<Box sx={{ mt: '8px' }}>
 				<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-					{isLoading || isError ? <Skeleton /> : user.info.username}
+					{user ? user.info.username : <Skeleton />}
 				</Typography>
 
 				<Typography sx={{ fontWeight: 'light' }} gutterBottom variant="h5">
-					{user ? (
+					{user && user.ownerships.length != 0 ? (
 						[
 							<Typography key="lol"> Manager of: </Typography>,
 							user.ownerships.map((ownership) => (

@@ -1,4 +1,5 @@
 import AppWrapper from '@/src/components/AppWrapper';
+import MetaInfo from '@/src/components/MetaInfo';
 import { User } from '@/src/modules/fetch_module';
 import {
 	Grid2,
@@ -47,9 +48,7 @@ const YouInfo = (props: { user: User }) => {
 export default function Home() {
 	return (
 		<>
-			<Typography align="center" variant="h3" gutterBottom>
-				Home
-			</Typography>
+			<MetaInfo title="home" />
 			<Grid2 container padding={5} spacing={2}>
 				<Grid2 size={8}>
 					<GridItem>

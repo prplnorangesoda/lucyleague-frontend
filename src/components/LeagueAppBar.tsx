@@ -42,7 +42,7 @@ function LeagueAppBar() {
 	const [AuthInfo, setAuthInfo] =
 		useState<fetch_module.UserResponseDeep | null>(null);
 
-	const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
+	const [cookies] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
 
 	useEffect(() => {

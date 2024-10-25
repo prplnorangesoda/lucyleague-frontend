@@ -7,7 +7,7 @@ export interface MetaInfoProps {
 export default function MetaInfo(props: MetaInfoProps) {
 	const description =
 		props.description || 'A league for 4v4 pass time - coming soon';
-	const title = props.title || 'league.passtime.tf';
+	const title = props.title;
 	return (
 		<Head key="main">
 			<meta name="description" content={description} />
@@ -15,7 +15,7 @@ export default function MetaInfo(props: MetaInfoProps) {
 			<meta property="og:title" content={title} />
 			<meta name="theme-color" content="#FF0000" />
 			<link rel="icon" href="/assets/jotchua.avif" type="image/avif"></link>
-			<title key="main">{title + ' | lucyleague'}</title>
+			<title key="main">{title ? title + ' | lucyleague' : 'lucyleague'}</title>
 
 			<meta property="og:type" content="website" />
 		</Head>

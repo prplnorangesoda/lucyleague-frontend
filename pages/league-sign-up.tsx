@@ -1,6 +1,7 @@
 'use client';
 import AppWrapper from '@/src/components/AppWrapper';
 import GenericCard from '@/src/components/GenericCard';
+import MetaInfo from '@/src/components/MetaInfo';
 import {
 	useLeagueId,
 	User,
@@ -90,7 +91,12 @@ function SignUpForm({
 	return user.ownerships.length != 0 ? (
 		<Stack style={{ gap: 10 }} alignItems="center">
 			{leagueSwr.data ? (
-				<Typography>Signing up for:{' ' + leagueSwr.data.info.name}</Typography>
+				<>
+					<Typography>
+						Signing up for:{' ' + leagueSwr.data.info.name}
+					</Typography>
+					<MetaInfo title={'signing up for: ' + leagueSwr.data.info.name} />
+				</>
 			) : (
 				<></>
 			)}
