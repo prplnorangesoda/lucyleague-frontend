@@ -1,5 +1,5 @@
 import globals from '../../src/globals';
-import { League, Division, Team } from './fetch_module';
+import { League, Division, Team, TeamDivAssociation } from './fetch_module';
 
 interface MiniLeague {
 	name: string;
@@ -84,6 +84,30 @@ export async function add_new_team(
 			['Content-Type']: 'application/json',
 		},
 		body: JSON.stringify(info),
+	});
+	if (resp.status != 201) {
+		return null;
+	}
+	return await resp.json();
+}
+
+export async function add_new_team_div_assoc(
+	teamdata: {
+		leagueid: number;
+		teamid: number;
+		is_private: boolean;
+	},
+	authorization: string
+): Promise<TeamDivAssociation | null> {
+	let url = `${globals.API_BASE}leagues/${teamdata.leagueid}/teams`;
+
+	let resp = await fetch(url, {
+		method: 'POST',
+		headers: {
+			['Authorization']: `Bearer ${authorization}`,
+			['Content-Type']: 'application/json',
+		},
+		body: JSON.stringify(teamdata),
 	});
 	if (resp.status != 201) {
 		return null;

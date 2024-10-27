@@ -17,6 +17,8 @@ import TeamRoster from '@/src/components/TeamRoster';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import AppWrapper from '@/src/components/AppWrapper';
+import { CircularProgress, Skeleton } from '@mui/material';
+import { useTeamDivAssocId } from '@/src/modules/fetch_module';
 
 const tagStyle = {
 	'::before': {
@@ -29,7 +31,7 @@ const tagStyle = {
 	},
 };
 function TeamDivAssocPage() {
-	const [TeamID, setTeamID] = useState<number | null>(null);
+	const [teamId, setTeamID] = useState<string | null>(null);
 	const router = useRouter();
 	const params = useSearchParams();
 
@@ -40,24 +42,38 @@ function TeamDivAssocPage() {
 		if (teamid === null) return;
 		if (!teamid) router.push('home/');
 
-		setTeamID(window.parseInt(teamid));
+		setTeamID(teamid);
 	}, [params, setTeamID]);
-
-	useEffect(() => {}, [TeamID]);
 
 	return (
 		<Container maxWidth="xl">
+			{teamId ? <TeamDivAssoc id={teamId} /> : <CircularProgress />}
+		</Container>
+	);
+}
+
+function TeamDivAssoc(props: { id: string }) {
+	const teamDivInfo = useTeamDivAssocId(props.id);
+	const data = teamDivInfo.data;
+	return (
+		<>
 			<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
 				<Typography sx={{ fontWeight: 'regular' }} variant="h4">
-					<Box component="span" sx={tagStyle}>
-						TAG
-					</Box>{' '}
-					Team #1
+					{data ? (
+						<>
+							<Box component="span" sx={tagStyle}>
+								{data.team_info.team_tag}
+							</Box>
+							{' ' + data.team_info.team_name}
+						</>
+					) : (
+						<Skeleton />
+					)}
 				</Typography>
 
 				<Typography sx={{ fontWeight: 'light' }} variant="h6">
 					<Link href="#" underline="none">
-						division
+						division (here soon)
 					</Link>
 				</Typography>
 
@@ -80,7 +96,11 @@ function TeamDivAssocPage() {
 					</Typography>
 				</Box>
 
-				<TeamRoster></TeamRoster>
+				{data ? (
+					<TeamRoster players={data.players} />
+				) : (
+					<Skeleton width="auto" />
+				)}
 			</Paper>
 
 			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -92,7 +112,7 @@ function TeamDivAssocPage() {
 					<TeamMatchesTable></TeamMatchesTable>
 				</Box>
 			</Paper>
-		</Container>
+		</>
 	);
 }
 

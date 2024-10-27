@@ -23,6 +23,7 @@ import {
 	TableCell,
 	ButtonGroup,
 	IconButton,
+	CircularProgress,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect, useState } from 'react';
@@ -64,9 +65,10 @@ export default function AllLeaguesPage() {
 	return (
 		<Container maxWidth="md">
 			<MetaInfo title="leagues" />
-			<Paper sx={{ mt: 5, padding: 5 }}>
-				{shownLeagues ? (
-					shownLeagues.map((league, index) => (
+
+			{shownLeagues && shownLeagues.length != 0 ? (
+				shownLeagues.map((league, index) => (
+					<Paper sx={{ mt: 5, padding: 5 }}>
 						<Stack key={index} alignContent="center" alignItems="center">
 							<Typography key={index} variant="h3" gutterBottom>
 								{league.info.name}
@@ -94,11 +96,13 @@ export default function AllLeaguesPage() {
 								</Button>
 							</ButtonGroup>
 						</Stack>
-					))
-				) : (
-					<></>
-				)}
-			</Paper>
+					</Paper>
+				))
+			) : (
+				<Container maxWidth="sm">
+					<CircularProgress />
+				</Container>
+			)}
 			<Paper>
 				{hiddenLeagues ? (
 					hiddenLeagues.map((league, index) => (

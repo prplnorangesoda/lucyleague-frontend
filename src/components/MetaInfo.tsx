@@ -13,7 +13,7 @@ export default function MetaInfo(props: MetaInfoProps) {
 			<meta name="description" content={description} />
 			<meta property="og:description" content={description} />
 			<meta property="og:title" content={title} />
-			<meta name="theme-color" content="#FF0000" />
+			<meta name="theme-color" content="#ff773d" />
 			<link rel="icon" href="/assets/jotchua.avif" type="image/avif"></link>
 			<title key="main">{title ? title + ' | lucyleague' : 'lucyleague'}</title>
 

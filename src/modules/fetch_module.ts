@@ -80,16 +80,12 @@ export function useUserAuthToken(authtoken: string) {
 }
 
 export function useUserAuthTokenDeep(authtoken: string) {
-	const { data, error, isLoading } = useSWR(
+	const ret = useSWR<UserResponseDeep>(
 		globals.API_BASE + 'user/authtoken/' + authtoken + '?deep=true',
 		fetcher
 	);
 
-	return {
-		user: data as User,
-		isLoading,
-		isError: error,
-	};
+	return ret;
 }
 
 let cached_user: UserResponseDeep | undefined;
@@ -205,6 +201,7 @@ export interface WrappedDivisionAdmin {
 export interface DeepTeamDivAssociation {
 	team_info: Team;
 	association_info: TeamDivAssociation;
+	players: User[];
 }
 export interface DivisionOptionalTeams {
 	info: Division;
@@ -272,6 +269,24 @@ export function useLeagueId(id: number | string): SWRResponse<LeagueReturn> {
 	return ret;
 }
 
+export function useTeamDivAssocId(
+	id: number | string
+): SWRResponse<DeepTeamDivAssociation> {
+	id = parseInt(id.toString());
+	if (Object.is(id, NaN)) {
+		throw new Error('Invalid id passed to useLeagueId');
+	}
+
+	if (id === -1) {
+		throw new Error('Invalid id');
+	}
+	const ret = useSWR<DeepTeamDivAssociation, any>(
+		globals.API_BASE + 'teamdivassocs/' + id,
+		fetcher
+	);
+
+	return ret;
+}
 /**
  *
  * @param id League id

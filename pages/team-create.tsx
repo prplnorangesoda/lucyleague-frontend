@@ -94,20 +94,6 @@ function CreateNewTeamMenu(props) {
 				/>
 			</Box>
 
-			<FormControl required>
-				{/* 
-					<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
-					<Select
-						labelId="select-team-privacy-label"
-						id="select-team-privacy"
-						value={privacy}
-						label="Team privacy"
-						onChange={handleChange}
-					>
-						<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
-						<MenuItem value={'private'}>Invite-only</MenuItem>
-					</Select> */}
-			</FormControl>
 			<Button style={{ flex: 0 }} variant="contained" onClick={postTeam}>
 				CREATE A NEW TEAM
 			</Button>

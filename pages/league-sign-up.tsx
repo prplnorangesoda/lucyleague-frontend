@@ -2,6 +2,7 @@
 import AppWrapper from '@/src/components/AppWrapper';
 import GenericCard from '@/src/components/GenericCard';
 import MetaInfo from '@/src/components/MetaInfo';
+import { add_new_team_div_assoc } from '@/src/modules/admin_module';
 import {
 	useLeagueId,
 	User,
@@ -75,15 +76,40 @@ function SignUpForm({
 }) {
 	const leagueSwr = useLeagueId(leagueId);
 	const [team, setTeam] = useState('');
-	const handleTeamChange = useCallback((event: SelectChangeEvent) => {
-		setTeam(event.target.value as string);
-	}, []);
+	const handleTeamChange = useCallback(
+		(event: SelectChangeEvent) => {
+			setTeam(event.target.value as string);
+		},
+		[setTeam]
+	);
+	const [privacy, setPrivacy] = useState('joinreq');
+	const handlePrivacyChange = useCallback(
+		(event: SelectChangeEvent) => {
+			setPrivacy(event.target.value as string);
+		},
+		[setPrivacy]
+	);
+	const [cookies] = useCookies(['auth-token']);
+	const authtoken = cookies['auth-token'];
+	const postTeamDivAssoc = useCallback(() => {
+		if (team === '') return;
+		if (!authtoken) return;
+		add_new_team_div_assoc(
+			{
+				leagueid: parseInt(leagueId),
+				teamid: parseInt(team),
+				is_private: privacy === 'private',
+			},
+			authtoken
+		);
+	}, [team, leagueId, privacy]);
+
 	return user.ownerships.length != 0 ? (
 		<Stack style={{ gap: 10 }} alignItems="center">
 			{leagueSwr.data ? (
 				<>
 					<Typography>
-						Signing up for:{' ' + leagueSwr.data.info.name}
+						{'Signing up for: ' + leagueSwr.data.info.name}
 					</Typography>
 					<MetaInfo title={'signing up for: ' + leagueSwr.data.info.name} />
 				</>
@@ -106,7 +132,24 @@ function SignUpForm({
 					))}
 				</Select>
 			</FormControl>
-			<Button variant="contained" endIcon={<ArrowOutward />}>
+			<FormControl fullWidth required>
+				<InputLabel id="select-team-privacy-label">Team privacy</InputLabel>
+				<Select
+					labelId="select-team-privacy-label"
+					id="select-team-privacy"
+					value={privacy}
+					label="Team privacy"
+					onChange={handlePrivacyChange}
+				>
+					<MenuItem value={'joinreq'}>Allow join requests</MenuItem>
+					<MenuItem value={'private'}>Invite-only</MenuItem>
+				</Select>
+			</FormControl>
+			<Button
+				variant="contained"
+				endIcon={<ArrowOutward />}
+				onClick={postTeamDivAssoc}
+			>
 				SIGN UP
 			</Button>
 		</Stack>
