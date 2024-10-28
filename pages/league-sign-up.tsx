@@ -25,7 +25,8 @@ import {
 	Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
@@ -89,6 +90,8 @@ function SignUpForm({
 		},
 		[setPrivacy]
 	);
+
+	const router = useRouter();
 	const [cookies] = useCookies(['auth-token']);
 	const authtoken = cookies['auth-token'];
 	const postTeamDivAssoc = useCallback(() => {
@@ -101,8 +104,10 @@ function SignUpForm({
 				is_private: privacy === 'private',
 			},
 			authtoken
-		);
-	}, [team, leagueId, privacy]);
+		).then((teamdivassoc) => {
+			teamdivassoc && router.push('/team-div/?id=' + teamdivassoc.id);
+		});
+	}, [team, leagueId, privacy, authtoken, router]);
 
 	return user.ownerships.length != 0 ? (
 		<Stack style={{ gap: 10 }} alignItems="center">

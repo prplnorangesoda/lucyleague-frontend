@@ -117,7 +117,7 @@ const AddDivision = (props: { league: LeagueReturn }) => {
 				setFeedback('Error, check console');
 				console.error(err);
 			});
-	}, [props.league, divName]);
+	}, [props.league, divName, cookies]);
 
 	return (
 		<>

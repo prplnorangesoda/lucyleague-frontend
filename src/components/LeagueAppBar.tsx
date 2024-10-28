@@ -11,11 +11,6 @@ import AppBarUser from './appbar/AppBarUser';
 import AppBarLogin from './appbar/AppBarLogin';
 
 import { useCookies, CookiesProvider } from 'react-cookie';
-
-import * as fetch_module from '../modules/fetch_module';
-import * as userinfo_module from '../modules/caching_module';
-
-import AppBarleagueButton from './AppBarLeagueButton';
 import Image from 'next/image';
 import { Button, Container } from '@mui/material';
 
@@ -39,22 +34,14 @@ function LeagueAppBar() {
 		maxWidth: '200px',
 		maxHeight: '42px',
 	};
-
-	const [AuthInfo, setAuthInfo] =
-		useState<fetch_module.UserResponseDeep | null>(null);
-
+	const [domLoaded, setloaded] = useState(false);
+	useEffect(() => {
+		setloaded(true);
+	});
 	const [cookies] = useCookies(['auth-token']);
 	const authToken = cookies['auth-token'];
 	// use this for dynamic resizing of menu
 	const screnW = useMediaQuery('(min-width:750px)');
-
-	useEffect(() => {
-		debugLog('LeagueAppBar: getting user info');
-		userinfo_module.get_user_info().then((result) => {
-			debugLog('caching_module succeeded:', result.userInfo);
-			setAuthInfo(result.userInfo);
-		});
-	}, [authToken]);
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
@@ -137,11 +124,7 @@ function LeagueAppBar() {
 							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
 					</Container>
-					{AuthInfo ? (
-						<AppBarUser user={AuthInfo} authToken={authToken} />
-					) : (
-						<AppBarLogin />
-					)}
+					{domLoaded ? <AppBarUser authToken={authToken} /> : <AppBarLogin />}
 					{/* <Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />

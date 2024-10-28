@@ -1,5 +1,3 @@
-import AppWrapper from '@/src/components/AppWrapper';
-import { StoredLeagues } from '@/src/components/CacheProvider';
 import MetaInfo from '@/src/components/MetaInfo';
 import {
 	DivisionOptionalTeams,
@@ -68,7 +66,7 @@ export default function AllLeaguesPage() {
 
 			{shownLeagues && shownLeagues.length != 0 ? (
 				shownLeagues.map((league, index) => (
-					<Paper sx={{ mt: 5, padding: 5 }}>
+					<Paper key={index} sx={{ mt: 5, padding: 5 }}>
 						<Stack key={index} alignContent="center" alignItems="center">
 							<Typography key={index} variant="h3" gutterBottom>
 								{league.info.name}
@@ -124,36 +122,32 @@ export default function AllLeaguesPage() {
 }
 function LeagueDisplay({ divisions }: { divisions: DivisionOptionalTeams[] }) {
 	return (
-		<TableContainer>
-			<Typography variant="h6" gutterBottom>
-				Divisions
-			</Typography>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell>Name</TableCell>
-						<TableCell align="right">Go to division table</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{divisions.length != 0 ? (
-						divisions.map((div) => (
-							<TableRow key={div.info.name}>
-								<TableCell>{div.info.name}</TableCell>
-								<TableCell align="right">
-									<IconButton href={'/division-table/?id=' + div.info.id}>
-										<ArrowOutward />
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))
-					) : (
+		<Paper style={{ padding: 20 }} elevation={2}>
+			<TableContainer>
+				<Typography variant="h6" gutterBottom>
+					Divisions
+				</Typography>
+				<Table>
+					<TableHead>
 						<TableRow>
-							<TableCell>There are no divisions for this league.</TableCell>
+							<TableCell align="left">Name</TableCell>
 						</TableRow>
-					)}
-				</TableBody>
-			</Table>
-		</TableContainer>
+					</TableHead>
+					<TableBody>
+						{divisions.length != 0 ? (
+							divisions.map((div) => (
+								<TableRow key={div.info.name}>
+									<TableCell align="left">{div.info.name}</TableCell>
+								</TableRow>
+							))
+						) : (
+							<TableRow>
+								<TableCell>There are no divisions for this league.</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</Paper>
 	);
 }

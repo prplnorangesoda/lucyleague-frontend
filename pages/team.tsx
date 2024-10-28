@@ -12,7 +12,14 @@ import React, { useState, useEffect } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { CircularProgress, Skeleton } from '@mui/material';
+import {
+	Card,
+	CardActionArea,
+	CardContent,
+	CircularProgress,
+	Skeleton,
+	TableContainer,
+} from '@mui/material';
 import { useBaseTeam } from '@/src/modules/fetch_module';
 
 const tagStyle = {
@@ -54,13 +61,41 @@ function TeamPage() {
 export default TeamPage;
 function TeamRosters(props: { id: string }) {
 	const teamSwr = useBaseTeam(props.id);
+	const router = useRouter();
 	const team = teamSwr.data;
 	return (
 		<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
 			<Box>
-				<Typography sx={{ fontWeight: 'regular' }} variant="h5">
+				<Typography sx={{ fontWeight: 'regular' }} variant="h5" gutterBottom>
 					Current rosters
 				</Typography>
+				<Box>
+					{team ? (
+						team.team_div_assocs.map((assoc) => (
+							<Card style={{ width: 'fit-content', minWidth: 200 }}>
+								<CardActionArea
+									key={assoc.id}
+									onClick={() => {
+										router.push('/team-div/?id=' + assoc.id);
+									}}
+								>
+									<CardContent>
+										<Typography variant="body2">
+											{assoc.roster_name
+												? assoc.roster_name
+												: '(no roster name)'}
+										</Typography>
+										<Typography variant="h5">
+											{assoc.points_up + ' - ' + assoc.points_down}
+										</Typography>
+									</CardContent>
+								</CardActionArea>
+							</Card>
+						))
+					) : (
+						<Typography>No rosters</Typography>
+					)}
+				</Box>
 			</Box>
 		</Paper>
 	);

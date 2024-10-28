@@ -16,35 +16,25 @@ import { useRouter } from 'next/router';
 import MetaInfo from '@/src/components/MetaInfo';
 
 function ProfilePage() {
-	const params = useSearchParams();
-	if (params === null) {
-		throw new Error('Whatever');
-	}
-	const s64 = params.get('id');
-	if (!s64) {
-		return (
-			<>
-				<CircularProgress />
-				<MetaInfo />
-			</>
-		);
-	}
+	const router = useRouter();
+	const { id } = router.query;
+	const [s64, setS64] = useState('');
+
+	useEffect(() => {
+		if (!id) {
+			return;
+		}
+		if (typeof id !== 'string') {
+			return;
+		}
+		setS64(id);
+	}, [id]);
+	console.log(s64);
 
 	return (
 		<Container maxWidth="md">
 			<Paper elevation={2} style={{ padding: '20px', marginTop: '30px' }}>
-				<Box
-					sx={{
-						display: 'flex',
-						flexWrap: 'wrap',
-						flexDirection: 'row',
-						justifyContent: 'center',
-					}}
-				>
-					<UserProfile s64={s64} />
-
-					<Box sx={{ flexGrow: 1 }}></Box>
-				</Box>
+				{s64 ? <UserProfile s64={s64} /> : <Skeleton />}
 			</Paper>
 
 			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -53,7 +43,7 @@ function ProfilePage() {
 						Roster History
 					</Typography>
 				</Box>
-				<UserTeamHistory s64={s64} />
+				{s64 ? <UserTeamHistory s64={s64} /> : <Skeleton height={150} />}
 			</Paper>
 
 			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
@@ -73,13 +63,23 @@ function UserProfile({ s64 }: { s64: string }) {
 	const router = useRouter();
 	const userSwr = useUserS64Deep(s64);
 
+	console.log(router.query);
+
 	if (userSwr.error) {
 		console.error(userSwr.error);
 	}
 
 	const user = userSwr.data;
 	return (
-		<>
+		<Box
+			sx={{
+				width: '100%',
+				display: 'flex',
+				flexWrap: 'wrap',
+				flexDirection: 'row',
+				justifyContent: 'start',
+			}}
+		>
 			<Box sx={{ pr: '20px' }}>
 				{user ? (
 					<Avatar
@@ -122,7 +122,7 @@ function UserProfile({ s64 }: { s64: string }) {
 					)}
 				</Typography>
 			</Box>
-		</>
+		</Box>
 	);
 }
 

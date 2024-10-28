@@ -3,9 +3,9 @@ import Grid2 from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 
 import TeamRosterUser from './TeamRosterUser';
-import { User } from '../modules/fetch_module';
+import { User, UserAndAssoc } from '../modules/fetch_module';
 
-function TeamRoster(props: { players: User[] }) {
+function TeamRosterActive(props: { players: UserAndAssoc[] }) {
 	return (
 		<Box>
 			<Paper sx={{ mt: 1, p: 1 }}>
@@ -14,7 +14,7 @@ function TeamRoster(props: { players: User[] }) {
 					sx={{ justifyContent: 'center', alignItems: 'center' }}
 				>
 					{props.players.map((player) => (
-						<TeamRosterUser player={player} key={player.id} />
+						<TeamRosterUser player={player.user} key={player.user.id} />
 					))}
 				</Grid2>
 			</Paper>
@@ -22,4 +22,4 @@ function TeamRoster(props: { players: User[] }) {
 	);
 }
 
-export default TeamRoster;
+export default TeamRosterActive;

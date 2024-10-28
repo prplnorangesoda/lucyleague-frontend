@@ -11,7 +11,7 @@ export interface UserResponseBase {
 }
 export interface UserResponseDeepComponents {
 	ownerships: Team[];
-	rosters: TeamDivAssociation[];
+	rosters: SuperDeepTeamDivAssociation[];
 }
 export interface User {
 	id: number;
@@ -40,6 +40,7 @@ export interface TeamDivAssociation {
 	divisionid: i64;
 	points_up: i64;
 	points_down: i64;
+	is_private: boolean;
 	created_at: String;
 }
 
@@ -198,10 +199,32 @@ export interface WrappedDivisionAdmin {
 	avatarurl: String;
 }
 
+export interface UserTeam {
+	id: i64;
+	teamdivid: i64;
+	userid: i64;
+	created_at: string;
+	ended_at?: string;
+	affiliation: i64;
+}
+export interface SuperDeepTeamDivAssociation {
+	user: UserTeam;
+	team: DeepTeamDivAssociationNoPlayers;
+}
+export interface DeepTeamDivAssociationNoPlayers {
+	team_info: Team;
+	association_info: TeamDivAssociation;
+}
+
+export interface UserAndAssoc {
+	user: User;
+	assoc: UserTeam;
+}
 export interface DeepTeamDivAssociation {
 	team_info: Team;
 	association_info: TeamDivAssociation;
-	players: User[];
+	current_players: UserAndAssoc[];
+	past_players: UserAndAssoc[];
 }
 export interface DivisionOptionalTeams {
 	info: Division;

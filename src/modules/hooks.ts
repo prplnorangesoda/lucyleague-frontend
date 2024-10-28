@@ -6,7 +6,6 @@ import {
 	useUserAuthTokenDeep,
 } from './fetch_module';
 import { useCookies } from 'react-cookie';
-import { get_user_info } from './caching_module';
 import useSWR from 'swr';
 
 export function useLocalUser(): UserResponseDeep | undefined {

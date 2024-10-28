@@ -8,22 +8,21 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as fetch_mod from '@/src/modules/fetch_module';
 import { useCookies } from 'react-cookie';
 import { debugLog } from '@/src/globals';
+import { Skeleton } from '@mui/material';
 
-function AppBarUser(props: {
-	user: fetch_mod.UserResponseDeep;
-	authToken: string;
-}) {
-	debugLog('AppBarUser props.user:', props.user);
+function AppBarUser(props: { authToken: string }) {
+	const userSwr = fetch_mod.useUserAuthTokenDeep(props.authToken);
+	const user = userSwr.data;
 	const [cookies, setCookie, removeCookie, updateCookies] = useCookies([
 		'auth-token',
 	]);
 	const router = useRouter();
 
-	const logout = () => {
+	const logout = useCallback(() => {
 		fetch_mod.logout(props.authToken).then((was_successful) => {
 			if (was_successful) {
 				removeCookie('auth-token', {
@@ -31,20 +30,13 @@ function AppBarUser(props: {
 					path: '/',
 					sameSite: 'lax',
 				});
-				purgeUserCache();
-				window.location.reload();
 			}
 		});
-	};
+	}, [removeCookie]);
 
-	const PushToProfile = () => {
-		router.push('/profile?id=' + props.user.info.steamid);
-	};
-
-	const purgeUserCache = () => {
-		window.localStorage.setItem('user-cache', 'null');
-	};
-
+	const PushToProfile = useCallback(() => {
+		user && router.push('/profile?id=' + user.info.steamid);
+	}, [router, router.push, user]);
 	return (
 		<PopupState variant="popover" popupId="AppBarUserMenu">
 			{(popupState) => (
@@ -55,12 +47,12 @@ function AppBarUser(props: {
 						{...bindTrigger(popupState)}
 					>
 						<Typography align="right">
-							{props.user.info.username ? props.user.info.username : 'username'}
+							{user ? user.info.username : ''}
 						</Typography>
 						<Avatar
 							sx={{ ml: 2, height: 40, width: 40 }}
 							variant="rounded"
-							src={props.user.info.avatarurl}
+							src={user ? user.info.avatarurl : undefined}
 						/>
 					</Button>
 					<Menu {...bindMenu(popupState)}>
@@ -71,19 +63,6 @@ function AppBarUser(props: {
 							}}
 						>
 							Profile
-						</MenuItem>
-						<MenuItem
-							onClick={() => {
-								popupState.close();
-
-								if (!confirm('This will log you out for a second. Continue?'))
-									return;
-
-								purgeUserCache();
-								window.location.reload();
-							}}
-						>
-							Purge local user cache
 						</MenuItem>
 						<MenuItem
 							onClick={() => {
