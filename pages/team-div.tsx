@@ -123,7 +123,7 @@ function TeamDivAssoc(props: { id: string }) {
 												<Dialog component="div" {...bindDialog(popupState)}>
 													<DialogTitle> Really leave? </DialogTitle>
 													<DialogContent>
-														You are going to leave this team's roster.
+														You are going to leave this team&apos;s roster.
 													</DialogContent>
 													<DialogActions>
 														<Button
