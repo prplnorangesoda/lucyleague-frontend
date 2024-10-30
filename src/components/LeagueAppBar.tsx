@@ -37,15 +37,19 @@ function LeagueAppBar() {
 	const [domLoaded, setloaded] = useState(false);
 	useEffect(() => {
 		setloaded(true);
-	});
+		console.log('authToken:', authToken);
+	}, []);
 	const [cookies] = useCookies(['auth-token']);
+	useEffect(() => {
+		console.log(cookies);
+	}, [cookies]);
 	const authToken = cookies['auth-token'];
+
 	// use this for dynamic resizing of menu
 	const screnW = useMediaQuery('(min-width:750px)');
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
-			<CookiesProvider />
 			<AppBar position="static">
 				<Toolbar
 					style={{
@@ -124,7 +128,11 @@ function LeagueAppBar() {
 							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
 					</Container>
-					{domLoaded ? <AppBarUser authToken={authToken} /> : <AppBarLogin />}
+					{domLoaded && authToken ? (
+						<AppBarUser authToken={authToken} />
+					) : (
+						<AppBarLogin />
+					)}
 					{/* <Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />

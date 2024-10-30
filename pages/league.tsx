@@ -1,5 +1,20 @@
+import TeamRosterUser from '@/src/components/TeamRosterUser';
 import * as fetch_mod from '@/src/modules/fetch_module';
-import { CircularProgress, Container, Paper, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Container,
+	Paper,
+	Skeleton,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Typography,
+} from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -27,6 +42,10 @@ function League(props: { id: string }) {
 	let league = leagueSwr.data;
 	return (
 		<>
+			<Typography variant="h5">
+				{' '}
+				{league ? league.info.name : <Skeleton />}
+			</Typography>
 			{league ? (
 				league.divisions.map((div) => (
 					<Division key={div.info.id} div={div}></Division>
@@ -45,7 +64,55 @@ function Division(props: { div: fetch_mod.DivisionOptionalTeams }) {
 				<Typography align="center" variant="h4">
 					{props.div.info.name}
 				</Typography>
+				<Typography align="center" variant="h6">
+					Admins
+				</Typography>
+				<Container>
+					{props.div.admins.length !== 0 ? (
+						props.div.admins.map((admin) => (
+							<Button href={'/user/?id=' + admin.inner.userid}></Button>
+						))
+					) : (
+						<Typography variant="body2" align="center">
+							there are no admins for this league
+						</Typography>
+					)}
+				</Container>
+				{props.div.teams ? (
+					<DivisionTable teams={props.div.teams} />
+				) : (
+					(() => {
+						throw new Error('Teams undefined ?');
+					})()
+				)}
 			</Paper>
 		</Container>
+	);
+}
+
+function DivisionTable(props: { teams: fetch_mod.DeepTeamDivAssociation[] }) {
+	return (
+		<TableContainer>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableCell sx={{ color: 'GrayText' }}>Name</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{props.teams.length !== 0 ? (
+						props.teams.map((team) => (
+							<TableRow key={team.team_info.id}>
+								<TableCell>{team.team_info.team_name}</TableCell>
+							</TableRow>
+						))
+					) : (
+						<TableRow>
+							<TableCell>there are no teams in this division</TableCell>
+						</TableRow>
+					)}
+				</TableBody>
+			</Table>
+		</TableContainer>
 	);
 }
