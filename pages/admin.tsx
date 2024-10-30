@@ -33,7 +33,7 @@ import {
 	TextField,
 } from '@mui/material';
 import GenericCard from '@/src/components/GenericCard';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import AppWrapper from '@/src/components/AppWrapper';
 import Grid2 from '@mui/material/Grid2';
 import LeagueDivisions from '@/src/components/admin/LeagueDivisions';

@@ -50,7 +50,7 @@ function LeagueAppBar() {
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
-			<AppBar position="static">
+			<AppBar position="static" elevation={0}>
 				<Toolbar
 					style={{
 						alignItems: 'center',

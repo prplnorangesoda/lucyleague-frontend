@@ -1,5 +1,9 @@
 import TeamRosterUser from '@/src/components/TeamRosterUser';
-import * as fetch_mod from '@/src/modules/fetch_module';
+import {
+	useLeagueId,
+	DivisionOptionalTeams,
+	DeepTeamDivAssociation,
+} from '@/src/modules/fetch_module';
 import {
 	Box,
 	Button,
@@ -38,12 +42,11 @@ export default function LeaguePage() {
 }
 
 function League(props: { id: string }) {
-	let leagueSwr = fetch_mod.useLeagueId(props.id);
+	let leagueSwr = useLeagueId(props.id);
 	let league = leagueSwr.data;
 	return (
 		<>
-			<Typography variant="h5">
-				{' '}
+			<Typography variant="h5" align="center" gutterBottom>
 				{league ? league.info.name : <Skeleton />}
 			</Typography>
 			{league ? (
@@ -57,10 +60,10 @@ function League(props: { id: string }) {
 	);
 }
 
-function Division(props: { div: fetch_mod.DivisionOptionalTeams }) {
+function Division(props: { div: DivisionOptionalTeams }) {
 	return (
-		<Container maxWidth="lg" style={{ margin: 10 }}>
-			<Paper elevation={2} style={{ padding: 20 }}>
+		<Container maxWidth="lg">
+			<Paper elevation={2} style={{ padding: 50 }}>
 				<Typography align="center" variant="h4">
 					{props.div.info.name}
 				</Typography>
@@ -90,20 +93,38 @@ function Division(props: { div: fetch_mod.DivisionOptionalTeams }) {
 	);
 }
 
-function DivisionTable(props: { teams: fetch_mod.DeepTeamDivAssociation[] }) {
+function DivisionTable(props: { teams: DeepTeamDivAssociation[] }) {
 	return (
 		<TableContainer>
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell sx={{ color: 'GrayText' }}>Name</TableCell>
+						<TableCell>Name</TableCell>
+						<TableCell sx={{ color: 'GrayText' }} align="right">
+							Points up
+						</TableCell>
+						<TableCell sx={{ color: 'GrayText' }} align="right">
+							Points down
+						</TableCell>
+						<TableCell align="right">Total score</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{props.teams.length !== 0 ? (
 						props.teams.map((team) => (
 							<TableRow key={team.team_info.id}>
-								<TableCell>{team.team_info.team_name}</TableCell>
+								<TableCell style={{ fontWeight: 'bold' }}>
+									{team.team_info.team_name}
+								</TableCell>
+								<TableCell align="right">
+									{team.association_info.points_up}
+								</TableCell>
+								<TableCell align="right">
+									{team.association_info.points_down}
+								</TableCell>
+								<TableCell align="right" style={{ fontWeight: 'bold' }}>
+									{team.association_info.points_up}
+								</TableCell>
 							</TableRow>
 						))
 					) : (
