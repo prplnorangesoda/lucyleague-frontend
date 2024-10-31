@@ -9,6 +9,7 @@ import {
 	Button,
 	CircularProgress,
 	Container,
+	Link,
 	Paper,
 	Skeleton,
 	Table,
@@ -21,6 +22,7 @@ import {
 } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function LeaguePage() {
@@ -114,7 +116,12 @@ function DivisionTable(props: { teams: DeepTeamDivAssociation[] }) {
 						props.teams.map((team) => (
 							<TableRow key={team.team_info.id}>
 								<TableCell style={{ fontWeight: 'bold' }}>
-									{team.team_info.team_name}
+									<NextLink
+										style={{ textDecoration: 'none' }}
+										href={'/team-div/?id=' + team.team_info.id}
+									>
+										<Link underline="hover">{team.team_info.team_name}</Link>
+									</NextLink>
 								</TableCell>
 								<TableCell align="right">
 									{team.association_info.points_up}

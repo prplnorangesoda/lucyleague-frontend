@@ -21,6 +21,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { debugLog } from '../globals';
 
+import HeaderImage from '@/public/assets/header.avif';
+
 const button_style = {
 	flex: '0 0 auto',
 	position: 'relative',
@@ -59,9 +61,10 @@ function LeagueAppBar() {
 					<Link href="/" style={{ maxHeight: '42px', float: 'left' }}>
 						<Image
 							priority
-							src="/assets/header.avif"
-							height="3000"
-							width="1170"
+							placeholder="blur"
+							src={HeaderImage}
+							height="3000" // 3000
+							width="1170" // 1170
 							style={header_logo}
 							alt="League logo"
 						/>
