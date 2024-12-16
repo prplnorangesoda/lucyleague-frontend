@@ -72,7 +72,10 @@ function TeamRosters(props: { id: string }) {
 				<Box>
 					{team ? (
 						team.team_div_assocs.map((assoc) => (
-							<Card style={{ width: 'fit-content', minWidth: 200 }}>
+							<Card
+								style={{ width: 'fit-content', minWidth: 200 }}
+								key={assoc.id}
+							>
 								<CardActionArea
 									key={assoc.id}
 									onClick={() => {

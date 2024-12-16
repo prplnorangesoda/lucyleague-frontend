@@ -275,17 +275,14 @@ export async function fetch_leagues(): Promise<LeagueReturn[] | null> {
 	return leagues;
 }
 
-export function useLeagueId(id: number | string): SWRResponse<LeagueReturn> {
-	id = parseInt(id.toString());
-	if (Object.is(id, NaN)) {
-		throw new Error('Invalid id passed to useLeagueId');
-	}
-
-	if (id === -1) {
-		throw new Error('Invalid id');
-	}
+/**
+ *
+ * @param id (pass this as undefined in order to not fetch anything)
+ * @returns
+ */
+export function useLeagueId(id?: string): SWRResponse<LeagueReturn> {
 	const ret = useSWR<LeagueReturn, any>(
-		globals.API_BASE + 'leagues/' + id,
+		id ? globals.API_BASE + 'leagues/' + id : null,
 		fetcher
 	);
 
@@ -293,18 +290,10 @@ export function useLeagueId(id: number | string): SWRResponse<LeagueReturn> {
 }
 
 export function useTeamDivAssocId(
-	id: number | string
+	id?: string
 ): SWRResponse<DeepTeamDivAssociation> {
-	id = parseInt(id.toString());
-	if (Object.is(id, NaN)) {
-		throw new Error('Invalid id passed to useLeagueId');
-	}
-
-	if (id === -1) {
-		throw new Error('Invalid id');
-	}
 	const ret = useSWR<DeepTeamDivAssociation, any>(
-		globals.API_BASE + 'teamdivassocs/' + id,
+		id ? globals.API_BASE + 'teamdivassocs/' + id : null,
 		fetcher
 	);
 

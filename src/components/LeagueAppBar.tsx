@@ -21,6 +21,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { debugLog } from '../globals';
 
+import HeaderImage from '@/public/assets/header.avif';
+
 const button_style = {
 	flex: '0 0 auto',
 	position: 'relative',
@@ -37,16 +39,20 @@ function LeagueAppBar() {
 	const [domLoaded, setloaded] = useState(false);
 	useEffect(() => {
 		setloaded(true);
-	});
+		console.log('authToken:', authToken);
+	}, []);
 	const [cookies] = useCookies(['auth-token']);
+	useEffect(() => {
+		console.log(cookies);
+	}, [cookies]);
 	const authToken = cookies['auth-token'];
+
 	// use this for dynamic resizing of menu
 	const screnW = useMediaQuery('(min-width:750px)');
 
 	return (
 		<Box sx={{ height: 'auto', position: 'fixed', zIndex: 500, width: '100%' }}>
-			<CookiesProvider />
-			<AppBar position="static">
+			<AppBar position="static" elevation={0}>
 				<Toolbar
 					style={{
 						alignItems: 'center',
@@ -55,9 +61,10 @@ function LeagueAppBar() {
 					<Link href="/" style={{ maxHeight: '42px', float: 'left' }}>
 						<Image
 							priority
-							src="/assets/header.avif"
-							height="3000"
-							width="1170"
+							placeholder="blur"
+							src={HeaderImage}
+							height="3000" // 3000
+							width="1170" // 1170
 							style={header_logo}
 							alt="League logo"
 						/>
@@ -124,7 +131,11 @@ function LeagueAppBar() {
 							<Typography textAlign="center">ADMIN</Typography>
 						</Button>
 					</Container>
-					{domLoaded ? <AppBarUser authToken={authToken} /> : <AppBarLogin />}
+					{domLoaded && authToken ? (
+						<AppBarUser authToken={authToken} />
+					) : (
+						<AppBarLogin />
+					)}
 					{/* <Box>
 						{AuthInfo ? (
 							<AppBarUser user={AuthInfo} authToken={authToken} />
