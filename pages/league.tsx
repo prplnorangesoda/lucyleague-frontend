@@ -75,7 +75,10 @@ function Division(props: { div: DivisionOptionalTeams }) {
 				<Container>
 					{props.div.admins.length !== 0 ? (
 						props.div.admins.map((admin) => (
-							<Button href={'/user/?id=' + admin.inner.userid}></Button>
+							<Button
+								key={admin.inner.userid}
+								href={'/user/?id=' + admin.inner.userid}
+							></Button>
 						))
 					) : (
 						<Typography variant="body2" align="center">
