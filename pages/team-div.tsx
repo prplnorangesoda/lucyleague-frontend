@@ -14,9 +14,7 @@ import TeamMatchesTable from '@/src/components/TeamMatchesTable';
 
 import TeamRosterActive from '@/src/components/TeamRoster';
 
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import AppWrapper from '@/src/components/AppWrapper';
 import {
 	Button,
 	Card,
@@ -35,6 +33,7 @@ import PopupState, {
 	bindTrigger,
 } from 'material-ui-popup-state';
 import { useLocalUser } from '@/src/modules/hooks';
+import GenericCard from '@/src/components/GenericCard';
 
 const tagStyle = {
 	'::before': {
@@ -47,34 +46,39 @@ const tagStyle = {
 	},
 };
 function TeamDivAssocPage() {
-	const [teamId, setTeamID] = useState<string | null>(null);
 	const router = useRouter();
-	const params = useSearchParams();
 
-	useEffect(() => {
-		if (!params) return;
-		const teamid = params!.get('id');
-		console.log(teamid);
-		if (teamid === null) return;
-		if (!teamid) router.push('home/');
-
-		setTeamID(teamid);
-	}, [params, setTeamID, router]);
+	const { id } = router.query;
+	if (typeof id === 'object') return <CircularProgress />;
 
 	return (
-		<Container maxWidth="xl">
-			{teamId ? <TeamDivAssoc id={teamId} /> : <CircularProgress />}
+		<Container
+			maxWidth="xl"
+			sx={{ display: 'flex', flexDirection: 'column', gap: 4, pt: 5 }}
+		>
+			<TeamDivAssoc id={id} />
 		</Container>
 	);
 }
 
-function TeamDivAssoc(props: { id: string }) {
+function TeamDivAssoc(props: { id?: string }) {
 	const user = useLocalUser();
 	const teamDivInfo = useTeamDivAssocId(props.id);
 	const data = teamDivInfo.data;
 	return (
 		<>
-			<Paper elevation={0} style={{ padding: '20px', marginTop: '30px' }}>
+			{teamDivInfo.error ? (
+				<GenericCard>
+					There was an error, check console for more information.
+					{(() => {
+						console.error(teamDivInfo.error);
+						return '';
+					})()}
+				</GenericCard>
+			) : (
+				<></>
+			)}
+			<Paper elevation={0} sx={{ p: 3 }}>
 				<Box
 					sx={{
 						display: 'flex',
@@ -123,7 +127,7 @@ function TeamDivAssoc(props: { id: string }) {
 												<Dialog component="div" {...bindDialog(popupState)}>
 													<DialogTitle> Really leave? </DialogTitle>
 													<DialogContent>
-														You are going to leave this team's roster.
+														You are going to leave this team&apos;s roster.
 													</DialogContent>
 													<DialogActions>
 														<Button
@@ -181,7 +185,7 @@ function TeamDivAssoc(props: { id: string }) {
 				</Box>
 			</Paper>
 
-			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+			<Paper elevation={2} sx={{ p: 3 }}>
 				<Box>
 					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
 						Roster
@@ -194,7 +198,7 @@ function TeamDivAssoc(props: { id: string }) {
 					<Skeleton width="auto" />
 				)}
 			</Paper>
-			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+			<Paper elevation={2} sx={{ p: 3 }}>
 				<Box>
 					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
 						Past rostered players
@@ -208,7 +212,7 @@ function TeamDivAssoc(props: { id: string }) {
 				)}
 			</Paper>
 
-			<Paper elevation={2} sx={{ p: '20px', mt: '30px' }}>
+			<Paper elevation={2} sx={{ p: 3 }}>
 				<Box>
 					<Typography sx={{ fontWeight: 'regular' }} variant="h5">
 						Matches

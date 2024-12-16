@@ -33,7 +33,7 @@ import {
 	TextField,
 } from '@mui/material';
 import GenericCard from '@/src/components/GenericCard';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import AppWrapper from '@/src/components/AppWrapper';
 import Grid2 from '@mui/material/Grid2';
 import LeagueDivisions from '@/src/components/admin/LeagueDivisions';
@@ -45,16 +45,16 @@ interface PermActProps {
 // to all my haters
 
 function PermissionsActions({ perms }: PermActProps) {
-	let ret: [React.ReactNode] = [<></>];
+	let ret: [React.JSX.Element] = [<></>];
 
 	if (perms.CREATEGAME || perms.ADMIN) {
-		ret.push(<ManageGame></ManageGame>);
+		ret.push(<ManageGame key={1}></ManageGame>);
 	}
 	if (perms.CREATELEAGUE || perms.ADMIN) {
-		ret.push(<ManageLeague></ManageLeague>);
+		ret.push(<ManageLeague key={2}></ManageLeague>);
 	}
 	if (perms.SETPERMISSIONS || perms.ADMIN) {
-		ret.push(<ManageUsers></ManageUsers>);
+		ret.push(<ManageUsers key={3}></ManageUsers>);
 	}
 
 	return <Container maxWidth="xl">{ret}</Container>;

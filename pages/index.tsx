@@ -22,7 +22,7 @@ const hero = {
 	maxWidth: '100%',
 	padding: '0',
 
-	backgroundImage: 'url(assets/hero/ufo.avif)',
+	backgroundImage: 'url(/assets/hero/ufo.avif)',
 
 	backgroundAttachment: 'fixed',
 	backgroundPosition: 'center',
@@ -42,7 +42,7 @@ const blur = {
 	justifyContent: 'center',
 };
 
-export default function Home() {
+export default function Index() {
 	return (
 		<>
 			<MetaInfo title="welcome" description="a league for 4v4 passtime" />
