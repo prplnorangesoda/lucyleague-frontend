@@ -67,13 +67,12 @@ export default function HandshakePage() {
 						(await _resp.text())
 					);
 				}
-				/**
-				 * @typedef {{token: string, expires: string}} Token
-				 */
+				type Token = { token: string; expires: string };
 				/**
 				 * @type {{valid: boolean, token_info: Token?}}
 				 */
-				let resp = await _resp.json();
+				let resp: { valid: boolean; token_info: Token | null } =
+					await _resp.json();
 				console.log(resp);
 				if (!resp.token_info) {
 					throw new Error('Login was not valid');
