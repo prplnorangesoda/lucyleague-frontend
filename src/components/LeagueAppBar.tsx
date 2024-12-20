@@ -23,6 +23,8 @@ import { debugLog } from '../globals';
 
 import HeaderImage from '@/public/assets/header.avif';
 
+import SmallHeaderImage from '@/public/assets/header-small.avif';
+
 const button_style = {
 	flex: '0 0 auto',
 	position: 'relative',
@@ -62,9 +64,9 @@ function LeagueAppBar() {
 						<Image
 							priority
 							placeholder="blur"
-							src={HeaderImage}
-							height="3000" // 3000
-							width="1170" // 1170
+							src={SmallHeaderImage}
+							height="300"
+							width="100"
 							style={header_logo}
 							alt="League logo"
 						/>
